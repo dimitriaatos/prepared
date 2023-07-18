@@ -1,0 +1,26 @@
+\documentclass{article}
+\usepackage{tikz}
+\usepackage{calculator}
+\usepackage[outline]{contour}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\contourlength{2pt}
+\usetikzlibrary {arrows.meta, shapes.geometric, automata, positioning, math, calc}
+
+\begin{document}
+\newcommand\finger{0.3}
+
+\begin{tikzpicture}
+	\foreach \n  in {0, ..., 6} {
+			\foreach \f in {0,...,\n}{
+					\tikzmath{
+						int \boxtext;
+						\boxtext = \n + 1 - \finger * \f;
+						\x = \n - \f * \finger;
+					};
+
+					\draw (\x, \f / 2) rectangle node {$\boxtext$} (\x + 1, \f / 2 + 0.5);
+				};
+		};
+\end{tikzpicture}
+\end{document}

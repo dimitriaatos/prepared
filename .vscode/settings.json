@@ -1,0 +1,21 @@
+{
+  "markdown-preview-enhanced.enableScriptExecution": true,
+  "markdown-preview-enhanced.usePandocParser": false,
+  "cSpell.words": ["tonehole", "Toneholes"],
+  "files.exclude": {
+    "**/*.aux": true,
+    "**/*.bbl": true,
+    "**/*.blg": true,
+    "**/*.fdb_latexmk": true,
+    "**/*.fls": true,
+    "**/*.out": true,
+    "**/*.gz": true,
+    "**/*.bst": true,
+		"**/*.log": true,
+		"**/*.sty": true,
+		// "**/*.cls": true,
+	},
+	"workbench.colorTheme": "Default Dark Modern",
+	"editor.wordWrap": "on",
+	"cmake.configureOnOpen": false
+}

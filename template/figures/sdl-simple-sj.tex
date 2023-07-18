@@ -1,0 +1,38 @@
+\begin{tikzpicture}[auto, node distance=1.5cm]
+
+	% line 2
+	\node[block]	(filter2)	{$N-F$ Filter};
+	\node[block, right = 1cm of filter2]	(delay2)	{Delay $N-F$};
+	\node[multiply left, right = 1cm of delay2, label={below:$1-\rho$}]		(mul2)		{};
+	
+	% line 1
+	\node[sum, left of=filter2, above of=filter2]			(sum1)		{};
+	\node[branch, right of=mul2, above of=mul2]	(branch1)	{};
+	\node[multiply left, label=above:{$\rho$}]					(mul1)		at ($(sum1)!1/2!(branch1)$)	{};
+	\node[block, right = 1cm of branch1]					(filter1)	{$F$ Filter};
+	\node[block, right = 1cm of filter1]					(delay1)	{Delay $F$};
+	
+	% line 0
+	\node[sum, left of=sum1, above of=sum1]					(sum0)		{};
+	\node[branch, right of=delay1, above of=delay1]	(branch0)	{};
+	
+	\coordinate[left=1cm of sum0]			(input);
+	\coordinate[right=1cm of branch0]	(output);
+	
+	\path (delay1)		--	(filter1);
+	\path (filter1)		--	(branch1);
+	\path (mul2)			--	(delay2);
+	\path (delay2)		--	(filter2);
+	\path (filter2)		-|	(sum1);
+	
+	\path (branch1)		|-	(mul2);
+	\path (branch1)		--	(mul1);
+	\path (mul1)	--	(sum1);
+	
+	\path (sum0)			--	(branch0);
+	\path (branch0)		|-	(delay1);
+	\path (sum1)			-|	(sum0);
+	
+	\path[dashed] (branch0)		--	(output);
+	\path[dashed] (input)			--	(sum0);
+	\end{tikzpicture}

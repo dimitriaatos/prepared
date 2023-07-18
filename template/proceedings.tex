@@ -1,0 +1,372 @@
+\documentclass{sigchi}
+
+% Use this section to set the ACM copyright statement (e.g. for
+% preprints).  Consult the conference website for the camera-ready
+% copyright statement.
+
+% Copyright
+\CopyrightYear{2023}
+%\setcopyright{acmcopyright}
+\setcopyright{acmlicensed}
+%\setcopyright{rightsretained}
+%\setcopyright{usgov}
+%\setcopyright{usgovmixed}
+%\setcopyright{cagov}
+%\setcopyright{cagovmixed}
+% DOI
+\doi{https://doi.org/10.1145/3313831.XXXXXXX}
+% ISBN
+\isbn{978-1-4503-6708-0/20/04}
+%Conference
+\conferenceinfo{CHI'20,}{April  25--30, 2020, Honolulu, HI, USA}
+%Price
+\acmPrice{\$15.00}
+
+% Use this command to override the default ACM copyright statement
+% (e.g. for preprints).  Consult the conference website for the
+% camera-ready copyright statement.
+
+%% HOW TO OVERRIDE THE DEFAULT COPYRIGHT STRIP --
+%% Please note you need to make sure the copy for your specific
+%% license is used here!
+\toappear{
+	Permission to make digital or hard copies of all or part of this work
+	for personal or classroom use is granted without fee provided that
+	copies are not made or distributed for profit or commercial advantage
+	and that copies bear this notice and the full citation on the first
+	page. Copyrights for components of this work owned by others than the author
+	must be honored. Abstracting with credit is permitted. To copy
+	otherwise, or republish, to post on servers or to redistribute to
+	lists, requires prior specific permission and/or a fee.% Request
+	% permissions from \href{mailto:ellinas@kth.se}{ellinas@kth.se}. \\
+	% \emph{CHI '16},  May 07--12, 2016, San Jose, CA, USA \\
+	% ACM xxx-x-xxxx-xxxx-x/xx/xx\ldots \$15.00 \\
+	% DOI: \url{http://dx.doi.org/xx.xxxx/xxxxxxx.xxxxxxx}
+	}
+	% \toappear{}
+
+% Arabic page numbers for submission.  Remove this line to eliminate
+% page numbers for the camera ready copy
+% \pagenumbering{arabic}
+
+% Load basic packages
+\usepackage{balance}       % to better equalize the last page
+\usepackage{graphics}      % for EPS, load graphicx instead 
+\usepackage[T1]{fontenc}   % for umlauts and other diaeresis
+\usepackage{txfonts}
+\usepackage{mathptmx}
+\usepackage[pdflang={en-US},pdftex]{hyperref}
+\usepackage{color}
+\usepackage{booktabs}
+\usepackage{textcomp}
+\usepackage{tikz}
+\usepackage{amsmath}
+\usetikzlibrary {arrows, shapes, automata, positioning, math, calc, external}
+
+\input{figures/common-tikz.tex}
+\tikzset{
+	beginning/.pic={
+		\draw [pic actions] (0,0) -- (1,1) -- (3,1) -- (3,0) -- (0,0);
+	}
+}
+
+\tikzset{
+	end/.pic={
+		\draw [pic actions] (0,0) -- (1,0) -- (0,1) -- (0,0);
+	}
+}
+
+% Some optional stuff you might like/need.
+\usepackage{microtype}        % Improved Tracking and Kerning
+% \usepackage[all]{hypcap}    % Fixes bug in hyperref caption linking
+\usepackage{ccicons}          % Cite your images correctly!
+% \usepackage[utf8]{inputenc} % for a UTF8 editor only
+
+\usepackage{todonotes}
+
+% Paper metadata (use plain text, for PDF inclusion and later
+% re-using, if desired).  Use \emtpyauthor when submitting for review
+% so you remain anonymous.
+\def\plaintitle{Performing multiphonics on any pitched sound}
+\def\plainauthor{Dimitrios Aatos Ellinas}
+\def\emptyauthor{}
+\def\plainkeywords{physical modelling; audio features}
+\def\plaingeneralterms{Documentation, Standardization}
+
+% llt: Define a global style for URLs, rather that the default one
+\makeatletter
+\def\url@leostyle{%
+  \@ifundefined{selectfont}{
+    \def\UrlFont{\sf}
+  }{
+    \def\UrlFont{\small\bf\ttfamily}
+  }}
+\makeatother
+\urlstyle{leo}
+
+% To make various LaTeX processors do the right thing with page size.
+\def\pprw{8.5in}
+\def\pprh{11in}
+\special{papersize=\pprw,\pprh}
+\setlength{\paperwidth}{\pprw}
+\setlength{\paperheight}{\pprh}
+\setlength{\pdfpagewidth}{\pprw}
+\setlength{\pdfpageheight}{\pprh}
+
+% Make sure hyperref comes last of your loaded packages, to give it a
+% fighting chance of not being over-written, since its job is to
+% redefine many LaTeX commands.
+\definecolor{linkColor}{RGB}{6,125,233}
+\hypersetup{%
+  pdftitle={\plaintitle},
+% Use \plainauthor for final version.
+%  pdfauthor={\plainauthor},
+  pdfauthor={\emptyauthor},
+  pdfkeywords={\plainkeywords},
+  pdfdisplaydoctitle=true, % For Accessibility
+  bookmarksnumbered,
+  pdfstartview={FitH},
+  colorlinks,
+  citecolor=black,
+  filecolor=black,
+  linkcolor=black,
+  urlcolor=linkColor,
+  breaklinks=true,
+  hypertexnames=false
+}
+
+% create a shortcut to typeset table headings
+% \newcommand\tabhead[1]{\small\textbf{#1}}
+
+% End of preamble. Here it comes the document.
+\begin{document}
+
+\title{\plaintitle}
+
+\numberofauthors{1}
+\author{%
+  \alignauthor{Dimitrios Aatos Ellinas\\
+		\affaddr{Interactive Media Technology}\\
+    \affaddr{KTH Royal Insitute of Technology}\\
+    \affaddr{Stockholm, Sweden}\\
+    \email{ellinas@kth.se}}\\
+}
+
+\maketitle
+
+% \numberwithin{figure}{section}
+
+\begin{abstract}
+This paper investigates hybrid sound synthesis where physical modelling and abstract sound synthesis methods are combined. A modular approach to physical models is proposed and a model for string multiphonics is presented.
+% Digital waveguide models use recursive functions to model such strings. This paper introduces an explicit (non-recursive) formula for the touched string. This formulation can be easily rewritten as the output of an open (untouched) string with touch dependent coefficients and timeshifts, which effectively enables converting sounds of one kind to the other. Furthermore, the sounds to be converted are sounds of an open string only by assumption, in practice there're no such restrictions, this makes it possible to "perform" multiphonics with any pitched sound. Simplifying assumptions and necessary compromises are discussed as well as computation power issues and possible solutions.
+\end{abstract}
+
+
+% ACM Classfication
+
+% \begin{CCSXML}
+% <ccs2012>
+% <concept>
+% <concept_id>10003120.10003121</concept_id>
+% <concept_desc>Human-centered computing~Human computer interaction (HCI)</concept_desc>
+% <concept_significance>500</concept_significance>
+% </concept>
+% <concept>
+% <concept_id>10003120.10003121.10003125.10011752</concept_id>
+% <concept_desc>Human-centered computing~Haptic devices</concept_desc>
+% <concept_significance>300</concept_significance>
+% </concept>
+% <concept>
+% <concept_id>10003120.10003121.10003122.10003334</concept_id>
+% <concept_desc>Human-centered computing~User studies</concept_desc>
+% <concept_significance>100</concept_significance>
+% </concept>
+% </ccs2012>
+% \end{CCSXML}
+
+% \ccsdesc[500]{Human-centered computing~Human computer interaction (HCI)}
+% \ccsdesc[300]{Human-centered computing~Haptic devices}
+% \ccsdesc[100]{Human-centered computing~User studies}
+
+% Author Keywords
+\keywords{\plainkeywords}
+
+% Print the classficiation codes
+\printccsdesc
+
+\section{Introduction}
+
+The emergence of \textit{physical modeling sound synthesis} has enabled a space between \textit{physical modeling} and \textit{abstract synthesis} (additive, subtractive etc.). An example of this can be seen in robot voices, where models of the human vocal tract are combined with synthesized sounds totally unrelated to vocal folds. This intermediate space can be attractive for creative purposes, since it provides a broad design space (\textit{abstract synthesis}), while being able to produce sounds that retain some physicality. Incorporating physicality into sound synthesis serves more than just an aesthetic purpose, physics-informed sound features can be suitable for information encoding due to their recognizability and their cross-modal correlations, making them useful in sonification and interaction design.
+
+Research in \textit{physical modelling} does not necessarily contribute directly to model-abstract hybrids. Physical models might have no obvious way to be coupled with anything external, or desired feature might be inseparable of larger monolithic models. Making hybrids requires decomposition to modular sub-models that implement individual features. Such research has already been made, mainly for combining sub-models of different modelling techniques \cite{erkut_modular_2005,karjalainen_plucked-string_1998}. Although this research has a different objective, produced findings lack only the conception for being combined with abstract synthesis. This paper aims to point this potential of decomposed models, and proposes a modular sub-model for the lightly touched string.
+
+Lightly touching a vibrating string is a practice associated with a number of string instrument playing techniques. Depending on the touching position and the touching agent, a different technique is performed. For multiphonics and flageolet tones (harmonics) the performer touches the string with his finger, without fully pressing it. Prepared strings is another technique where instead of a finger, a variety of objects such as rubbers, bolts or crocodile clips may be used on the string.
+
+\section{The lightly touched string}
+
+This paper relies on \textit{digital waveguide} (DWG) synthesis \cite{smith_physical_1992}, a \textit{physical modelling} technique that employs D'Alambert's principle to decompose a standing wave into the sum of two travelling waves propagating in opposite directions. All parts of the model are described in terms of traveling waves, and only in the final step are these waves combined to generate the physical motion of the string. Propagation losses are modelled with filters, and termination reflections are implemented with a direction inversion, a reflection loss filter and a sign inversion (often implemented as part of the loss filter). Figure \ref{fig:pickup} depicts a DWG model of a simple plucked string with a pickup output. Although the string touching agent may vary, it will be referred to as the \textit{finger}. The terms \textit{bridge} and \textit{nut} will be used for the left and the right termination, respectively, to reflect the structure of a string instrument.
+
+\begin{figure}[h]
+	\centering
+	\scalebox{0.75}{\input{figures/wg.tex}}
+	\caption{A digital waveguide model of a string with a pickup output. Where $N$ is the duration of a roundtrip in samples.}
+	\label{fig:pickup}
+\end{figure}
+
+The touching point has be modelled as a three-port scattering-junction (SJ) \cite{scavone_digital_1997, valimaki_modeling_1993}. This splits the model into three waveguides, meeting at the SJ, one leading to the \textit{nut}, one leading to the \textit{bridge} and one leading to the \textit{finger}. Since the \textit{finger} waveguide is a "dead end" (waves are only reflected back) the SJ can be simplified as suggested in \cite{pakarinen_physical_2005}. A string model with a simplified \textit{finger} SJ is depicted in fig. \ref{fig:waveguide_sj}. The SJ coefficients $\rho_1 - \rho_4$ are defined in \cite{pakarinen_physical_2005} as
+
+\begin{align} \label{eq:coef}
+	\rho_1& = \frac{Z_1-Z_2-Z_3}{Z_1+Z_2+Z_3},&
+	\rho_2& = \frac{Z_1-Z_2-Z_3}{Z_1+Z_2+Z_3},\notag\\[1em]
+	\rho_3& = \frac{Z_1-Z_2-Z_3}{Z_1+Z_2+Z_3},&
+	\rho_3& = \frac{Z_1-Z_2-Z_3}{Z_1+Z_2+Z_3},
+\end{align}
+where $Z_1$, $Z_2$ and $Z_3$ denote the impedance of the \textit{bridge}, \textit{nut} and \textit{finger} waveguides, respectively. As the \textit{bridge} and \textit{nut} waveguides are part of the same string, their impedances should be equal, thus we have $Z_1=Z_2$. Consequently, this equality leads to $\rho_1=\rho_4$ and $\rho_2=\rho_3$, leaving only coefficients $\rho_1$ and $\rho_2$. Both can be expressed in relation to
+
+\begin{equation} \label{eq:rho}
+	\rho=\frac{Z_3}{2Z_1+Z_3}
+\end{equation}
+as
+\begin{equation}
+	\rho_1=-\rho \text{ and } \rho_2=1-\rho.
+\end{equation}
+The impedance $Z_3$ of the \textit{finger} waveguide varies depending to the pressure applied to the string. The state of the SJ should span from disabled (no \textit{finger}) to a total reflection (the \textit{finger} acts as a termination),  this implies that $0 \leq \rho \leq 1$.
+
+\begin{figure}[h]
+	\centering
+	\scalebox{0.56}{\input{figures/wg-sj.tex}}
+	\caption{A digital waveguide model with a scattering junction.}
+	\label{fig:waveguide_sj}
+\end{figure}
+
+To reduce the computational complexity of the proposed sub-model, the scattering of waves from the nut to the finger is disregarded. This means that no reflections or coefficient multiplications occur from \textit{nut} to \textit{bridge}. This SJ will be referred to as the \textit{single-sided} SJ, a depiction can be seen in fig. \ref{fig:waveguide_simple_sj}. Although this might seem like a crude simplification, comparing audio outputs reveals that the only discernible effect of the \textit{single-sided} SJ is a ``metallic'' or ``rough'' quality, which is an acceptable compromise for the purpose of this paper.
+\begin{figure}[h]
+	\centering
+	\scalebox{0.6}{\input{figures/wg-simple-sj.tex}}
+	\caption{A digital waveguide with a simplified scattering junction.}
+	\label{fig:waveguide_simple_sj}
+\end{figure}
+
+As previously mentioned, the SJ is the meeting point for three waveguides, this results in the formation of one loop for each combination of waveguides, namely the \textit{bridge-finger} loop, the \textit{bridge-nut} loop, and the \textit{finger-nut} loop. Using the \textit{single-sided} SJ eliminates the \textit{finger-nut} loop, leaving only the \textit{bridge-finger} and the \textit{bridge-nut} loop, also referred to as $F$ and $N$ roundtrip.
+
+\section{model decomposition}
+
+Modular DWG sub-models have been referred to as \textit{single delay-loop} (SDL) models \cite{karjalainen_plucked-string_1998,pakarinen_physical_2005}. This terminology refers to the implementation of the string roundtrip using a single delay line (as shown in Figure \ref{fig:sdl_string_loop}), in contrast to the conventional \textit{dual-delay} DWG (fig. \ref{fig:pickup}). Even when more than one delay line is used in simplified versions of complex models, they are still referred to as SDL models.
+\begin{figure}[h]
+	\centering
+	\scalebox{0.75}{\input{figures/sdl.tex}}
+	\caption{SDL string loop.}
+	\label{fig:sdl_string_loop}
+\end{figure}
+In \cite{karjalainen_plucked-string_1998} a plucked string DWG model is decomposed to sub-models for \textit{plucking position}, \textit{string loop} and \textit{pickup output}. A lightly touched string model can use the same \textit{plucking position} and \textit{pickup output} modules, however, the \textit{string loop} needs to be altered. Figure \ref{fig:sdl_simple_sj} depicts a SDL model of a \textit{touched string loop} using a \textit{single-sided} SJ. Note that this module models both the string and the \textit{finger}, isolating the effect of the \textit{finger} requires further decomposition.
+\begin{figure*}[h]
+	\centering
+	\scalebox{0.8}{\input{figures/sdl-simple-sj.tex}}
+	\caption{String loop with a scattering junction.}
+	\label{fig:sdl_simple_sj}
+\end{figure*}
+To gain insights into the function of the sub-model, the following explicit formula is proposed:
+\begin{equation} \label{eq:explicit}
+	\sum_{k=0}^{\lfloor \frac{n}{T_F} \rfloor}\left(y[n - (kT_F + mT_N)]\binom{m+k}{k} (1 - \rho)^{k} \rho^m\right),
+\end{equation}
+\begin{equation*}
+	\textrm{for } T_F<T_N<n \textrm{ and } 0\leq\rho\leq1\notag,
+\end{equation*}
+where $n$ denotes the current time in samples, $T_N$ and $T_F$ denote the duration of the $N$ and $F$ roundtrips in samples, respectively, $\rho$ is the finger pressure coefficient defined in (\ref{eq:rho}), and $m$ is defined as
+\begin{equation}
+	m = \lfloor \frac{n - kT_F}{T_N} \rfloor.
+\end{equation}
+Initial values are given by the function $y[n]$ for $0\leq n\leq T_N$. The argument of the summation can be split into three parts,
+\begin{align*}
+	&\textrm{shifts } & %S(n,k)=
+	y[n - (kT_F + mT_N)], \\[1em]
+	&\textrm{permutations } &%P(n,k)=
+	\binom{m+k}{k}, \\[1em]
+	&\textrm{and coefficients } &%C(n,k)=
+	(1 - \rho)^{k} \rho^m.
+\end{align*}
+
+Before explaining the role of each part, the function of $k$ and $m$ needs to be explained. For a given time $n$, the maximum number of F roundtrips is given by $\lfloor \frac{n}{T_F} \rfloor$. Here, $k$ takes all integer values in the range $[0..\lfloor \frac{n}{T_F} \rfloor]$. Variable $m$ represents the maximum number of N roundtrips that can be performed after $k$ F roundtrips, within the available time. These variables, $m$ and $k$, are defined in a manner that solves a combinatorial optimization problem subject to the following constraint: $n - (kT_F + mT_N) < T_N$.
+
+The shifts account for all combinations of F and N roundtrips however, the permutations within each combination are not currently considered. Let's consider a case where $k = 2$ and $m = 1$. In this case, three permutations of roundtrips are performed simultaneously, namely FFN, FNF, and NFF. It is important to note that since $k$ and $m$ remain the same, each permutation yields an identical signal with equal shifts and coefficients. To account for permutations, we need to adjust the amplitude by multiplying the shifted signal by the number of permutations. The number of permutations for a given $k$ and $m$ can be obtained using the binomial coefficient
+\begin{equation}
+	\binom{m+k}{k}.
+\end{equation}
+
+\begin{figure}[h]
+	\centering
+	\scalebox{1}{\input{figures/triangle.tex}}
+	\caption{A digital waveguide model of a string with a pickup output. Where $N$ is the duration of a roundtrip in samples.}
+	\label{fig:triangle}
+\end{figure}
+
+% \begin{equation} \label{eg:finger-loop}
+% 	\rho y[n-T_N] + (1-\rho) y[n-T_F]
+% \end{equation}
+
+
+% analysing the touched string output (impulse response)~\cite{guettler_bowed-string_2012}
+
+\section{Multiphonics synthesis}
+
+isolated touching finger sub-model
+
+\begin{equation}
+	\sum_{k=0}^{\lfloor \frac{n}{T_F} \rfloor}\left(y[n + k(T_N-T_F)]\binom{m+k}{k} (1 - \rho)^{k} \rho^m\right)
+\end{equation}
+
+real time implementation
+
+\begin{equation}
+	\sum_{k=0}^{\lfloor \frac{n}{T_F} \rfloor}\left(y[n - \lceil k\frac{T_F}{T_N}\rceil T_N] \binom{m+k}{k} (1 - \rho)^{k} \rho^m\right)
+\end{equation}
+
+% $$-y[n - 2(n \mod T/2) - 1]$$ for $n > T/2$
+
+% where $a$ is the duration a roundtrip in samples, and $y[n]$ for $n \leq T/2$ gives the initial values of the string.
+
+% $$f[n]=f[n-T]r$$
+
+% where $T$ is the duration of a roundtrip and $f[n]$ for $n<T$ is a function $r$ reflection losses
+
+% $\lfloor \frac{n}{T} \rfloor$ functions as a counter for the number of roundtrips
+
+% writing an explicit formula of (1) $f(n)=f(n-\lfloor \frac{n}{T} \rfloor T)r^{\lfloor \frac{n}{T} \rfloor}$. Note that $0<n-\lfloor \frac{t}{T} \rfloor T<T$ for any $n$, the
+
+% The recursive formula 
+
+% Abbreviate trip notation by the letter of their intermediate node i.e. $BNB \equiv N$ trip $BFB \equiv F$
+
+% $f(n-\lfloor \frac{n}{T_F} \rfloor T_F-\lfloor \frac{n}{T_N} \rfloor T_N)$
+
+% Scattering coefficients $\rho^k(1-\rho)^n$
+
+% Let the initial values be given by $S(t)$ for $t < N$. There are two mechanisms of energy losses occurring on the input signal while it goes through the string. The scattering losses and the propagation losses. Since there are two types of roundtrips, the $F$ roundtrip (finger roundtrip) and the $N$ roundtrip (nut roundtrip), we assume that their corresponding loss coefficients are $a$ and $b$.
+
+% $f(t) = \sum_{k=0}^{n}\left(S(t - kT_m - nT_M)\binom{n+k}{k} (1 - \rho)^{k} \rho^n\right)$
+
+% Consider next a case where n roundtrips of types $F$ and $N$ respectively. The total number of such $m$ roundtrips is determined by considering the combinatorial problem of choosing $f$ scatterings of $F$ type out the off total $m = f + n$ scatterings. The answer is $\binom{m}{f}$. Equivalently we could ask the combinatorial problem of choosing n roundtrips of $N$ type out of the total $m = f + n$ roundtrips.
+
+% initial condition of the string - recursive function base case/beginning values
+
+% \begin{figure*}
+% 	\centering
+% 	\scalebox{0.8}{\input{figures/sdl-sj.tex}}
+% 	\label{fig:sdl_sj}
+% 	\caption{String loop with a scattering junction.}
+% \end{figure*}
+
+% \subsection{Ontological challenges}
+% Using an abstract sound instead of suitable sub-models is not a mere matter of replacement, justifying this choice raises ontological issues. Since D'Alambert's principle is an arbitrary method of analysis 
+
+% REFERENCES FORMAT
+% References must be the same font size as other body text.
+\bibliographystyle{SIGCHI-Reference-Format}
+\bibliography{bibliography.bib}
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
