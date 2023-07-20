@@ -1,13 +1,20 @@
 
 \begin{tikzpicture}
-	\foreach \n  in {0, ..., 5} {
-			\foreach \f in {0,...,\n}{
-					\tikzmath{
-						\finger = 0.7;
-						\x = \n - \f * \finger;
-					};
+	\tikzmath{
+		\p = 0.3;
+		\mMax = 5;
+		\mPos = \mMax + 1;
+		\n = (1-\p) * \mMax + 1;
+	};
+	\foreach \m  in {0, ..., \mMax} {
+		\foreach \k in {0,...,\m}{
+			\tikzmath{
+				\x = \m - \k * \p;
+			};
 
-					\draw (\x, \f / 2) rectangle node {$\n$} (\x + 1, \f / 2 + 0.5);
-				};
+			\draw (\x, \k / 2) rectangle node {$\m$} (\x + 1, \k / 2 + 0.5);
 		};
+	};
+	\draw[fill=white, color=white] (\n, 0) rectangle (\mPos,\mPos/2);
+	\path[thick, -, color=black] (\n, 0) -- (\n, \mPos/2);
 \end{tikzpicture}
