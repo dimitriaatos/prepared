@@ -9,13 +9,13 @@
     "**/*.fdb_latexmk": true,
     "**/*.fls": true,
     "**/*.out": true,
-    "**/*.gz": true,
+    "**/*.synctex.gz": true,
     "**/*.bst": true,
-		"**/*.log": true,
-		"**/*.sty": true,
-		// "**/*.cls": true,
-	},
-	"workbench.colorTheme": "Default Dark Modern",
-	"editor.wordWrap": "on",
-	"cmake.configureOnOpen": false
+    "**/*.log": true,
+    "**/*.sty": true
+    // "**/*.cls": true,
+  },
+  "workbench.colorTheme": "Default Dark Modern",
+  "editor.wordWrap": "on",
+  "cmake.configureOnOpen": false
 }

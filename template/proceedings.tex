@@ -61,7 +61,8 @@
 \usepackage{textcomp}
 \usepackage{tikz}
 \usepackage{amsmath}
-\usetikzlibrary {arrows, shapes, automata, positioning, math, calc, external}
+\usepackage{xintexpr}
+\usetikzlibrary {arrows, shapes, automata, positioning, math, calc, external, decorations.pathreplacing, calligraphy}
 
 \input{figures/common-tikz.tex}
 \tikzset{
@@ -156,6 +157,7 @@
 
 % \numberwithin{figure}{section}
 
+\today
 \begin{abstract}
 This paper investigates hybrid sound synthesis where physical modelling and abstract sound synthesis methods are combined. A modular approach to physical models is proposed and a model for string multiphonics is presented.
 % Digital waveguide models use recursive functions to model such strings. This paper introduces an explicit (non-recursive) formula for the touched string. This formulation can be easily rewritten as the output of an open (untouched) string with touch dependent coefficients and timeshifts, which effectively enables converting sounds of one kind to the other. Furthermore, the sounds to be converted are sounds of an open string only by assumption, in practice there're no such restrictions, this makes it possible to "perform" multiphonics with any pitched sound. Simplifying assumptions and necessary compromises are discussed as well as computation power issues and possible solutions.
@@ -196,9 +198,9 @@ This paper investigates hybrid sound synthesis where physical modelling and abst
 
 \section{Introduction}
 
-The emergence of \textit{physical modeling sound synthesis} has enabled a space between \textit{physical modeling} and \textit{abstract synthesis} (additive, subtractive etc.). An example of this can be seen in robot voices, where models of the human vocal tract are combined with synthesized sounds totally unrelated to vocal folds. This intermediate space can be attractive for creative purposes, since it provides a broad design space (\textit{abstract synthesis}), while being able to produce sounds that retain some physicality. Incorporating physicality into sound synthesis serves more than just an aesthetic purpose. Physics-informed sound features can also be suitable for information encoding due to their recognizability and their cross-modal correlations, making them useful in sonification and interaction design.
+The emergence of \textit{physical modeling sound synthesis} has enabled a space between \textit{physical modeling} and \textit{abstract synthesis} (additive, subtractive etc.). An example of this can be seen in robot voices, where models of the human vocal tract are combined with synthesized sounds totally unrelated to vocal folds. This intermediate space can be attractive for creative purposes, since it provides a broad design space (\textit{abstract synthesis}), while being able to produce sounds that retain some physicality. Incorporating physicality into sound synthesis serves more than just aesthetics. Physics-informed sound features can also be suitable for information encoding due to their recognizability and their cross-modal correlations, making them useful in sonification and interaction design.
 
-Research in \textit{physical modelling} does not necessarily contribute directly to \textit{physical model-abstract} (PMA) hybrids. For instance, physical models might have no obvious way to be coupled with anything external, or desired features might be inseparable from larger monolithic models. Making PMA hybrids requires decomposition to modular sub-models that implement individual features. Such research has already been made, mainly for combining sub-models of different modelling techniques \cite{erkut_modular_2005,karjalainen_plucked-string_1998}. Although this research has a different objective, produced findings lack only the conception for being combined with abstract synthesis. This paper aims to point this potential of decomposed models, and proposes a modular sub-model for the lightly touched string.
+Research in \textit{physical modelling} does not necessarily contribute directly to \textit{physical model-abstract} (PMA) hybrids. For instance, physical models might have no obvious way to be coupled with anything external, or desired features might be inseparable from larger monolithic models. Making PMA hybrids requires decomposition to modular sub-models that implement individual features. Such research has already been made, mainly for combining different modelling techniques \cite{erkut_modular_2005,karjalainen_plucked-string_1998}. Although this research has a different objective, produced findings lack only the conception for being combined with abstract synthesis. This paper aims to point this potential of decomposed models, and proposes a modular sub-model for the lightly touched string.
 
 Lightly touching a vibrating string is a practice associated with a number of string instrument playing techniques. Depending on the touching position and the touching agent, a different technique is performed. For multiphonics and flageolet tones (harmonics) the performer touches the string with his finger, without fully pressing it. Prepared strings is another technique where instead of a finger, a variety of objects such as rubbers, bolts or crocodile clips may be used on the string.
 
@@ -213,9 +215,9 @@ This paper relies on \textit{digital waveguide} (DWG) synthesis \cite{smith_phys
 	\label{fig:pickup}
 \end{figure}
 
-The touching point has been modelled as a three-port scattering-junction (SJ) \cite{scavone_digital_1997, valimaki_modeling_1993}. This splits the model into three waveguides, meeting at the SJ, one leading to the \textit{nut}, one leading to the \textit{bridge} and one leading to the \textit{finger}. Since the \textit{finger} waveguide is a "dead end" (waves are only reflected back) the SJ can be simplified as suggested in \cite{pakarinen_physical_2005}. A string model with a simplified \textit{finger} SJ is depicted in fig. \ref{fig:waveguide_sj}. The SJ coefficients $\rho_1 - \rho_4$ are defined in \cite{pakarinen_physical_2005} as
+The touching point has been modelled in DWG synthesis as a three-port scattering-junction (SJ) \cite{scavone_digital_1997, valimaki_modeling_1993}. This splits the model into three waveguides meeting at the SJ, one leading to the \textit{nut}, one leading to the \textit{bridge} and one leading to the \textit{finger}. Since the \textit{finger} waveguide is a "dead end" (waves are only reflected back) the SJ can be simplified as suggested in \cite{pakarinen_physical_2005}. A string model with a simplified \textit{finger} SJ is depicted in fig. \ref{fig:waveguide_sj}. The SJ coefficients $\rho_1 - \rho_4$ are defined in \cite{pakarinen_physical_2005} as
 
-\begin{align} \label{eq:coef}
+\begin{align} \label{eq:rhoCoeff}
 	\rho_1& = \frac{Z_1-Z_2-Z_3}{Z_1+Z_2+Z_3},&
 	\rho_2& = \frac{Z_1-Z_2-Z_3}{Z_1+Z_2+Z_3},\notag\\[1em]
 	\rho_3& = \frac{Z_1-Z_2-Z_3}{Z_1+Z_2+Z_3},&
@@ -251,66 +253,67 @@ As previously mentioned, the SJ is the meeting point for three waveguides. This 
 
 \section{model decomposition}
 
-Modular DWG sub-models have been referred to as \textit{single delay-loop} (SDL) models \cite{karjalainen_plucked-string_1998,pakarinen_physical_2005}. This terminology refers to the implementation of the string roundtrip using a single delay line (as shown in Figure \ref{fig:sdl_string_loop}), in contrast to the conventional \textit{dual-delay} DWG (fig. \ref{fig:pickup}). Even when more than one delay line is used in simplified versions of complex models, they are still referred to as SDL models.
+Modular DWG sub-models have been referred to as \textit{single delay-loop} (SDL) models \cite{karjalainen_plucked-string_1998,pakarinen_physical_2005}. This terminology refers to the implementation of the string roundtrip using a single delay line (as shown in Figure \ref{fig:sdl_string_loop}), in contrast to the conventional \textit{dual-delay} DWG (fig. \ref{fig:pickup}). Even when more than one delay line is used in simplified versions of complex models, they might still be referred to as SDL models.
 \begin{figure}[h]
 	\centering
 	\scalebox{0.75}{\input{figures/sdl.tex}}
 	\caption{SDL string loop.}
 	\label{fig:sdl_string_loop}
 \end{figure}
-In \cite{karjalainen_plucked-string_1998} a plucked string DWG model is decomposed into sub-models, namely, the \textit{plucking position}, \textit{string loop}, and \textit{pickup output}. For a lightly touched string model, the same \textit{plucking position} and \textit{pickup output} modules can be used. However, the \textit{string loop} module needs to be modified to accommodate the touching finger. Figure \ref{fig:sdl_simple_sj} depicts a SDL model of a \textit{touched string loop} using a \textit{single-sided} SJ. Note that this module models the combined effect of the string and the \textit{finger}. To isolate the specific effect of the \textit{finger}, further decomposition is necessary.
+In \cite{karjalainen_plucked-string_1998} a plucked string DWG model is decomposed into sub-models, namely, \textit{plucking position}, \textit{string loop}, and \textit{pickup output}. For a lightly touched string model, the same \textit{plucking position} and \textit{pickup output} modules can be used. However, the \textit{string loop} module needs to be modified to accommodate the touching finger. Figure \ref{fig:sdl_simple_sj} depicts a SDL model of a \textit{touched string loop} using a \textit{single-sided} SJ. Note that this module models the combined effect of the string and the \textit{finger}. To isolate the specific effect of the \textit{finger}, further decomposition is necessary.
 \begin{figure*}[h]
 	\centering
 	\scalebox{0.8}{\input{figures/sdl-simple-sj.tex}}
 	\caption{String loop with a scattering junction.}
 	\label{fig:sdl_simple_sj}
 \end{figure*}
-To gain insights into the touched string loop, the following formula is proposed:
+To gain insight into the touched string loop, an analysis relating the input to the output is necessary.
+% A formula for the impulse response of a lightly touched string is proposed in \cite{guettler_bowed-string_2012}. 
+The following formula is proposed:
 \begin{equation} \label{eq:explicit}
-	\sum_{k=0}^{\lfloor \frac{n}{T_F} \rfloor}\left(y[n - (kT_F + mT_N)]\binom{m+k}{k} (1 - \rho)^{k} \rho^m\right),
+	\sum_{k=0}^{\lfloor \frac{n}{T_F} \rfloor}\left(y[n - (kT_F + mT_N)]\binom{m+k}{k} (1 - \rho)^{k} \rho^mG_{k,m}\right),
 \end{equation}
 \begin{equation*}
 	\textrm{for } T_F<T_N<n \textrm{ and } 0\leq\rho\leq1\notag,
 \end{equation*}
 Here, the variables and terms used are defined as follows:
 \begin{itemize}
-	\item $n$ denotes the current time in samples
-	\item $T_N$ and $T_F$ denote the duration of the $N$ and $F$ roundtrips in samples, respectively
-	\item $\rho$ is the finger pressure coefficient defined in (\ref{eq:rho}) and
+	\setlength\itemsep{0.1em}
+	\item $n$ denotes the current time in samples,
+	\item $T_N$ and $T_F$ denote the duration of the $N$ and $F$ roundtrips in samples, respectively,
+	\item $\rho$ is the finger pressure coefficient defined in (\ref{eq:rho}),
+	\item $G_{k,m}$ denotes losses for each roundtrip combination and
 	\item $m$ is defined as
 \end{itemize}
 \begin{equation}
 	m = \lfloor \frac{n - kT_F}{T_N} \rfloor.
 \end{equation}
-The initial values for the formula are given by the function $y[n]$ for $0 \leq n < T_F$.
+The initial values are given by the function $y[n]$ for $0 \leq n < T_F$. The argument of the summation in (\ref{eq:explicit}) can be split into four parts,
+\begin{align}
+	\label{eq:shifts}&\bullet\qquad\textrm{shifts }& &y[n - (kT_F + mT_N)], \\[1em]
+	\label{eq:perm}&\bullet\qquad\textrm{permutations }& &\binom{m+k}{k}, \\[1em]
+	\label{eq:coef}&\bullet\qquad\textrm{coefficients }& &(1 - \rho)^{k} \rho^m, \\[1em]
+	\label{eq:loss}&\bullet\qquad\textrm{and losses }& &G_{k,m}.
+\end{align}
+Firstly, (\ref{eq:shifts}) shifts the initial values forward in time by an amount proportional to the number of $N$ and $F$ roundtrips performed at the current time. For a given time $n$, the maximum number of $F$ roundtrips is given by $\lfloor \frac{n}{T_F} \rfloor$. Here, $k$ takes all integer values in the range $[0..\lfloor \frac{n}{T_F} \rfloor]$. Variable $m$ represents the maximum number of $N$ roundtrips that can be performed after $k$ $F$ roundtrips, within the available time. These variables, $m$ and $k$, are defined in a manner that solves a combinatorial optimization problem subject to the following constraint: $n - (kT_F + mT_N) < T_N$.
 
-For a given time $n$, the maximum number of F roundtrips is given by $\lfloor \frac{n}{T_F} \rfloor$. Here, $k$ takes all integer values in the range $[0..\lfloor \frac{n}{T_F} \rfloor]$. Variable $m$ represents the maximum number of N roundtrips that can be performed after $k$ F roundtrips, within the available time. These variables, $m$ and $k$, are defined in a manner that solves a combinatorial optimization problem subject to the following constraint: $n - (kT_F + mT_N) < T_N$.
+The shifts account for all combinations of $F$ and $N$ roundtrips however, the permutations within each combination are not currently considered. Let's consider a case where $k = 2$ and $m = 1$. In this case, three permutations of roundtrips are performed simultaneously, namely NFF, FNF, and FFN. It is important to note that since $k$ and $m$ remain the same, each permutation yields an identical signal with equal shifts and coefficients. To account for permutations, the amplitude needs to be adjusted by multiplying the shifted signal by the number of allowed permutations. The number of permutations for a given $k$ and $m$ can be obtained using the binomial coefficient as shown in (\ref{eq:perm}).
 
-The argument of the summation in (\ref{eq:explicit}) can be split into three parts,
-\begin{align*}
-	&\textrm{shifts } & %S(n,k)=
-	y[n - (kT_F + mT_N)], \\[1em]
-	&\textrm{permutations } &%P(n,k)=
-	\binom{m+k}{k}, \\[1em]
-	&\textrm{and coefficients } &%C(n,k)=
-	(1 - \rho)^{k} \rho^m.
-\end{align*}
+Each roundtrip involves a SJ coefficient as defined in (\ref{eq:rho}). After completing a certain number of roundtrips ($k$ for $F$ and $m$ for $N$ roundtrips), the cumulative effect of the coefficients can be computed as demonstrated in (\ref{eq:coef}).
 
-The shifts account for all combinations of F and N roundtrips however, the permutations within each combination are not currently considered. Let's consider a case where $k = 2$ and $m = 1$. In this case, three permutations of roundtrips are performed simultaneously, namely FFN, FNF, and NFF. It is important to note that since $k$ and $m$ remain the same, each permutation yields an identical signal with equal shifts and coefficients. To account for permutations, we need to adjust the amplitude by multiplying the shifted signal by the number of permutations. The number of permutations for a given $k$ and $m$ can be obtained using the binomial coefficient
-\begin{equation}
-	\binom{m+k}{k}.
-\end{equation}
+Lastly, (\ref{eq:loss}) represents the roundtrip losses for any given $k$ and $m$. Losses are considered as unknown coefficients since their implementation might vary depending on the models approach. Not defining a specific loss filter will also proves convenient in the next section where the effect of the touching finger is applied to sounds that have already undergone some unknown roundtrip losses.
 
 \begin{figure}[h]
 	\centering
 	\scalebox{1}{\input{figures/triangle.tex}}
-	\caption{A digital waveguide model of a string with a pickup output. Where $N$ is the duration of a roundtrip in samples.}
+	\caption{}
 	\label{fig:triangle}
 \end{figure}
 
-analysing the touched string output (impulse response)~\cite{guettler_bowed-string_2012}
+On figure \ref{fig:triangle} depicts a diagram of the 
 
 \section{Multiphonics synthesis}
+As stated before, (\ref{eq:explicit}) is a formula for
 
 isolated touching finger sub-model
 
@@ -318,21 +321,13 @@ isolated touching finger sub-model
 	\sum_{k=0}^{\lfloor \frac{n}{T_F} \rfloor}\left(y[n + k(T_N-T_F)]\binom{m+k}{k} (1 - \rho)^{k} \rho^m\right)
 \end{equation}
 
+% \input{table.tex}
+
 real time implementation
 
 \begin{equation}
 	\sum_{k=0}^{\lfloor \frac{n}{T_F} \rfloor}\left(y[n - \lceil k\frac{T_F}{T_N}\rceil T_N] \binom{m+k}{k} (1 - \rho)^{k} \rho^m\right)
 \end{equation}
-
-% Abbreviate trip notation by the letter of their intermediate node i.e. $BNB \equiv N$ trip $BFB \equiv F$
-
-% Let the initial values be given by $S(t)$ for $t < N$. There are two mechanisms of energy losses occurring on the input signal while it goes through the string. The scattering losses and the propagation losses. Since there are two types of roundtrips, the $F$ roundtrip (finger roundtrip) and the $N$ roundtrip (nut roundtrip), we assume that their corresponding loss coefficients are $a$ and $b$.
-
-% $f(t) = \sum_{k=0}^{n}\left(S(t - kT_m - nT_M)\binom{n+k}{k} (1 - \rho)^{k} \rho^n\right)$
-
-% Consider next a case where n roundtrips of types $F$ and $N$ respectively. The total number of such $m$ roundtrips is determined by considering the combinatorial problem of choosing $f$ scatterings of $F$ type out the off total $m = f + n$ scatterings. The answer is $\binom{m}{f}$. Equivalently we could ask the combinatorial problem of choosing n roundtrips of $N$ type out of the total $m = f + n$ roundtrips.
-
-% initial condition of the string - recursive function base case/beginning values
 
 % \begin{figure*}
 % 	\centering

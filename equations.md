@@ -69,7 +69,15 @@ f(t) =\\
 $
 
 $
-f(t) = \sum_{k=0}^{\lfloor \frac{t}{T_N} \rfloor}\left(f(t - k T_N - n T_F)\binom{n + k}{k}(1 - \rho)^{k} \rho^{n}\right)
+f(n) = \sum_{k=0}^{\lfloor \frac{n}{T_N} \rfloor}\left(y(n - (k T_N + m T_F))\binom{m+k}{k}(1 - \rho)^{k} \rho^{m}\right)
+$
+
+$
+y(n-\lfloor \frac{n}{T_N} \rfloor T_F)
+$
+
+$
+f(n) = \sum_{k=0}^{\lfloor \frac{n}{T_N} \rfloor}\left(y(n - (k T_N + m T_F))\binom{m+k}{k}(1 - \rho)^{k} \rho^{m}\right)
 $
 
 $
