@@ -1,7 +1,11 @@
 {
   "markdown-preview-enhanced.enableScriptExecution": true,
   "markdown-preview-enhanced.usePandocParser": false,
-  "cSpell.words": ["tonehole", "Toneholes"],
+  "cSpell.words": [
+		"tonehole",
+		"Toneholes",
+		"wavetable"
+	],
   "files.exclude": {
     "**/*.aux": true,
     "**/*.bbl": true,
