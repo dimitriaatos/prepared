@@ -159,7 +159,8 @@
 
 \today
 \begin{abstract}
-This paper investigates hybrid sound synthesis where physical modelling and abstract sound synthesis methods are combined. A modular approach to physical models is proposed and a model for string multiphonics is presented.
+This paper investigates hybrid sound synthesis where physical modelling and abstract sound synthesis methods are combined.
+A modular approach to physical models is proposed and a model for string multiphonics is presented.
 % Digital waveguide models use recursive functions to model such strings. This paper introduces an explicit (non-recursive) formula for the touched string. This formulation can be easily rewritten as the output of an open (untouched) string with touch dependent coefficients and timeshifts, which effectively enables converting sounds of one kind to the other. Furthermore, the sounds to be converted are sounds of an open string only by assumption, in practice there're no such restrictions, this makes it possible to "perform" multiphonics with any pitched sound. Simplifying assumptions and necessary compromises are discussed as well as computation power issues and possible solutions.
 \end{abstract}
 
@@ -198,24 +199,50 @@ This paper investigates hybrid sound synthesis where physical modelling and abst
 
 \section{Introduction}
 % https://www.mdpi.com/2076-3417/6/5/143
-The emergence of \textit{physical modeling sound synthesis} (or \text{physical modeling synthesis}) has enabled an intermediate space between itself and the preexisting sound synthesis techniques (additive, subtractive etc.) from hereon referred to as \textit{abstract synthesis}. An example of this can be seen in robot voices, where models of the human vocal tract are combined with synthesized sounds totally unrelated to vocal folds. This intermediate space can be attractive for creative purposes, since it provides a broad design space (\textit{abstract synthesis}), while being able to produce sounds that retain some physicality. Incorporating physicality in sound synthesis serves more than just aesthetics. Physics-informed sound features can also be suitable for information encoding due to their recognizability and their cross-modal correlations, making them useful in sonification and interaction design. Cases where \textit{abstract} and \textit{physical modelling synthesis} is combined will be called \textit{physical model-abstract} (PMA) hybrids.
+The emergence of \textit{physical modeling sound synthesis} (or \text{physical modeling synthesis}) has enabled an intermediate space between itself and the preexisting sound synthesis techniques (additive, subtractive etc.) from hereon referred to as \textit{abstract synthesis}.
+An example of this can be seen in robot voices, where models of the human vocal tract are combined with synthesized sounds totally unrelated to vocal folds.
+This intermediate space can be attractive for creative purposes, since it provides a broad design space (\textit{abstract synthesis}), while being able to produce sounds that retain some physicality.
+Incorporating physicality in sound synthesis serves more than just aesthetics.
+Physics-informed sound features can also be suitable for information encoding due to their recognizability and their cross-modal correlations, making them useful in sonification and interaction design.
+Cases where \textit{abstract} and \textit{physical modelling synthesis} is combined will be called \textit{physical model-abstract} (PMA) hybrids.
 
-Finding the physical model of a desired feature and combining it with \textit{abstract synthesis} might not be a straight forward process. Physical models are typically modelling an entire instrument rather than separate features and often use physical quantities other than air pressure (sound). Obtaining a model only for a feature requires decomposition of the instrument model for the desired feature to be abstracted, and further adaptation for making the feature transferable to abstract sound synthesis. Efficiency and other kinds of hybrids have motivated research in decomposition of physical models \cite{erkut_modular_2005,karjalainen_plucked-string_1998} producing findings usable in PMA hybrids. This paper aims to point the potential of decomposed physical models for constructing PMA hybrids, and proposes an abstracted physical model for the effect of a lightly touching finger on a string.
+Finding the physical model of a desired feature and combining it with \textit{abstract synthesis} might not be a straight forward process.
+Physical models are typically modelling an entire instrument rather than separate features and often use physical quantities other than air pressure (sound).
+Obtaining a model only for a feature requires decomposition of the instrument model for the desired feature to be abstracted, and further adaptation for making the feature transferable to abstract sound synthesis.
+Efficiency and other kinds of hybrids have motivated research in decomposition of physical models \cite{erkut_modular_2005,karjalainen_plucked-string_1998} producing findings usable in PMA hybrids.
+This paper aims to point the potential of decomposed physical models for constructing PMA hybrids, and proposes an abstracted physical model for the effect of a lightly touching finger on a string.
 
-Lightly touching a vibrating string is a practice associated with a number of string instrument playing techniques. Depending on the touching position and the touching agent, a different technique is performed. Flageolet tones (harmonics) are performed by lightly touching a string with a finger, on specific fractions of its length. Flageolet tones have a pitch much higher than the original string and a different timbre, often compared to a flute or a whistle. (multiphonics definition). Prepared strings is another technique where instead of a finger, a variety of objects such as rubbers, bolts or crocodile clips may be used on the string, the position of the object might be either that of an multiphonic or a harmonic.
+Lightly touching a vibrating string is a practice associated with a number of string instrument playing techniques.
+Depending on the touching position and the touching agent, a different technique is performed
+ Flageolet tones (harmonics) are performed by lightly touching a string with a finger, on specific fractions of its length.
+Flageolet tones have a pitch much higher than the original string and a different timbre, often compared to a flute or a whistle.
+(multiphonics definition).
+Prepared strings is another technique where instead of a finger, a variety of objects such as rubbers, bolts or crocodile clips may be used on the string, the position of the object might be either that of an multiphonic or a harmonic.
 
 \section{The lightly touched string}
 
-This paper relies on \textit{digital waveguide} (DWG) synthesis \cite{smith_physical_1992}, a \textit{physical modelling} technique that employs D'Alambert's principle to decompose a standing wave (e.g. a vibrating string) into the sum of two travelling waves propagating in opposite directions. All parts of the model are described in terms of traveling waves, and only in the final step are these waves combined to generate the physical motion of the string. Propagation losses are modelled with filters, and termination reflections are implemented with a direction inversion, a reflection loss filter and a sign inversion (often implemented as part of the loss filter). Figure \ref{fig:pickup} depicts a DWG model of a simple plucked string with a pickup output. Although the string touching agent may vary, it will be referred to as the \textit{finger}. The terms \textit{bridge} and \textit{nut} will be used for the left and the right termination, respectively, to reflect the structure of a string instrument.
+This paper relies on \textit{digital waveguide} (DWG) synthesis \cite{smith_physical_1992}, a \textit{physical modelling} technique that employs D'Alambert's principle to decompose a standing wave (e.g. a vibrating string) into the sum of two travelling waves propagating in opposite directions.
+All parts of the model are described in terms of traveling waves, and only in the final step are these waves combined to generate the physical motion of the string.
+Propagation losses are modelled with filters, and termination reflections are implemented with a direction inversion, a reflection loss filter and a sign inversion (often implemented as part of the loss filter).
+Figure \ref{fig:pickup} depicts a DWG model of a simple plucked string with a pickup output.
+Although the string touching agent may vary, it will be referred to as the \textit{finger}.
+The terms \textit{bridge} and \textit{nut} will be used for the left and the right termination, respectively, to reflect the structure of a string instrument.
 
 \begin{figure}[h]
 	\centering
 	\scalebox{0.75}{\input{figures/wg.tex}}
-	\caption{A digital waveguide model of a string with a pickup output. Where $N$ is the duration of a roundtrip in samples.}
+	\caption{
+		A digital waveguide model of a string with a pickup output.
+		Where $N$ is the duration of a roundtrip in samples.
+	}
 	\label{fig:pickup}
 \end{figure}
 
-The touching point has been modelled in DWG synthesis as a three-port scattering-junction (SJ) \cite{scavone_digital_1997, valimaki_modeling_1993}. This splits the model into three waveguides meeting at the SJ, one leading to the \textit{nut}, one leading to the \textit{bridge} and one leading to the \textit{finger}. Since the \textit{finger} waveguide contains only a lossless reflection the SJ can be simplified as suggested in \cite{pakarinen_physical_2005}. A string model with a simplified \textit{finger} SJ is depicted in fig. \ref{fig:waveguide_sj}. The SJ coefficients $\rho_1 - \rho_4$ are defined in \cite{pakarinen_physical_2005} as
+The touching point has been modelled in DWG synthesis as a three-port scattering-junction (SJ) \cite{scavone_digital_1997, valimaki_modeling_1993}.
+This splits the model into three waveguides meeting at the SJ, one leading to the \textit{nut}, one leading to the \textit{bridge} and one leading to the \textit{finger}.
+Since the \textit{finger} waveguide contains only a lossless reflection the SJ can be simplified as suggested in \cite{pakarinen_physical_2005}.
+A string model with a simplified \textit{finger} SJ is depicted in fig. \ref{fig:waveguide_sj}.
+The SJ coefficients $\rho_1 - \rho_4$ are defined in \cite{pakarinen_physical_2005} as
 
 \begin{align} \label{eq:rhoCoeff}
 	\rho_1& = \frac{Z_1-Z_2-Z_3}{Z_1+Z_2+Z_3},&
@@ -223,7 +250,10 @@ The touching point has been modelled in DWG synthesis as a three-port scattering
 	\rho_3& = \frac{Z_1-Z_2-Z_3}{Z_1+Z_2+Z_3},&
 	\rho_3& = \frac{Z_1-Z_2-Z_3}{Z_1+Z_2+Z_3},
 \end{align}
-where $Z_1$, $Z_2$ and $Z_3$ denote the impedance of the \textit{bridge}, \textit{nut} and \textit{finger} waveguides, respectively. As the \textit{bridge} and \textit{nut} waveguides are part of the same string, their impedances should be equal, thus we have $Z_1=Z_2$. Consequently, this equality leads to $\rho_1=\rho_4$ and $\rho_2=\rho_3$, leaving only coefficients $\rho_1$ and $\rho_2$. Both can be expressed in relation to
+where $Z_1$, $Z_2$ and $Z_3$ denote the impedance of the \textit{bridge}, \textit{nut} and \textit{finger} waveguides, respectively.
+As the \textit{bridge} and \textit{nut} waveguides are part of the same string, their impedances should be equal, thus we have $Z_1=Z_2$.
+Consequently, this equality leads to $\rho_1=\rho_4$ and $\rho_2=\rho_3$, leaving only coefficients $\rho_1$ and $\rho_2$.
+Both can be expressed in relation to
 
 \begin{equation} \label{eq:rho}
 	\rho=\frac{Z_3}{2Z_1+Z_3}
@@ -232,7 +262,8 @@ as
 \begin{equation}
 	\rho_1=-\rho \text{ and } \rho_2=1-\rho.
 \end{equation}
-The impedance $Z_3$ of the \textit{finger} waveguide varies depending on the pressure applied to the string. The state of the SJ should span from disabled (no \textit{finger}) to a total reflection (the \textit{finger} acts as a termination),  this implies that $0 \leq \rho \leq 1$.
+The impedance $Z_3$ of the \textit{finger} waveguide varies depending on the pressure applied to the string.
+The state of the SJ should span from disabled (no \textit{finger}) to a total reflection (the \textit{finger} acts as a termination), this implies that $0 \leq \rho \leq 1$.
 
 \begin{figure}[h]
 	\centering
@@ -241,7 +272,10 @@ The impedance $Z_3$ of the \textit{finger} waveguide varies depending on the pre
 	\label{fig:waveguide_sj}
 \end{figure}
 
-To reduce the computational complexity of the proposed model, the scattering of waves from the nut to the finger is disregarded. This means that no reflections or coefficient multiplications occur from \textit{nut} to \textit{bridge}. This SJ will be referred to as the \textit{single-sided} SJ, a depiction can be seen in fig. \ref{fig:waveguide_simple_sj}. Although this might seem like a crude simplification, comparing audio outputs reveals that the only discernible effect of the \textit{single-sided} SJ is a ``metallic'' or ``rough'' quality, which is an acceptable compromise for the purpose of this paper.
+To reduce the computational complexity of the proposed model, the scattering of waves from the nut to the finger is disregarded.
+This means that no reflections or coefficient multiplications occur from \textit{nut} to \textit{bridge}.
+This SJ will be referred to as the \textit{single-sided} SJ, a depiction can be seen in fig. \ref{fig:waveguide_simple_sj}.
+Although this might seem like a crude simplification, comparing audio outputs reveals that the only discernible effect of the \textit{single-sided} SJ is a ``metallic'' or ``rough'' quality, which is an acceptable compromise for the purpose of this paper.
 \begin{figure}[h]
 	\centering
 	\scalebox{0.6}{\input{figures/wg-simple-sj.tex}}
@@ -249,11 +283,15 @@ To reduce the computational complexity of the proposed model, the scattering of 
 	\label{fig:waveguide_simple_sj}
 \end{figure}
 
-As previously mentioned, the SJ is the meeting point for three waveguides. This results in the formation of one loop for each combination of waveguides, namely the \textit{bridge-finger} loop, the \textit{bridge-nut} loop, and the \textit{finger-nut} loop. Using the \textit{single-sided} SJ eliminates the \textit{finger-nut} loop, leaving only the \textit{bridge-finger} and the \textit{bridge-nut} loop, also referred to as $F$ and $N$ roundtrips.
+As previously mentioned, the SJ is the meeting point for three waveguides.
+This results in the formation of one loop for each combination of waveguides, namely the \textit{bridge-finger} loop, the \textit{bridge-nut} loop, and the \textit{finger-nut} loop.
+Using the \textit{single-sided} SJ eliminates the \textit{finger-nut} loop, leaving only the \textit{bridge-finger} and the \textit{bridge-nut} loop, also referred to as $F$ and $N$ roundtrips.
 
 \section{model decomposition}
 
-Modular DWG models have been referred to as \textit{single delay-loop} (SDL) models \cite{karjalainen_plucked-string_1998,pakarinen_physical_2005}. This terminology refers to the implementation of the string roundtrip using a single delay line (as shown in Figure \ref{fig:sdl_string_loop}), in contrast to the conventional \textit{dual-delay} DWG (fig. \ref{fig:pickup}). Even when more than one delay line is used in simplified versions of complex models, they might still be referred to as SDL models.
+Modular DWG models have been referred to as \textit{single delay-loop} (SDL) models \cite{karjalainen_plucked-string_1998,pakarinen_physical_2005}.
+This terminology refers to the implementation of the string roundtrip using a single delay line (as shown in Figure \ref{fig:sdl_string_loop}), in contrast to the conventional \textit{dual-delay} DWG (fig. \ref{fig:pickup}).
+Even when more than one delay line is used in simplified versions of complex models, they might still be referred to as SDL models.
 \begin{figure}[h]
 	\centering
 	\scalebox{0.75}{\input{figures/sdl.tex}}
@@ -263,7 +301,12 @@ Modular DWG models have been referred to as \textit{single delay-loop} (SDL) mod
 
 % wavetable synthesis, phase accumulator, unipolar sawtooth wave
 
-In \cite{karjalainen_plucked-string_1998} a plucked string DWG model is SDL models, namely, \textit{plucking position}, \textit{string loop}, and \textit{pickup output}. For a lightly touched string model, the same \textit{plucking position} and \textit{pickup output} modules can be used. However, the \textit{string loop} module needs to be modified to accommodate the touching finger. Figure \ref{fig:sdl_simple_sj} depicts a SDL model of a \textit{touched string loop} using a \textit{single-sided} SJ. Note that this module models the combined effect of the string and the \textit{finger}. To isolate the specific effect of the \textit{finger}, further decomposition is necessary.
+In \cite{karjalainen_plucked-string_1998} a plucked string DWG model is SDL models, namely, \textit{plucking position}, \textit{string loop}, and \textit{pickup output}.
+For a lightly touched string model, the same \textit{plucking position} and \textit{pickup output} modules can be used.
+However, the \textit{string loop} module needs to be modified to accommodate the touching finger.
+Figure \ref{fig:sdl_simple_sj} depicts a SDL model of a \textit{touched string loop} using a \textit{single-sided} SJ.
+Note that this module models the combined effect of the string and the \textit{finger}.
+To isolate the specific effect of the \textit{finger}, further decomposition is necessary.
 \begin{figure*}[h]
 	\centering
 	\scalebox{0.8}{\input{figures/sdl-simple-sj.tex}}
@@ -290,25 +333,34 @@ Here, the variables and terms used are defined as follows:
 \begin{equation}
 	m = \lfloor \frac{n - kT_F}{T_N} \rfloor.
 \end{equation}
-The initial values are given by the function $y[n]$ for $0 \leq n < T_F$. The argument of the summation in (\ref{eq:explicit}) can be split into four parts,
+The initial values are given by the function $y[n]$ for $0 \leq n < T_F$.
+The argument of the summation in (\ref{eq:explicit}) can be split into four parts,
 \begin{align}
 	\label{eq:shifts}&\bullet\qquad\textrm{shifts }& &y[n - (kT_F + mT_N)], \\[1em]
 	\label{eq:perm}&\bullet\qquad\textrm{permutations }& &\binom{m+k}{k}, \\[1em]
 	\label{eq:coef}&\bullet\qquad\textrm{coefficients }& &(1 - \rho)^{k} \rho^m, \\[1em]
 	\label{eq:loss}&\bullet\qquad\textrm{and losses }& &G_{k,m}.
 \end{align}
-Firstly, (\ref{eq:shifts}) shifts the initial values forward in time by an amount proportional to the number of $N$ and $F$ roundtrips performed at the current time. For a given time $n$, the maximum number of $F$ roundtrips is given by $\lfloor \frac{n}{T_F} \rfloor$. Here, $k$ takes all integer values in the range $[0..\lfloor \frac{n}{T_F} \rfloor]$. Variable $m$ represents the maximum number of $N$ roundtrips that can be performed after $k$ $F$ roundtrips, within the available time. These variables, $m$ and $k$, are defined in a manner that solves a combinatorial optimization problem subject to the following constraint: $n - (kT_F + mT_N) < T_N$.
+Firstly, (\ref{eq:shifts}) shifts the initial values forward in time by an amount proportional to the number of $N$ and $F$ roundtrips performed at the current time.
+For a given time $n$, the maximum number of $F$ roundtrips is given by $\lfloor \frac{n}{T_F} \rfloor$.
+Here, $k$ takes all integer values in the range $[0..\lfloor \frac{n}{T_F} \rfloor]$.
+Variable $m$ represents the maximum number of $N$ roundtrips that can be performed after $k$ $F$ roundtrips, within the available time.
+These variables, $m$ and $k$, are defined in a manner that solves a combinatorial optimization problem subject to the following constraint: $n - (kT_F + mT_N) < T_N$.
 
 The shifts account for all combinations of $F$ and $N$ roundtrips, however, permutations within each combination are not currently considered.
-Let's consider a case where $k = 2$ and $m = 1$. In this case, three permutations of roundtrips are performed simultaneously, namely NFF, FNF, and FFN.
+Let's consider a case where $k = 2$ and $m = 1$.
+In this case, three permutations of roundtrips are performed simultaneously, namely NFF, FNF, and FFN.
 It is important to note that since $k$ and $m$ remain the same, each permutation yields an identical signal.
-Therefore, obtaining the sum of all three permutations is simply a matter of tripling the amplitude. Generalizing, accounting for permutations is achieved by multiplying the shifted signal by the number of allowed permutations.
+Therefore, obtaining the sum of all three permutations is simply a matter of tripling the amplitude.
+Generalizing, accounting for permutations is achieved by multiplying the shifted signal by the number of allowed permutations.
 This number, for a given $k$ and $m$, can be obtained using the binomial coefficient as shown in (\ref{eq:perm}).
 
 Each roundtrip involves a SJ coefficient as defined in (\ref{eq:rho}).
 After completing a certain number of roundtrips ($k$ for $F$ and $m$ for $N$ roundtrips), the cumulative effect of the coefficients can be computed as demonstrated in (\ref{eq:coef}).
 
-Lastly, (\ref{eq:loss}) represents the roundtrip losses for any given $k$ and $m$. Losses are considered as unknown coefficients since their implementation might vary depending on the models approach. Not defining a specific loss filter will also proves convenient in the next section where the effect of the touching finger is applied to sounds that have already undergone some unknown roundtrip losses.
+Lastly, (\ref{eq:loss}) represents the roundtrip losses for any given $k$ and $m$.
+Losses are considered as unknown coefficients since their implementation might vary depending on the models approach.
+Not defining a specific loss filter will also proves convenient in the next section where the effect of the touching finger is applied to sounds that have already undergone some unknown roundtrip losses.
 
 \begin{figure}[h]
 	\centering
