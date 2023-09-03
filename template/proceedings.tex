@@ -146,11 +146,11 @@
 
 \numberofauthors{1}
 \author{%
-  \alignauthor{Dimitrios Aatos Ellinas\\
+	\alignauthor{Dimitrios Aatos Ellinas\\
 		\affaddr{Interactive Media Technology}\\
-    \affaddr{KTH Royal Insitute of Technology}\\
-    \affaddr{Stockholm, Sweden}\\
-    \email{ellinas@kth.se}}\\
+		\affaddr{KTH Royal Insitute of Technology}\\
+		\affaddr{Stockholm, Sweden}\\
+		\email{ellinas@kth.se}}\\
 }
 
 \maketitle
@@ -159,9 +159,9 @@
 
 \today
 \begin{abstract}
-This paper investigates hybrid sound synthesis where physical modelling and abstract sound synthesis methods are combined.
-A modular approach to physical models is proposed and a model for string multiphonics is presented.
-% Digital waveguide models use recursive functions to model such strings. This paper introduces an explicit (non-recursive) formula for the touched string. This formulation can be easily rewritten as the output of an open (untouched) string with touch dependent coefficients and timeshifts, which effectively enables converting sounds of one kind to the other. Furthermore, the sounds to be converted are sounds of an open string only by assumption, in practice there're no such restrictions, this makes it possible to "perform" multiphonics with any pitched sound. Simplifying assumptions and necessary compromises are discussed as well as computation power issues and possible solutions.
+	This paper investigates hybrid sound synthesis where physical modelling and abstract sound synthesis methods are combined.
+	A modular approach to physical models is proposed and a model for string multiphonics is presented.
+	% Digital waveguide models use recursive functions to model such strings. This paper introduces an explicit (non-recursive) formula for the touched string. This formulation can be easily rewritten as the output of an open (untouched) string with touch dependent coefficients and timeshifts, which effectively enables converting sounds of one kind to the other. Furthermore, the sounds to be converted are sounds of an open string only by assumption, in practice there're no such restrictions, this makes it possible to "perform" multiphonics with any pitched sound. Simplifying assumptions and necessary compromises are discussed as well as computation power issues and possible solutions.
 \end{abstract}
 
 
@@ -214,7 +214,7 @@ This paper aims to point the potential of decomposed physical models for constru
 
 Lightly touching a vibrating string is a practice associated with a number of string instrument playing techniques.
 Depending on the touching position and the touching agent, a different technique is performed
- Flageolet tones (harmonics) are performed by lightly touching a string with a finger, on specific fractions of its length.
+Flageolet tones (harmonics) are performed by lightly touching a string with a finger, on specific fractions of its length.
 Flageolet tones have a pitch much higher than the original string and a different timbre, often compared to a flute or a whistle.
 (multiphonics definition).
 Prepared strings is another technique where instead of a finger, a variety of objects such as rubbers, bolts or crocodile clips may be used on the string, the position of the object might be either that of an multiphonic or a harmonic.
@@ -245,10 +245,10 @@ A string model with a simplified \textit{finger} SJ is depicted in fig. \ref{fig
 The SJ coefficients $\rho_1 - \rho_4$ are defined in \cite{pakarinen_physical_2005} as
 
 \begin{align} \label{eq:rhoCoeff}
-	\rho_1& = \frac{Z_1-Z_2-Z_3}{Z_1+Z_2+Z_3},&
-	\rho_2& = \frac{Z_1-Z_2-Z_3}{Z_1+Z_2+Z_3},\notag\\[1em]
-	\rho_3& = \frac{Z_1-Z_2-Z_3}{Z_1+Z_2+Z_3},&
-	\rho_3& = \frac{Z_1-Z_2-Z_3}{Z_1+Z_2+Z_3},
+	\rho_1 & = \frac{Z_1-Z_2-Z_3}{Z_1+Z_2+Z_3},       &
+	\rho_2 & = \frac{Z_1-Z_2-Z_3}{Z_1+Z_2+Z_3},\notag   \\[1em]
+	\rho_3 & = \frac{Z_1-Z_2-Z_3}{Z_1+Z_2+Z_3},       &
+	\rho_3 & = \frac{Z_1-Z_2-Z_3}{Z_1+Z_2+Z_3},
 \end{align}
 where $Z_1$, $Z_2$ and $Z_3$ denote the impedance of the \textit{bridge}, \textit{nut} and \textit{finger} waveguides, respectively.
 As the \textit{bridge} and \textit{nut} waveguides are part of the same string, their impedances should be equal, thus we have $Z_1=Z_2$.
@@ -336,10 +336,10 @@ Here, the variables and terms used are defined as follows:
 The initial values are given by the function $y[n]$ for $0 \leq n < T_F$.
 The argument of the summation in (\ref{eq:explicit}) can be split into four parts,
 \begin{align}
-	\label{eq:shifts}&\bullet\qquad\textrm{shifts }& &y[n - (kT_F + mT_N)], \\[1em]
-	\label{eq:perm}&\bullet\qquad\textrm{permutations }& &\binom{m+k}{k}, \\[1em]
-	\label{eq:coef}&\bullet\qquad\textrm{coefficients }& &(1 - \rho)^{k} \rho^m, \\[1em]
-	\label{eq:loss}&\bullet\qquad\textrm{and losses }& &G_{k,m}.
+	\label{eq:shifts} & \bullet\qquad\textrm{shifts }       &  & y[n - (kT_F + mT_N)],  \\[1em]
+	\label{eq:perm}   & \bullet\qquad\textrm{permutations } &  & \binom{m+k}{k},        \\[1em]
+	\label{eq:coef}   & \bullet\qquad\textrm{coefficients } &  & (1 - \rho)^{k} \rho^m, \\[1em]
+	\label{eq:loss}   & \bullet\qquad\textrm{and losses }   &  & G_{k,m}.
 \end{align}
 Firstly, (\ref{eq:shifts}) shifts the initial values forward in time by an amount proportional to the number of $N$ and $F$ roundtrips performed at the current time.
 For a given time $n$, the maximum number of $F$ roundtrips is given by $\lfloor \frac{n}{T_F} \rfloor$.
@@ -369,7 +369,7 @@ Not defining a specific loss filter will also proves convenient in the next sect
 	\label{fig:triangle}
 \end{figure}
 
-On figure \ref{fig:triangle} depicts a diagram of the 
+On figure \ref{fig:triangle} depicts a diagram of the
 
 \section{Multiphonics synthesis}
 As stated before, (\ref{eq:explicit}) is a formula for
