@@ -1,4 +1,4 @@
-\newcommand*\calcBinom[2] {\xinttheexpr subs(subs(x!//y!//(x-y)!,y=#2), x=#1)\relax } 
+\newcommand*\calcBinom[2] {\xinttheexpr subs(subs(x!//y!//(x-y)!,y=#2), x=#1)\relax }
 \begin{tikzpicture}
 	\tikzmath{
 		\p = 0.3;
@@ -9,22 +9,22 @@
 		\shift = -(\n - (\mPos + 1))/2;
 	};
 	\foreach \m  in {0, ..., \mPos} {
-		\tikzmath{
-			\kSpace = \m*\invP-0.5;
-		}
-		\node[text width=2cm] at (0, \m/2+0.25) {$k=\m$};
-		\foreach \k in {0,...,\m}{
 			\tikzmath{
-				\x = \m - \k * \p;
-				% \bi = \calcBinom{\m}{\k};
-				integer \mk;
-				\mk = \m - \k;
-			};
+				\kSpace = \m*\invP-0.5;
+			}
+			\node[text width=2cm] at (0, \m/2+0.25) {$k=\m$};
+			\foreach \k in {0,...,\m}{
+					\tikzmath{
+						\x = \m - \k * \p;
+						% \bi = \calcBinom{\m}{\k};
+						integer \mk;
+						\mk = \m - \k;
+					};
 
-			% \draw (\x, \k / 2) rectangle node {$\m$} (\x + 1, \k / 2 + 0.5);
-			\draw (\x, \k / 2) rectangle node {$\mk$ . $\k$} (\x + 1, \k / 2 + 0.5);
+					% \draw (\x, \k / 2) rectangle node {$\m$} (\x + 1, \k / 2 + 0.5);
+					\draw (\x, \k / 2) rectangle node {$\mk$ . $\k$} (\x + 1, \k / 2 + 0.5);
+				};
 		};
-	};
 	\draw[fill=white, color=white] (\n, -0.1) rectangle (\mPos+1,\mPos/2+0.6);
 	\path[thick, -, color=black] (\n, 0) -- (\n, \mPos/2+0.5);
 	\draw[-, decorate, decoration = {brace}] (0,0.6) -- (\invP,0.6) node[midway,yshift=0.4cm] {$T_F$};

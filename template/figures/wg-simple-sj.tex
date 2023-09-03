@@ -4,12 +4,12 @@
 	\node[branch, right = 1.5cm of delay0a]	(branch0)	{};
 	\node[multiply right, label=above:$\rho_2$, right = 1cm of branch0, xshift=0.5cm]	(mul0)	{};
 	\node[block, right = 1.2cm of mul0]	(delay0b)	{$(N-F)/2$ delay};
-	
+
 	% line 1
 	\node[block, below left = 1cm and 0cm of delay0a]	(filter1a)	{Reflection \\ filter};
 	\node[multiply down, label=left:$\rho_1$, below = 1cm of branch0, yshift=-0.5cm]	(mul1a)	{};
 	\node[block, below right = 1cm and 0cm of delay0b]	(filter1b)	{Reflection \\ filter};
-	
+
 	% line 2
 	\node[block, below right = 1cm and 0cm of filter1a, minimum width=30mm]	(delay2a)	{$F/2$ delay};
 	\node[sum, below = 1cm of mul1a]	(sum2)					{};

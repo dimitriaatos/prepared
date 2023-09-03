@@ -1,28 +1,28 @@
 \begin{tikzpicture}[auto, node distance=3cm]
-		% line 0
-		\node[block, minimum width=60mm]	(delay0)	{$N/2$ samples delay};
-		
-		% line 1
-		\node[block, below left = 0.8cm and 0cm of delay0, label={135:BRIDGE}]	(filter1a)	{Reflection \\ filter};
-		\node[block, below right = 0.8cm and 0cm of delay0, label={45:NUT}]	(filter1b)	{Reflection \\ filter};
-		\node[sum, left of=filter1b, xshift=-2.5cm]	(sum1) 	{};
+	% line 0
+	\node[block, minimum width=60mm]	(delay0)	{$N/2$ samples delay};
 
-		% line 2
-		\node[block, below right = 0.8cm and 0cm of filter1a, minimum width=60mm]	(delay2)	{$N/2$ samples delay};
+	% line 1
+	\node[block, below left = 0.8cm and 0cm of delay0, label={135:BRIDGE}]	(filter1a)	{Reflection \\ filter};
+	\node[block, below right = 0.8cm and 0cm of delay0, label={45:NUT}]	(filter1b)	{Reflection \\ filter};
+	\node[sum, left of=filter1b, xshift=-2.5cm]	(sum1) 	{};
 
-		\coordinate [above=1cm of sum1] (out0);
-		\coordinate [right=1cm of sum1] (out1);
-		\coordinate [below=1cm of sum1] (out2);
+	% line 2
+	\node[block, below right = 0.8cm and 0cm of filter1a, minimum width=60mm]	(delay2)	{$N/2$ samples delay};
 
-		% connections
-		\path (delay0)		-|	(filter1b);
-		\path (filter1b)	|-	(delay2);
-		\path (delay2)		-|	(filter1a);
-		\path (filter1a)	|-	(delay0);
+	\coordinate [above=1cm of sum1] (out0);
+	\coordinate [right=1cm of sum1] (out1);
+	\coordinate [below=1cm of sum1] (out2);
 
-		\begin{pgfonlayer}{bg}	% select the background layer
-			\path (out0) -- (sum1);
-			\path (out2) -- (sum1);
-			\path (sum1) -- (out1) node [pos=2, text width=2.5cm, above] {Output};
-		\end{pgfonlayer}
+	% connections
+	\path (delay0)		-|	(filter1b);
+	\path (filter1b)	|-	(delay2);
+	\path (delay2)		-|	(filter1a);
+	\path (filter1a)	|-	(delay0);
+
+	\begin{pgfonlayer}{bg}	% select the background layer
+		\path (out0) -- (sum1);
+		\path (out2) -- (sum1);
+		\path (sum1) -- (out1) node [pos=2, text width=2.5cm, above] {Output};
+	\end{pgfonlayer}
 \end{tikzpicture}
