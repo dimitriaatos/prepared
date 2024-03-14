@@ -1,3 +1,5 @@
+# method of images
+
 Yes, it is possible to express the standing wave pattern on a clamped string as the superposition of two traveling waves propagating in opposite directions. This approach is known as the "method of images" and it can be used to avoid the use of trigonometric functions in the solution for the displacement of the string.
 
 The method of images is based on the observation that a standing wave pattern can be thought of as the interference of two traveling waves with the same frequency and amplitude, propagating in opposite directions. Each traveling wave has a sinusoidal shape and can be expressed using sine or cosine functions.

@@ -8,3 +8,5 @@
 - the paths of the impulses arriving at
 - As is seen
 - the right-hand side (a=**b**)
+- with the obvious identifications
+- In last expression of the spectrum its parametric dependence of the scattering coe¢ cients p has become explicit

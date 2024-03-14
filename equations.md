@@ -1,4 +1,4 @@
-# equations
+# Equations
 
 $\sum_{k=0}^{\lfloor \frac{n}{T_F} \rfloor}\left(S(n,k)P(n,k)C(n,k)\right)$
 
@@ -73,76 +73,34 @@ $
 <br/>
 <br/>
 <br/>
-$
-f(n) = \sum_{k=0}^{\lfloor \frac{n}{T_N} \rfloor}\left(y(n - (k T_F + m T_N))\binom{m+k}{k}(1 - \rho)^{k} \rho^{m}\right)
-$
+
+$y(n - (k T_F + mT_N))$
+
+$y(n -k T_F - \lfloor \frac{n-kT_F}{T_N} \rfloor T_N)$
 
 $
-y(n -k T_F - \lfloor \frac{n-kT_F}{T_N} \rfloor T_N)
+y\left[\left(\frac{n - kT_F}{T_N} - \left\lfloor \frac{n - kT_F}{T_N} \right\rfloor\right) T_N\right]
 $
 
-$
-y(n -k T_F - \lfloor \frac{n}{T_N}-\frac{kT_F}{T_N} \rfloor T_N)
-$
-
-$
-y(n -k T_F - \lfloor \frac{n}{T_N}-\frac{kT_F}{T_N} \rfloor T_N + \lfloor \frac{n}{T_N} \rfloor T_N - \lfloor \frac{n}{T_N} \rfloor T_N)
-$
-
-$
-y'(n -k T_F - \lfloor \frac{n}{T_N}-\frac{kT_F}{T_N} \rfloor T_N + \lfloor \frac{n}{T_N} \rfloor T_N)
-$
-
-$
-y'(n -k T_F + ( \lfloor \frac{n}{T_N} \rfloor - \lfloor \frac{n}{T_N}-\frac{kT_F}{T_N} \rfloor) T_N)
-$
-
-$
-y'(n -k T_F + ( \lfloor \frac{n}{T_N} \rfloor - \lfloor \frac{n}{T_N}-\frac{kT_F}{T_N} \rfloor) T_N)
-$
-
-$
-y(n-\lfloor \frac{n}{T_N} \rfloor T_N)
-$
-
-$
-f(n) = \sum_{k=0}^{\lfloor \frac{n}{T_N} \rfloor}\left(y(n + k(T_N - T_F))\binom{m+k}{k}(1 - \rho)^{k} \rho^{m}\right)
-$
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
 
 ---
 
-$
-y'(n + k(T_N - T_F)) \\
-y'(n + kT_N - kT_F) \\
-y(n - \lfloor\frac{n}{T_N}\rfloor T_N + kT_N - kT_F) \\
-y(n - (\lfloor\frac{n}{T_N}\rfloor - k ) T_N - kT_F) \\
-y(n - (kT_F + (\lfloor\frac{n}{T_N}\rfloor - k ) T_N)) \\
-y(n - (kT_F + (\lfloor\frac{n}{T_N}-k\rfloor ) T_N)) \\
-y(n -k T_F - \lfloor \frac{n-kT_Ν}{T_N} \rfloor T_N) \\
-$
-$
-y(n -k T_F - \lfloor \frac{n-kT_F}{T_N} \rfloor T_N)
-$
-
----
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
 
 $
-y(n -k T_F - \lfloor \frac{n-kT_F}{T_N} \rfloor T_N)
-$
-
----
-
-$
-f(t - T_F)\binom{n}{0} \rho +
-f(t - T_N - T_F)\binom{2}{1}(1 - \rho) \rho
-$
-
-$
-f(t) = \rho f(t-M) + (1-\rho) f(t-m)
-$
-
-$
-f(t) = \rho f(t-M) + (1-\rho) f(t-m)
+sin[(\frac{n}{T_N}-\left\lfloor \frac{n}{T_N} \right\rfloor)T_N]
 $
 
 <br/>

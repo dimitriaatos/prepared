@@ -4,3 +4,4 @@
 - addend $+$ addend $=$ sum
 - dividend $/$ divisor $=$ quotient (& remainder)
 - multiplicand (coefficient) x multiplicator (coefficient) = product
+- argument vs parameter
