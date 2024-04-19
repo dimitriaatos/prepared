@@ -199,31 +199,40 @@ Draft date: \today
 
 \section{Introduction}
 % https://www.mdpi.com/2076-3417/6/5/143
-The emergence of \textit{physical modeling sound synthesis} (or \textit{physical modeling synthesis}) has enabled an intermediate space between itself and preexisting sound synthesis techniques (\textit{additive}, \textit{subtractive} etc.), from hereon referred to as \textit{abstract synthesis}.
-An example of this can be seen in robot voices, where models of the human vocal tract are combined with synthesized sounds totally unrelated to vocal folds.
-This intermediate space can be attractive for creative purposes, since it provides a broad design space (\textit{abstract synthesis}), while being able to produce sounds that retain some physicality.
-Incorporating physicality in sound synthesis serves more than just aesthetics.
-Physics-informed sound features can also be suitable for information encoding due to their recognizability and their cross-modal correlations, making them useful in sonification and interaction design.
-Cases where \textit{abstract} and \textit{physical modelling synthesis} is combined will be called \textit{physical model-abstract} (PMA) hybrids.
 
-Finding the physical model of a desired feature and combining it with \textit{abstract synthesis} might not be a straight forward process.
-Physical models are typically modelling an entire instrument rather than separate features and often use physical quantities other than air pressure (sound).
-Obtaining a model only for a feature requires decomposition of the instrument model for the desired feature to be abstracted, and further adaptation for making the feature transferable to \textit{abstract synthesis}.
-This paper aims to point the potential of decomposed physical models for constructing PMA hybrids, and proposes an abstracted physical model for the effect of a lightly touching finger on a string.
+% Consider a musician... while pitch and loudness... timbre is not.. a sound designer might be able to simulate... but simulations are limited... physical models preferable
+% physical models are good at 
+% physical models solve a problem different from the one we're concerned
+
+Consider a musician playing a piece of music on an acoustic instrument and whishing to play the same piece on a synthesizer.
+While pitch and loudness are readily controllable in both domains, it's not equally trivial to do equivalent timbral effects on acoustic and synthesized sounds.
+A skilled sound designer might be able to program a synthesizer to simulate timbral techniques of an acoustic instrument.
+Nevertheless, this approach is subject to the inherent limitations of simulation.
+The usual alternative to simulation is physical modelling synthesis, however, using previous research entails a challenge, as the task in question is not synthesis, but isolating an effect or technique and applying it to another arbitrary sound.
+This paper tackles this challenge for the case of the lightly touched string, proposing an analysis-resynthesis approach, including decomposition of the strings physical model.
+% In order to tackle this challenge, this paper proposes an analysis-resynthesis approach, where a physical model is decomposed to a certain degree.
+% In particular, isolating a timbral effect of an acoustic instrument and applying it to a synth.
+% , e.g. using \textit{distortion} to emulate \textit{string popping} on a guitar.
+% such as being unable to capture shuttle nuances and failing on more complex scenarios.
 
 Lightly touching a vibrating string is a practice associated with a number of string instrument playing techniques.
 Depending on the touching position and the touching agent, a different technique is performed.
 Flageolet tones (harmonics) are performed by lightly touching a string with a finger on specific fractions of its length.
 The produced sound has a pitch much higher than the original string and a different timbre, often compared to a flute or a whistle.
-Multiphonics is a set of techniques that make single pitch sound sources (e.g. single strings and wind instruments) produce sounds with more than one perceivable pitch.
+Multiphonics is a set of techniques that make single pitch sound sources produce sounds with more than one perceivable pitch.
 On strings, multiphonics are performed by lightly touching the string at positions other than those producing harmonics.
 Prepared strings is another technique where instead of a finger, a variety of objects such as rubbers, bolts or crocodile clips may be used on the string, the position of the object might be either that of an multiphonic or a harmonic.
+% (e.g. single strings and wind instruments)
+
+Applying acoustic effects to synths or arbitrary sounds can be attractive for creative purposes, acoustic techniques can bring physical qualities to synthesized sounds.
+Incorporating physicality in sound synthesis serves more than just aesthetics, a well modelled acoustic technique may involve recognizable parameters that can be utilized for information encoding, sonification and interaction design.
 
 \section{Background}
-Integrating physical qualities into abstract sound synthesis has been investigated in various ways, not only by using physical models.
-Robot voices are often designed using \textit{formant filters} to simulate vowels.
+% An example of this can be seen in robot voices, where models of the human vocal tract are combined with synthesized sounds totally unrelated to vocal folds.
+Integrating physical qualities into synthesized sounds has been investigated in various ways, not only by using physical models.
+Formant filters or models of human vocal tract of are typically applied to arbitrary synthesizers to produce robot voices.
 The \textit{talking bass} (or \textit{YaYa bass}) is a synth used in dubstep, that uses a combination of low pass filtering and sample rate reduction to create vocal qualities \cite{audio_digital_how_2014, dorincourt_reason_2010}.
-Lastly, linear arithmetic synthesis
+Lastly, \textit{linear arithmetic synthesis} \cite{russ_l_1987} is a sound synthesis technique where recorded attacks of acoustic instruments are placed on the onset of synthesized tones, incorporating acoustic qualities.
 
 Decomposition of physical models has been pursued for computational efficiency \cite{karjalainen_plucked-string_1998} and for creating hybrids between modelling techniques \cite{erkut_modular_2005}.
 

@@ -22,7 +22,7 @@
     "**/*.sty": true
     // "**/*.cls": true,
   },
-  "workbench.colorTheme": "Default Dark Modern",
+  "workbench.colorTheme": "Visual Studio Dark",
   "editor.wordWrap": "on",
   "cmake.configureOnOpen": false
 }
