@@ -159,9 +159,7 @@
 
 Draft date: \today
 \begin{abstract}
-	This paper investigates hybrid sound synthesis where physical modelling and abstract sound synthesis methods are combined.
-	A modular approach to physical models is proposed and a model for string multiphonics is presented.
-	% Digital waveguide models use recursive functions to model such strings. This paper introduces an explicit (non-recursive) formula for the touched string. This formulation can be easily rewritten as the output of an open (untouched) string with touch dependent coefficients and timeshifts, which effectively enables converting sounds of one kind to the other. Furthermore, the sounds to be converted are sounds of an open string only by assumption, in practice there're no such restrictions, this makes it possible to "perform" multiphonics with any pitched sound. Simplifying assumptions and necessary compromises are discussed as well as computation power issues and possible solutions.
+	Multiphonics and flageolet tones on string instruments are performed by lightly touching the vibrating string. This paper presents a physical model isolating the effect of the finger. The model can be applied as an audio effect to sounds of open (untouched) strings, but also to arbitrary pitched sounds.
 \end{abstract}
 
 
@@ -206,10 +204,9 @@ Draft date: \today
 
 Consider a musician playing a piece of music on an acoustic instrument and whishing to play the same piece on a synthesizer.
 While pitch and loudness are readily controllable in both domains, it's not equally trivial to do equivalent timbral effects on acoustic and synthesized sounds.
-A skilled sound designer might be able to program a synthesizer to simulate timbral techniques of an acoustic instrument.
-Nevertheless, this approach is subject to the inherent limitations of simulation.
+A skilled sound designer might be able to program a synthesizer to simulate timbral techniques of an acoustic instrument, but will inevitably reach the limits of simulation.
 The usual alternative to simulation is physical modelling synthesis, however, using previous research entails a challenge, as the task in question is not synthesis, but isolating an effect or technique and applying it to another arbitrary sound.
-This paper tackles this challenge for the case of the lightly touched string, proposing an analysis-resynthesis approach, including decomposition of the strings physical model.
+This paper tackles this challenge for the case of the lightly touched string, proposing an explicit formula.
 % In order to tackle this challenge, this paper proposes an analysis-resynthesis approach, where a physical model is decomposed to a certain degree.
 % In particular, isolating a timbral effect of an acoustic instrument and applying it to a synth.
 % , e.g. using \textit{distortion} to emulate \textit{string popping} on a guitar.
@@ -221,7 +218,7 @@ Flageolet tones (harmonics) are performed by lightly touching a string with a fi
 The produced sound has a pitch much higher than the original string and a different timbre, often compared to a flute or a whistle.
 Multiphonics is a set of techniques that make single pitch sound sources produce sounds with more than one perceivable pitch.
 On strings, multiphonics are performed by lightly touching the string at positions other than those producing harmonics.
-Prepared strings is another technique where instead of a finger, a variety of objects such as rubbers, bolts or crocodile clips may be used on the string, the position of the object might be either that of an multiphonic or a harmonic.
+Prepared strings is another technique where instead of a finger, a variety of objects such as rubbers, bolts or crocodile clips may be attached to the string, the position of the object might be either that of an multiphonic or a harmonic.
 % (e.g. single strings and wind instruments)
 
 Applying acoustic effects to synths or arbitrary sounds can be attractive for creative purposes, acoustic techniques can bring physical qualities to synthesized sounds.
@@ -230,28 +227,30 @@ Incorporating physicality in sound synthesis serves more than just aesthetics, a
 \section{Background}
 % An example of this can be seen in robot voices, where models of the human vocal tract are combined with synthesized sounds totally unrelated to vocal folds.
 Integrating physical qualities into synthesized sounds has been investigated in various ways, not only by using physical models.
-Formant filters or models of human vocal tract of are typically applied to arbitrary synthesizers to produce robot voices.
-The \textit{talking bass} (or \textit{YaYa bass}) is a synth used in dubstep, that uses a combination of low pass filtering and sample rate reduction to create vocal qualities \cite{audio_digital_how_2014, dorincourt_reason_2010}.
-Lastly, \textit{linear arithmetic synthesis} \cite{russ_l_1987} is a sound synthesis technique where recorded attacks of acoustic instruments are placed on the onset of synthesized tones, incorporating acoustic qualities.
+Formant filters or models of the human vocal tract of are typically applied to arbitrary synthesizers to produce robot voices.
+The \textit{talking bass} (or \textit{YaYa bass}) is a synth used in dubstep, that combines a low pass filtering and sample rate reduction to create vocal qualities \cite{audio_digital_how_2014, dorincourt_reason_2010}.
+Lastly, \textit{linear arithmetic synthesis} \cite{russ_l_1987} is a sound synthesis technique where recorded attacks of acoustic instruments are placed on the onset of synthesized tones, creating hybrids that have both acoustic and synthesized qualities.
 
-Decomposition of physical models has been pursued for computational efficiency \cite{karjalainen_plucked-string_1998} and for creating hybrids between modelling techniques \cite{erkut_modular_2005}.
-
+research on the touched finger
+In \cite{karjalainen_plucked-string_1998} a plucked string model is decomposed into modules for string excitation, the string itself, pickup mic and bridge.
+This is pursued as an intellectual exercise and as a more computationally efficient approach.
+A similar process is presented in \cite{pakarinen_physical_2005} for a lightly touched string.
 
 \section{The lightly touched string}
 
 This paper relies on \textit{digital waveguide} (DWG) synthesis \cite{smith_physical_1992}, a \textit{physical modelling} technique that employs D'Alambert's principle to decompose a standing wave (e.g. a vibrating string) into the sum of two travelling waves propagating in opposite directions.
-All parts of the model are described in terms of traveling waves, and only in the final step are these waves combined to generate the physical motion of the string.
+All parts of the model are described in terms of traveling waves which are combined in the final step to produce the physical motion of the string.
 Propagation losses are modelled with filters, and termination reflections are implemented with a direction inversion, a reflection loss filter and a sign inversion (often implemented as part of the loss filter).
 Figure \ref{fig:pickup} depicts a DWG model of a simple plucked string with a pickup output.
 Although the string touching agent may vary, it will be referred to as the \textit{finger}.
-The terms \textit{bridge} and \textit{nut} will be used for the left and the right termination, respectively, to reflect the structure of a string instrument.
+The terms \textit{bridge} and \textit{nut} will be used for the left and the right termination, respectively.
 
 \begin{figure}[h]
 	\centering
 	\scalebox{0.75}{\input{figures/wg.tex}}
 	\caption{
 		A digital waveguide model of a string with a pickup output.
-		Where $N$ is the duration of a roundtrip in samples.
+		Where $N$ is the duration of a roundtrip.
 	}
 	\label{fig:pickup}
 \end{figure}
@@ -281,7 +280,7 @@ as
 	\rho_1=-\rho \text{ and } \rho_2=1-\rho.
 \end{equation}
 The impedance $Z_3$ of the \textit{finger} waveguide varies depending on the pressure applied to the string.
-The state of the SJ should span from disabled (no \textit{finger}) to a total reflection (the \textit{finger} acts as a termination), this implies that $0 \leq \rho \leq 1$.
+The state of the SJ should span from disabled (no \textit{finger}) to a total reflection (the \textit{finger} acting as a termination), this implies that $0 \leq \rho \leq 1$.
 
 \begin{figure}[h]
 	\centering
@@ -304,122 +303,111 @@ Although this might seem like a crude simplification, comparing audio outputs re
 
 As previously mentioned, the SJ is the meeting point for three waveguides.
 This results in the formation of one loop for each combination of waveguides, namely the \textit{bridge-finger} loop, the \textit{bridge-nut} loop, and the \textit{finger-nut} loop.
-Using the \textit{single-sided} SJ eliminates the \textit{finger-nut} loop, leaving only the \textit{bridge-finger} and the \textit{bridge-nut} loop, also referred to as $F$ and $N$ roundtrips.
+Using the \textit{single-sided} SJ eliminates the \textit{finger-nut} loop, leaving only the \textit{bridge-finger} and the \textit{bridge-nut} loop, also referred to as $F$- and $N$-roundtrips.
 
-\section{model decomposition}
-
-Modular DWG models have been referred to as \textit{single delay-loop} (SDL) models \cite{karjalainen_plucked-string_1998,pakarinen_physical_2005}.
-This terminology refers to the implementation of the string roundtrip using a single delay line (as shown in Figure \ref{fig:sdl_string_loop}), in contrast to the conventional \textit{dual-delay} DWG (fig. \ref{fig:pickup}).
-Even when more than one delay line is used in simplified versions of complex models, they might still be referred to as SDL models.
-\begin{figure}[h]
-	\centering
-	\scalebox{0.75}{\input{figures/sdl.tex}}
-	\caption{SDL string loop.}
-	\label{fig:sdl_string_loop}
-\end{figure}
-
+\section{explicit model}
 % wavetable synthesis, phase accumulator, unipolar sawtooth wave
+In \cite{pakarinen_physical_2005} a touched string DWG model is decomposed to three parts, namely, \textit{plucking position}, \textit{touched string}, and \textit{pickup output}.
+The touched string part can be used as a starting point for obtaining a model for only the finger.
+At first, the \textit{finger-nut} loop needs to be removed. Figure \ref{fig:sdl_simple_sj} depicts an \textit{string loop} model that includes the touching finger using a \textit{single-sided} SJ, it consists of two coupled loops and their corresponding coefficients.
+By detaching the finger ($\rho = 0$), it's easy to distinguish what parts are relevant to the finger (red) and to the string (blue).
+This depiction, as most DWG models, shows a recursive process, where the effect of the string and the finger is applied to previous results.
+In order to isolate the overall effect of a finger to a string, an explicit formula is proposed, where
+string looping, losses and finger coefficients are applied to the initial excitation signal.
 
-In \cite{karjalainen_plucked-string_1998} a plucked string DWG model is decomposed to three SDL models, namely, \textit{plucking position}, \textit{string loop}, and \textit{pickup output}.
-For a lightly touched string model, the same \textit{plucking position} and \textit{pickup output} modules can be used.
-However, the \textit{string loop} module needs to be modified to accommodate the touching finger.
-Figure \ref{fig:sdl_simple_sj} depicts an SDL model of a \textit{touched string loop} using a \textit{single-sided} SJ.
-Note that this module models the combined effect of the string and the \textit{finger}.
-To isolate the specific effect of the \textit{finger}, further decomposition is necessary.
 \begin{figure*}[h]
 	\centering
 	\scalebox{0.8}{\input{figures/sdl-simple-sj.tex}}
-	\caption{String loop with a scattering junction.}
+	\caption{String loop with a scattering junction. $N$-roundtrip (blue), $F$-roundtrip (red)}
 	\label{fig:sdl_simple_sj}
 \end{figure*}
 
-DWG model implementations take a feedback based approach, an initial excitation signal is repeated by a feedback loop implementing the string roundtrip.
-Relevant losses and other string phenomena are implemented as elements in the feedback loop.
-This paper takes an approach where looping an losses are handled separately, the output of the touched string model will be obtained by combining two processes one repeating the raw excitation signal and the other calculating the cumulative effect of losses for each repetition.
-In mathematical terms, this approach results in an explicit formula while the feedback based approach is implemented with a recursive formula.
-
-Handling looping in an explicit way
-
 % similar to the approach taken in \cite{guettler_bowed-string_2012}.
 
-For an initial excitation signal $y[n]$, the following formula is proposed.
+For an initial excitation signal $y(t)$, the traveling wave of a touched string is given by
 
 \begin{equation} \label{eq:explicit}
-	\sum_{k=0}^{\lfloor \frac{n}{T_F} \rfloor}\left(y[n - (kT_F + mT_N)]\binom{m+k}{k} (1 - \rho)^{k} \rho^mR_N^mR_F^k\right),
+	\sum_{k=0}^{\lfloor \frac{t}{T_F} \rfloor}\left(y(t - (kT_F + mT_N))\binom{m+k}{k} (1 - \rho)^{k} \rho^mR_N^mR_F^k\right),
 \end{equation}
 \begin{equation*}
-	\textrm{for } T_F<T_N<n \textrm{ and } 0\leq\rho\leq1\notag,
+	\textrm{for } T_F<T_N<t \textrm{ and } 0\leq\rho\leq1\notag,
 \end{equation*}
 Here, the variables and terms used are defined as follows:
 \begin{itemize}
 	\setlength\itemsep{0.1em}
-	\item $n$ denotes the current time in samples,
-	\item $T_N$ and $T_F$ denote the duration of the $N$ and $F$ roundtrips in samples, respectively,
+	\item $t$ denotes the current time,
+	\item $T_N$ and $T_F$ denote the duration of the $N$ and $F$ roundtrips, respectively,
 	\item $\rho$ is the finger pressure coefficient defined in (\ref{eq:rho}),
-	\item $R_N$ and $R_F$ denote the reflection losses of $N$ and $F$ roundtrips, respectively, and
+	\item $R_N$ and $R_F$ denote the reflection and propagation losses of $N$ and $F$ roundtrips, respectively, and
 	\item $m$ is defined as
 \end{itemize}
 \begin{equation}
-	m = \left\lfloor \frac{n - kT_F}{T_N} \right\rfloor.
+	m = \left\lfloor \frac{t - kT_F}{T_N} \right\rfloor.
 \end{equation}
-The initial values are given by the function $y[n]$ for $0 \leq n < T_N$.
+The initial values are given by $y(t)$ for $0 \leq t < T_N$.
+Each addend of the sum calculates the signal produced after $k$ $F$-roundtrips and $m$ $N$-roundtrips in a given time $t$.
 The argument of the summation in (\ref{eq:explicit}) can be split into four parts,
-\begin{subequations}
-	\begin{flalign}
-		\label{eq:shifts}   & \bullet\qquad\textrm{shifts }            &  & y[n - (kT_F + mT_N)],                                                                                                       \\[1em]
-		\label{eq:stshifts} & \bullet\qquad\textrm{shifts (sawtooth) } &  & y\left[\left(\frac{n - kT_F}{T_N} - \underbrace{\left\lfloor \frac{n - kT_F}{T_N} \right\rfloor}_\text{m}\right) T_N\right]
-	\end{flalign}
-\end{subequations}
 \begin{flalign}
+	\label{eq:shifts}   & \bullet\qquad\textrm{shifts }            &  & y(t - (kT_F + mT_N)), \\[1em]
 	\label{eq:perm} & \bullet\qquad\textrm{permutations }          &  & \binom{m+k}{k},        &  & \\[1em]
 	\label{eq:coef} & \bullet\qquad\textrm{coefficients }          &  & (1 - \rho)^{k} \rho^m, &  & \\[1em]
-	\label{eq:loss} & \bullet\qquad\textrm{and reflection losses } &  & R_N^mR_F^k.            &  &
+	\label{eq:loss} & \bullet\qquad\textrm{and losses } &  & R_N^mR_F^k.            &  &
 \end{flalign}
-Firstly, (\ref{eq:shifts}) shifts the initial values forward in time by an amount proportional to the number of $N$ and $F$ roundtrips performed at the current time.
-For a given time $n$, the maximum number of $F$ roundtrips is given by $\lfloor \frac{n}{T_F} \rfloor$.
-Here, $k$ takes all integer values in the range $[0..\lfloor \frac{n}{T_F} \rfloor]$.
-Variable $m$ represents the maximum number of $N$ roundtrips that can be performed after $k$ $F$ roundtrips, within the available time.
-These variables, $m$ and $k$, are defined in a manner that solves a combinatorial optimization problem subject to the following constraint: $n - (kT_F + mT_N) < T_N$.
+Firstly, (\ref{eq:shifts}) loops the excitation signal by shifting it forward in time by an amount proportional to the number of $N$- and $F$-roundtrips performed.
+In a given time $t$, a number of $N$- and $F$-roundtrip combinations is possible, variables $m$ and $k$ are defined in a way that accounts for all of them.
 
-The shifts account for all combinations of $F$ and $N$ roundtrips, however, permutations within each combination are not currently considered.
+Combinations are handled by the shifts, however, permutations within each combination are not currently considered.
 Let's consider a case where $k = 2$ and $m = 1$.
-In this case, three permutations of roundtrips are performed in parallel, namely $NFF$, $FNF$, and $FFN$.
+In this case, three permutations of roundtrips are performed concurrently, namely $NFF$, $FNF$, and $FFN$.
 It is important to note that since $k$ and $m$ remain the same, each permutation yields an identical signal.
 Therefore, obtaining the sum of all three permutations is simply a matter of tripling the amplitude.
 Generalizing, accounting for permutations is achieved by multiplying the shifted signal by the number of allowed permutations.
-This number, for a given $k$ and $m$, can be obtained using the binomial coefficient as shown in (\ref{eq:perm}).
+This number can be obtained using the binomial coefficient as shown in (\ref{eq:perm}).
 
 Each roundtrip involves a SJ coefficient as defined in (\ref{eq:rho}).
-After completing a certain number of roundtrips ($k$ for $F$ and $m$ for $N$ roundtrips), the cumulative effect of the coefficients can be computed as demonstrated in (\ref{eq:coef}).
+The cumulative effect of the coefficients, for a given $k$ and $m$ can be computed as demonstrated in (\ref{eq:coef}).
 
 Lastly, (\ref{eq:loss}) represents the roundtrip losses for any given $k$ and $m$.
-Losses are considered as unknown coefficients since their implementation might vary depending on the models approach.
-Not defining a specific loss filter will also proves convenient in the next section where the effect of the touching finger is applied to sounds that have already undergone some unknown roundtrip losses.
+The loss implementation might vary depending on the modelling approach, in this case we choose a plain loss coefficient which can be potentially replaced by a more elaborate loss model.
 
-\begin{figure}[h]
-	\centering
-	\scalebox{1}{\input{figures/triangle.tex}}
-	\caption{}
-	\label{fig:triangle}
-\end{figure}
+% \begin{figure}[h]
+% 	\centering
+% 	\scalebox{1}{\input{figures/triangle.tex}}
+% 	\caption{}
+% 	\label{fig:triangle}
+% \end{figure}
 
-On figure \ref{fig:triangle} depicts a diagram of the
+\section{Multiphonics abstraction}
 
-\section{Multiphonics synthesis}
-As stated before, (\ref{eq:explicit}) is a formula for
+Formula (\ref{eq:explicit}), in it's current form, takes the initial string excitation signal $y(t)$ as input. In this section 
 
-isolated touching finger model
+This section presents various modifications of (\ref{eq:explicit}) capable of receiving the traveling wave of an untouched string, or an arbitrary periodic signal as input.
+Firstly, we obtain the formula for the untouched string using (\ref{eq:explicit}) with $\rho=1$ which eliminates the finger, resulting in
 
 \begin{equation}
-	\sum_{k=0}^{\lfloor \frac{n}{T_F} \rfloor}\left(y'[n + k(T_N-T_F)]\binom{m+k}{k} (1 - \rho)^{k} \rho^m\right)
+y_0(t) = y((\frac{t}{T_N}-\lfloor\frac{t}{T_N}\rfloor)T_N)R_N^{\lfloor\frac{t}{T_N}\rfloor}
+\end{equation}
+% $y_0[t] = y_{ls}[t]R_N^{\lfloor\frac{t}{T_N}\rfloor}$
+We can rewrite (\ref{eq:explicit}) as follows
+
+\begin{equation} \label{eq:y0rf}
+	\sum_{k=0}^{\lfloor \frac{t}{T_F} \rfloor}\left(y_0(t - kT_F)\binom{m+k}{k} (1 - \rho)^{k} \rho^mR_F^k\right)
 \end{equation}
 
-% \input{table.tex}
+This formula takes a traveling wave of an open string as input ($y_0$) and converts it to the traveling wave of an identical string with an additional touching finger. The only part in need of clarification is $R_F$. The losses of the finger loop ($R_F$) should be related to the losses of the open string ($R_N$) since both loops share the nut reflection and a part of string propagation. A suitable value for $R_F$ should thus be derived from $R_N$. This can be tricky if $y_0$ comes from an external source (e.g. a recorded string) where $R_N$ is unknown. An approximation would be achievable comparing consecutive cycles of $y_0$, however, the need for finding $R_N$ can be avoided altogether if $R_F = R_N$. This is a reasonable simplification since the two losses should be relatively close, especially for $T_F \approx T_N$, when the roundtrips are mostly the same. If the two losses are equal, the $n$-th cycle of $y_0$ i.e. the cycle that has undergone $R_N^n$ losses, will identical to cycles that have undergone $R_F^kR_N^m$ where $k+m=n$. Equal loss cycles occur at different points in time, this means that achieving the right losses is a matter shifting $y_0$. Given that $R_F = R_N$ (\ref{eq:y0rf}) becomes
 
-real time implementation
+\begin{equation} \label{eq:y0}
+	\sum_{k=0}^{\lfloor \frac{t}{T_F} \rfloor}\left(y_0(t - kT_F + kT_N)\binom{m+k}{k} (1 - \rho)^{k} \rho^m\right)
+\end{equation}
+
+giving us the appropriate shifts.
+
+At a given time $t$, we require $y_0(t+\alpha)$, where $\alpha>0$. This is possible only when $y_0$ is available beforehand and isn't realistic in real-time applications. A real-time version can be made by using the most recent (closest to the future) cycle of $y_0$ using the following formula
+
+% real time implementation
 
 \begin{equation}
-	\sum_{k=0}^{\lfloor \frac{n}{T_F} \rfloor}\left(y'[n - \left\{ k\frac{T_F}{T_N}\right\} T_N] \binom{m+k}{k} (1 - \rho)^{k} \rho^m\right)
+	\sum_{k=0}^{\lfloor \frac{t}{T_F} \rfloor}\left(y_0(t - \left\{ \frac{kT_F}{T_N}\right\} T_N) \binom{m+k}{k} (1 - \rho)^{k} \rho^m\right).
 \end{equation}
 
 % \begin{figure*}

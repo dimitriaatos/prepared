@@ -115,3 +115,13 @@ $
 <br/>
 
 $\lfloor \frac{t-kT_F}{T_N} \rfloor T_N = \lfloor \frac{t}{T_N} \rfloor T_N - kT_F$
+
+---
+
+$y[n]=y[n-T_N]\rho+y[n-T_F](1-\rho)$
+
+$\sum_{k=0}^{\lfloor \frac{n}{T_F} \rfloor}\left(y[n - (kT_F + \left\lfloor \frac{n - kT_F}{T_N} \right\rfloor T_N)]\binom{\left\lfloor \frac{n - kT_F}{T_N} \right\rfloor +k}{k} (1 - \rho)^{k} \rho^{\left\lfloor \frac{n - kT_F}{T_N} \right\rfloor}R_N^{\left\lfloor \frac{n - kT_F}{T_N} \right\rfloor}R_F^k\right)=$
+
+$\sum_{k=0}^{\lfloor \frac{n}{T_F} \rfloor-1}\left(y[n - ((k-1)T_F + \left\lfloor \frac{n - (k-1)T_F}{T_N} \right\rfloor T_N)]\binom{\left\lfloor \frac{n - (k-1)T_F}{T_N} \right\rfloor +k}{k} (1 - \rho)^{k} \rho^{\left\lfloor \frac{n - (k-1)T_F}{T_N} \right\rfloor}R_N^{\left\lfloor \frac{n - (k-1)T_F}{T_N} \right\rfloor}R_F^k\right)+$
+
+$\sum_{k=0}^{\lfloor \frac{n-T_N}{T_F} \rfloor}\left(y[n - (kT_F + (m-1) T_N)]\binom{m +k-1}{k} (1 - \rho)^{k} \rho^{m-1}R_N^{m-1}R_F^k\right)$
