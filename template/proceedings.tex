@@ -63,6 +63,7 @@
 \usepackage{amsmath}
 \usepackage{xintexpr}
 \usepackage{url}
+\usepackage{siunitx}
 \usetikzlibrary {arrows, shapes, automata, positioning, math, calc, external, decorations.pathreplacing, calligraphy}
 
 \input{figures/common-tikz.tex}
@@ -371,12 +372,12 @@ The cumulative effect of the coefficients, for a given $k$ and $m$ can be comput
 Lastly, (\ref{eq:loss}) represents the roundtrip losses for any given $k$ and $m$.
 The loss implementation might vary depending on the modelling approach, in this case we choose a plain loss coefficient which can be potentially replaced by a more elaborate loss model.
 
-\begin{figure}[h]
-	\centering
-	\scalebox{1}{\input{figures/triangle.tex}}
-	\caption{}
-	\label{fig:triangle}
-\end{figure}
+% \begin{figure}[h]
+% 	\centering
+% 	\scalebox{1}{\input{figures/triangle.tex}}
+% 	\caption{}
+% 	\label{fig:triangle}
+% \end{figure}
 
 \section{Multiphonics abstraction}
 
@@ -387,6 +388,8 @@ Firstly, we obtain the formula for the untouched string using (\ref{eq:explicit}
 	y_0(t) = y((\frac{t}{T_N}-\lfloor\frac{t}{T_N}\rfloor)T_N)R_N^{\lfloor\frac{t}{T_N}\rfloor}
 \end{equation}
 
+% (see Appendix A).
+
 Note that the argument of $y$ has the form of a sawtooth wave with a period of $T_N$. Therefore, $y_0$ has a period of $T_N$ and each cycle undergoes the losses of a $T_N$ roundtrip ($R_N$).
 Using the definition of $y_0$ we can rewrite (\ref{eq:explicit}) as follows
 
@@ -394,27 +397,34 @@ Using the definition of $y_0$ we can rewrite (\ref{eq:explicit}) as follows
 	\sum_{k=0}^{\lfloor \frac{t}{T_F} \rfloor}\left(y_0(t - kT_F)\binom{m+k}{k} (1 - \rho)^{k} \rho^mR_F^k\right)
 \end{equation}
 
+% (see Appendix A).
+
 This formula takes a traveling wave of an open string as input ($y_0$) and converts it to the traveling wave of an identical string with an additional touching finger. By treating an arbitrary signal as the traveling wave of an open string, the formula can be used to add the effect of the touching finger to synths or sounds of other instruments. The only limitation is that $y_0$ needs to be periodic with a period of $T_N$.
 
-One term needing clarification is $R_F$. The losses of the finger loop ($R_F$) should be related to the losses of the open string ($R_N$) since both loops share the nut reflection and a part of string propagation. A suitable value for $R_F$ should thus be derived from $R_N$. This can be tricky if $y_0$ comes from an external source (e.g. a recorded string) where $R_N$ is unknown. An approximation would be achievable comparing consecutive cycles of $y_0$, however, the need for finding $R_N$ can be avoided altogether if $R_F = R_N$. This is a reasonable simplification since the two losses should be relatively close, especially for $T_F \approx T_N$, when the roundtrips are mostly the same. If the two losses are equal, the $n$-th cycle of $y_0$ i.e. the cycle that has undergone $R_N^n$ losses, will be identical to cycles that have undergone $R_F^kR_N^m$ where $k+m=n$. Equal loss cycles occur at different points in time, this means that achieving the right losses is a matter of shifting $y_0$. Given that $R_F = R_N$, formula (\ref{eq:y0rf}) becomes
+One term needing clarification is $R_F$. The losses of the finger loop ($R_F$) should be related to the losses of the open string ($R_N$) since both loops share the nut reflection and a part of string propagation. A suitable value for $R_F$ should thus be derived from $R_N$. This can be tricky if $y_0$ comes from an external source (e.g. a recorded string) where $R_N$ is unknown. An approximation would be achievable comparing consecutive cycles of $y_0$, however, the need for finding $R_N$ can be avoided altogether if $R_F = R_N$. This is a reasonable simplification since the two losses should be relatively close, especially for $T_F \approx T_N$, when the roundtrips are mostly the same. If the two losses are equal, the $n$-th cycle of $y_0$ i.e. the cycle that has undergone $R_N^n$ losses, will be identical to cycles that have undergone $R_F^k$ and $R_N^m$ losses, where $k+m=n$. Equal loss cycles occur at different points in time, this means that achieving the right losses is a matter of shifting $y_0$. Given that $R_F = R_N$, formula (\ref{eq:y0rf}) becomes
 
 \begin{equation} \label{eq:y0}
 	\sum_{k=0}^{\lfloor \frac{t}{T_F} \rfloor}\left(y_0(t - kT_F + kT_N)\binom{m+k}{k} (1 - \rho)^{k} \rho^m\right)
 \end{equation}
 
+% (see Appendix A).
+
 giving us the appropriate shifts.
 
 \section{Discussion}
+This section points the limitations of the model and proposes future development steps to overcome them.
+The model is not computationally sustainable for long durations due to the increasing number of concurrent shifts.
+An input signal with a frequency of $\SI{440}{\hertz}$ ($T_N\approx\SI{2.27}{\milli\second}$) and a touching finger at the middle of the string ($T_F\approx\SI{1.14}{\milli\second}$) will reach $440$ concurrent shifts in half a second.
+This number will increase linearly by $880$ shifts per second.
+Since the losses and coefficients lower the amplitude of the signal on each cycle, resources could be freed after the amplitude decreases below a threshold, and repurposed for other new shifts.
 
-% \begin{figure*}
-% 	\centering
-% 	\scalebox{0.8}{\input{figures/sdl-sj.tex}}
-% 	\label{fig:sdl_sj}
-% 	\caption{String loop with a scattering junction.}
-% \end{figure*}
+When the finger fully presses a physical string it shortens its active length, producing a higher pitch.
+The model in this case should act as a pitch shifting algorithm, which it does, but in a very basic way, producing poor results.
+The model could be improved by adopting elements of pitch shifting algorithms.
 
-% \subsection{Ontological challenges}
-% Using an abstract sound instead of suitable models is not a mere matter of replacement, justifying this choice raises ontological issues. Since D'Alambert's principle is an arbitrary method of analysis 
+The shifts of the input signal are positive, this means that future signal is shifted to the current time.
+This requires having future values of the input signal available beforehand, which can be done with a pre-recorded input signal, but makes real-time implementations impossible.
+A number of approaches can be taken for a real-time version, such as using the most recent past signal instead of a future signal, or projecting the signal losses into the future and constructing a future signal approximation.
 
 % REFERENCES FORMAT
 % References must be the same font size as other body text.
