@@ -159,7 +159,6 @@
 
 % \numberwithin{figure}{section}
 
-Draft date: \today
 \begin{abstract}
 	Multiphonics and flageolet tones on string instruments are performed by lightly touching the vibrating string. This paper presents a physical model isolating the effect of the finger. The model can be applied as an audio effect to sounds of open, untouched strings, but also to arbitrary pitched sounds.
 \end{abstract}
@@ -319,7 +318,7 @@ string looping, losses and finger coefficients are applied to the initial excita
 
 \begin{figure*}[h]
 	\centering
-	\scalebox{0.8}{\input{figures/sdl-simple-sj.tex}}
+	\scalebox{0.8}{\input{figures/sdl.tex}}
 	\caption{String loop with a scattering junction. $N$-roundtrip (blue), $F$-roundtrip (red)}
 	\label{fig:sdl_simple_sj}
 \end{figure*}
@@ -357,6 +356,15 @@ The argument of the summation in (\ref{eq:explicit}) can be split into four part
 \end{flalign}
 Firstly, (\ref{eq:shifts}) loops the excitation signal by shifting it forward in time by an amount proportional to the number of $N$- and $F$-roundtrips performed.
 In a given time $t$, a number of $N$- and $F$-roundtrip combinations is possible, variables $m$ and $k$ are defined in a way that accounts for all of them.
+
+\begin{figure}[h]
+	\centering
+	\scalebox{0.75}{\input{figures/shifts.tex}}
+	\caption{
+		todo
+	}
+	\label{fig:shifts}
+\end{figure}
 
 Combinations are handled by the shifts, however, permutations within each combination are not currently considered.
 Let's consider a case where $k = 2$ and $m = 1$.

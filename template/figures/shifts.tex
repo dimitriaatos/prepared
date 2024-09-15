@@ -1,0 +1,59 @@
+\begin{tikzpicture}[xscale=2, samples=100]
+	\tikzmath {
+		% params
+		\tf = 0.63;
+		\lengthX = 5;
+		\plots = 4;
+		% spacing
+		\plotSpacingY = 3.5;
+		\bracesOffesY = -1.1;
+		% computed
+		\extraPlots = \plots-1;
+	}
+	% initial plot
+	\draw[-, color=black, domain=0:1, line width=1mm] plot (\x,{sin(\x*2*pi r)});
+	\foreach \plotIndex in {0, ..., \extraPlots} {
+			\tikzmath {
+				int \plotNum, \gridPerPlot;
+				\plotY = \plotIndex * \plotSpacingY;
+				\plotNum = \plotIndex + 1;
+				\gridPerPlot = floor(\lengthX - \plotIndex*\tf);
+			}
+			\ifnum \gridPerPlot>0
+				% axes
+				\draw[-] (-0.2,\plotY) node[left] {(\plotNum)} -- (\lengthX,\plotY) node[right] {$t$};
+				\draw[-] (0,-1.2+\plotY) -- (0,1.2+\plotY) node[above] {$A$};
+				% plot
+				\draw[-, color=black, domain=0:\lengthX-\plotIndex*\tf] plot (\plotIndex*\tf+\x,{sin(\x*2*pi r)+\plotY});
+				% dotted plot on the first line
+				\draw[-, color=gray, dotted, thin, domain=0:\lengthX-\plotIndex*\tf] plot (\plotIndex*\tf+\x,{sin(\x*2*pi r)});
+				% exclude the first plot
+				\ifnum \plotIndex>0
+					% T_F brackets
+					\foreach \tfPerPlot in {1, ..., \plotIndex} {
+							\draw[|-|, thin, color=red] (\tfPerPlot*\tf-\tf, \bracesOffesY+\plotY) -- (\tfPerPlot*\tf, \bracesOffesY+\plotY) node[midway, below] () {$T_F$};
+						}
+					% arrows
+					\draw[->, thin, color=gray] (1/4+\plotIndex*\tf, 1+0.1) -- (1/4+\plotIndex*\tf, \plotIndex*\plotSpacingY-0.5);
+					% T_F brackets and dividers on the fist line
+					\draw[|-|, thin, color=red] (\plotIndex*\tf-\tf, \bracesOffesY*2) -- (\plotIndex*\tf, \bracesOffesY*2) node[midway, above] () {$T_F$};
+					\draw[-, dashed, thin, color=red] (\plotIndex*\tf, \bracesOffesY*2) -- (\plotIndex*\tf, 1);
+				\fi
+				% tn grid
+				\tikzmath{
+					int \noUpperBound;
+					\noUpperBound = \gridPerPlot-1;
+				}
+				\foreach \gridIndex in {0, ..., \noUpperBound} {
+						% brackets
+						\draw[|-|, thin, color=blue] (\plotIndex*\tf+\gridIndex, \bracesOffesY+\plotY) -- (\plotIndex*\tf+\gridIndex+1, \bracesOffesY+\plotY) node[midway, below] () {$T_N$};
+						% dividers (left and right)
+						\draw[-, thin] (\plotIndex*\tf+\gridIndex+1, 1+\plotY) -- (\plotIndex*\tf+\gridIndex+1, \bracesOffesY+\plotY);
+						\draw[-, thin] (\plotIndex*\tf+\gridIndex, 1+\plotY) -- (\plotIndex*\tf+\gridIndex, \bracesOffesY+\plotY);
+					}
+			\fi
+		}
+
+\end{tikzpicture}
+
+
