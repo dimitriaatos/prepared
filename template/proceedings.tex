@@ -66,6 +66,10 @@
 \usepackage{siunitx}
 \usetikzlibrary {arrows, shapes, automata, positioning, math, calc, external, decorations.pathreplacing, calligraphy}
 
+\usepackage{ifthen}
+\newcommand*\calcBinom[2] {\xinttheexpr subs(subs(x!//y!//(x-y)!,y=#2), x=#1)\relax }
+\input{figures/triangle.tex}
+
 \input{figures/common-tikz.tex}
 \tikzset{
 	beginning/.pic={
@@ -368,11 +372,29 @@ In a given time $t$, a number of $N$- and $F$-roundtrip combinations is possible
 
 \begin{figure}[h]
 	\centering
-	\scalebox{0.75}{\input{figures/triangle.tex}}
+	\tri{plot}
 	\caption{
 		todo
 	}
 	\label{fig:triangle}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\tri{permutations}
+	\caption{
+		permutations
+	}
+	\label{fig:permutations}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\tri{losses}
+	\caption{
+		losses
+	}
+	\label{fig:losses}
 \end{figure}
 
 Combinations are handled by the shifts, however, permutations within each combination are not currently considered.

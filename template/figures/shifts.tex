@@ -1,7 +1,7 @@
 \begin{tikzpicture}[xscale=2, samples=100]
 	\tikzmath {
 		% params
-		\tf = 0.63;
+		\tf = 0.62;
 		\steps = 5;
 		\lines = 4;
 		% spacing
@@ -48,8 +48,8 @@
 						% brackets
 						\draw[|-|, thin, color=blue] (\lineIndex*\tf+\stepIndex, \bracesOffesY+\linePosition) -- (\lineIndex*\tf+\stepIndex+1, \bracesOffesY+\linePosition) node[midway, below] () {$T_N$};
 						% dividers (left and right)
-						\draw[-, thin] (\lineIndex*\tf+\stepIndex+1, 1+\linePosition) -- (\lineIndex*\tf+\stepIndex+1, \bracesOffesY+\linePosition);
-						\draw[-, thin] (\lineIndex*\tf+\stepIndex, 1+\linePosition) -- (\lineIndex*\tf+\stepIndex, \bracesOffesY+\linePosition);
+						\draw[-, very thin, blue] (\lineIndex*\tf+\stepIndex+1, 1+\linePosition) -- (\lineIndex*\tf+\stepIndex+1, \bracesOffesY+\linePosition);
+						\draw[-, very thin, gray] (\lineIndex*\tf+\stepIndex, 1+\linePosition) -- (\lineIndex*\tf+\stepIndex, \bracesOffesY+\linePosition);
 					}
 			\fi
 		}
