@@ -17,13 +17,15 @@
 	% y
 	\draw[-] (0,-0.4) node[left] {0} -- (0,\lines) node[left] {$k$};
 	% braces
-	\draw[-, decorate, decoration = {brace}, yshift=0.1cm] (0, 1) -- (\tf, 1) node[midway,yshift=0.4cm] {$T_F$};
-	\draw[-, decorate, decoration = {brace}, yshift=-0.1cm] (1, 0) -- (0, 0) node[midway,yshift=-0.4cm] {$T_N$};
+	% tf
+	\draw[-, decorate, decoration = {brace}, yshift=0.1cm, color=red] (0, 1) -- (\tf, 1) node[midway,yshift=0.4cm] {$T_F$};
+	% tn
+	\draw[-, decorate, decoration = {brace}, yshift=-0.1cm, color=blue] (1, 0) -- (0, 0) node[midway,yshift=-0.4cm] {$T_N$};
 	% bricks
 	\foreach \lineIndex in {0, ..., \lineMax} {
 			\tikzmath{
 				int \fullStepsPerLine;
-				\stepsPerLine = \steps-(\lineIndex)*\tf;
+				\stepsPerLine = \steps-\lineIndex*\tf;
 				\fullStepsPerLine = floor(\stepsPerLine);
 				\fullStepsPerLineMax = \fullStepsPerLine-1;
 			}

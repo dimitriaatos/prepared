@@ -2,54 +2,54 @@
 	\tikzmath {
 		% params
 		\tf = 0.63;
-		\lengthX = 5;
-		\plots = 4;
+		\steps = 5;
+		\lines = 4;
 		% spacing
-		\plotSpacingY = 3.5;
+		\lineSpacing = 3.5;
 		\bracesOffesY = -1.1;
 		% computed
-		\extraPlots = \plots-1;
+		\lineMax = \lines-1;
 	}
 	% initial plot
 	\draw[-, color=black, domain=0:1, line width=1mm] plot (\x,{sin(\x*2*pi r)});
-	\foreach \plotIndex in {0, ..., \extraPlots} {
+	\foreach \lineIndex in {0, ..., \lineMax} {
 			\tikzmath {
-				int \plotNum, \gridPerPlot;
-				\plotY = \plotIndex * \plotSpacingY;
-				\plotNum = \plotIndex + 1;
-				\gridPerPlot = floor(\lengthX - \plotIndex*\tf);
+				int \lineNum, \fullStepsPerLine;
+				\linePosition = \lineIndex * \lineSpacing;
+				\lineNum = \lineIndex + 1;
+				\fullStepsPerLine = floor(\steps - \lineIndex*\tf);
 			}
-			\ifnum \gridPerPlot>0
+			\ifnum \fullStepsPerLine>0
 				% axes
-				\draw[-] (-0.2,\plotY) node[left] {(\plotNum)} -- (\lengthX,\plotY) node[right] {$t$};
-				\draw[-] (0,-1.2+\plotY) -- (0,1.2+\plotY) node[above] {$A$};
+				\draw[-] (-0.2,\linePosition) node[left] {(\lineNum)} -- (\steps,\linePosition) node[right] {$t$};
+				\draw[-] (0,-1.2+\linePosition) -- (0,1.2+\linePosition) node[above] {$A$};
 				% plot
-				\draw[-, color=black, domain=0:\lengthX-\plotIndex*\tf] plot (\plotIndex*\tf+\x,{sin(\x*2*pi r)+\plotY});
+				\draw[-, color=black, domain=0:\steps-\lineIndex*\tf] plot (\lineIndex*\tf+\x,{sin(\x*2*pi r)+\linePosition});
 				% dotted plot on the first line
-				\draw[-, color=gray, dotted, thin, domain=0:\lengthX-\plotIndex*\tf] plot (\plotIndex*\tf+\x,{sin(\x*2*pi r)});
+				\draw[-, color=gray, dotted, thin, domain=0:\steps-\lineIndex*\tf] plot (\lineIndex*\tf+\x,{sin(\x*2*pi r)});
 				% exclude the first plot
-				\ifnum \plotIndex>0
+				\ifnum \lineIndex>0
 					% T_F brackets
-					\foreach \tfPerPlot in {1, ..., \plotIndex} {
-							\draw[|-|, thin, color=red] (\tfPerPlot*\tf-\tf, \bracesOffesY+\plotY) -- (\tfPerPlot*\tf, \bracesOffesY+\plotY) node[midway, below] () {$T_F$};
+					\foreach \tfPerLine in {1, ..., \lineIndex} {
+							\draw[|-|, thin, color=red] (\tfPerLine*\tf-\tf, \bracesOffesY+\linePosition) -- (\tfPerLine*\tf, \bracesOffesY+\linePosition) node[midway, below] () {$T_F$};
 						}
 					% arrows
-					\draw[->, thin, color=gray] (1/4+\plotIndex*\tf, 1+0.1) -- (1/4+\plotIndex*\tf, \plotIndex*\plotSpacingY-0.5);
+					\draw[->, thin, color=gray] (1/4+\lineIndex*\tf, 1+0.1) -- (1/4+\lineIndex*\tf, \lineIndex*\lineSpacing-0.5);
 					% T_F brackets and dividers on the fist line
-					\draw[|-|, thin, color=red] (\plotIndex*\tf-\tf, \bracesOffesY*2) -- (\plotIndex*\tf, \bracesOffesY*2) node[midway, above] () {$T_F$};
-					\draw[-, dashed, thin, color=red] (\plotIndex*\tf, \bracesOffesY*2) -- (\plotIndex*\tf, 1);
+					\draw[|-|, thin, color=red] (\lineIndex*\tf-\tf, \bracesOffesY*2) -- (\lineIndex*\tf, \bracesOffesY*2) node[midway, above] () {$T_F$};
+					\draw[-, dashed, thin, color=red] (\lineIndex*\tf, \bracesOffesY*2) -- (\lineIndex*\tf, 1);
 				\fi
 				% tn grid
 				\tikzmath{
-					int \noUpperBound;
-					\noUpperBound = \gridPerPlot-1;
+					int \fullStepsPerLineMax;
+					\fullStepsPerLineMax = \fullStepsPerLine-1;
 				}
-				\foreach \gridIndex in {0, ..., \noUpperBound} {
+				\foreach \stepIndex in {0, ..., \fullStepsPerLineMax} {
 						% brackets
-						\draw[|-|, thin, color=blue] (\plotIndex*\tf+\gridIndex, \bracesOffesY+\plotY) -- (\plotIndex*\tf+\gridIndex+1, \bracesOffesY+\plotY) node[midway, below] () {$T_N$};
+						\draw[|-|, thin, color=blue] (\lineIndex*\tf+\stepIndex, \bracesOffesY+\linePosition) -- (\lineIndex*\tf+\stepIndex+1, \bracesOffesY+\linePosition) node[midway, below] () {$T_N$};
 						% dividers (left and right)
-						\draw[-, thin] (\plotIndex*\tf+\gridIndex+1, 1+\plotY) -- (\plotIndex*\tf+\gridIndex+1, \bracesOffesY+\plotY);
-						\draw[-, thin] (\plotIndex*\tf+\gridIndex, 1+\plotY) -- (\plotIndex*\tf+\gridIndex, \bracesOffesY+\plotY);
+						\draw[-, thin] (\lineIndex*\tf+\stepIndex+1, 1+\linePosition) -- (\lineIndex*\tf+\stepIndex+1, \bracesOffesY+\linePosition);
+						\draw[-, thin] (\lineIndex*\tf+\stepIndex, 1+\linePosition) -- (\lineIndex*\tf+\stepIndex, \bracesOffesY+\linePosition);
 					}
 			\fi
 		}
