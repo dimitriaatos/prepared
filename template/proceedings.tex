@@ -164,7 +164,9 @@
 % \numberwithin{figure}{section}
 
 \begin{abstract}
-	Multiphonics and flageolet tones on string instruments are performed by lightly touching the vibrating string. This paper presents a physical model isolating the effect of the finger. The model can be applied as an audio effect to sounds of open, untouched strings, but also to arbitrary pitched sounds.
+	Multiphonics and flageolet tones on string instruments are performed by lightly touching the vibrating string.
+	This paper presents a physical model isolating the effect of the finger.
+	The model can be applied as an audio effect to sounds of open, untouched strings, but also to arbitrary pitched sounds.
 \end{abstract}
 
 
@@ -281,7 +283,7 @@ Both can be expressed in relation to
 	\rho=\frac{Z_3}{2Z_1+Z_3}
 \end{equation}
 as
-\begin{equation}
+\begin{equation}`'
 	\rho_1=-\rho \text{ and } \rho_2=1-\rho.
 \end{equation}
 The impedance $Z_3$ of the \textit{finger} waveguide varies depending on the pressure applied to the string.
@@ -314,7 +316,8 @@ Using the \textit{single-sided} SJ eliminates the \textit{finger-nut} loop, leav
 % wavetable synthesis, phase accumulator, unipolar sawtooth wave
 In \cite{pakarinen_physical_2005} a touched string DWG model is decomposed to three parts, namely, \textit{plucking position}, \textit{touched string}, and \textit{pickup output}.
 The touched string part can be used as a starting point for obtaining a model for only the finger.
-At first, the \textit{finger-nut} loop needs to be removed. Figure \ref{fig:sdl_simple_sj} depicts an \textit{string loop} model that includes the touching finger using a \textit{single-sided} SJ, it consists of two coupled loops and their corresponding coefficients.
+At first, the \textit{finger-nut} loop needs to be removed.
+Figure \ref{fig:sdl_simple_sj} depicts an \textit{string loop} model that includes the touching finger using a \textit{single-sided} SJ, it consists of two coupled loops and their corresponding coefficients.
 By detaching the finger ($\rho = 1$), it's easy to distinguish what parts are relevant to the finger (red) and to the string (blue).
 This depiction, as most DWG models, shows a recursive process, where the effect of the string and the finger is applied to previous results.
 In order to isolate the overall effect of a finger to a string, an explicit formula is proposed, where string looping, losses and finger coefficients are applied to the initial excitation signal.
@@ -363,14 +366,14 @@ A depiction of the shifts can be seen in Figure \ref{eq:shifts}.
 The first (\ref{fig:shifts}.1) plot starts with the initial excitation signal (in bold), followed by shifts of $N$-roundtrips, i.e. multiples of $T_N$.
 Since $T_F<T_F$, $F$-roundtrip shifts will fall on top of $N$-roundtrip shifts in the current depiction (dotted lines).
 In order to avoid a confusing illustration, shifts starting with a single $F$-roundtrip are moved to the above plot (\ref{fig:shifts}.2), shifts starting with two $F$-roundtrips are moved to plot (\ref{fig:shifts}.3) and so on.
-Figure (\ref{fig:triangle}) is a concise form of figure (\ref{eq:shifts}), where the initial excitation signal and each of it's shifts are enclosed in a box, forming a "brick wall triangle". This depiction is going to be used as a basis for showing following figures.
-
+Figure (\ref{fig:triangle}) is a concise form of figure (\ref{eq:shifts}), where the initial excitation signal and each of it's shifts are enclosed in a box, forming a "brick wall triangle".
+This depiction is going to be used as a basis for showing following figures.
 
 \begin{figure}[h]
 	\centering
 	\scalebox{0.75}{\input{figures/shifts.tex}}
 	\caption{
-		todo
+		Shifts of the initial excitation signal (bold), split in separate plots according to the number of $F$-roundtrips.
 	}
 	\label{fig:shifts}
 \end{figure}
@@ -379,7 +382,7 @@ Figure (\ref{fig:triangle}) is a concise form of figure (\ref{eq:shifts}), where
 	\centering
 	\tri{plot}
 	\caption{
-		todo
+		The brick wall triangle, a compact version of figure \ref{fig:shifts} where each shift is enclosed in a box.
 	}
 	\label{fig:triangle}
 \end{figure}
@@ -390,13 +393,15 @@ In this case, three permutations of roundtrips are performed concurrently, namel
 It is important to note that since $k$ and $m$ remain the same, each permutation yields an identical signal.
 Therefore, obtaining the sum of all three permutations is simply a matter of tripling the amplitude.
 Generalizing, accounting for permutations is achieved by multiplying the shifted signal by the number of allowed permutations.
-This number can be obtained using the binomial coefficient as shown in (\ref{eq:perm}). On the brick wall triangle, permutation coefficients can be obtained by counting the number of paths leading from the initial excitation to the shift in question (figure \ref{fig:permutations}). Also, if the permutation coefficient of each shift is written in the corresponding box, the triangle becomes a slightly stretched version of Pascal's triangle turned on it's left side.
+This number can be obtained using the binomial coefficient as shown in (\ref{eq:perm}).
+On the brick wall triangle, permutation coefficients can be obtained by counting the number of paths leading from the initial excitation to the shift in question (figure \ref{fig:permutations}).
+Also, if the permutation coefficient of each shift is written in the corresponding box, the triangle becomes a slightly stretched version of Pascal's triangle turned on it's left side.
 
 \begin{figure}[h]
 	\centering
 	\tri{permutations}
 	\caption{
-		permutations
+		The brick wall triangle with each box containing the number of permutations for the 
 	}
 	\label{fig:permutations}
 \end{figure}
@@ -410,13 +415,16 @@ The loss implementation might vary depending on the modelling approach, in this 
 \section{Multiphonics abstraction}
 
 This section presents various modifications of (\ref{eq:explicit}) capable of receiving the traveling wave of an untouched string, or an arbitrary periodic signal as input.
-Firstly, we obtain the formula of the untouched string $(y_{\textrm{nof}})$ using (\ref{eq:explicit}) and setting $\rho=1$. This causes every addend in the summation (\ref{eq:explicit}) where $k > 0$, to evaluate to zero. Therefore, the original sum reduces to just the fist term where $k = 0$.
+Firstly, we obtain the formula of the untouched string $(y_{\textrm{nof}})$ using (\ref{eq:explicit}) and setting $\rho=1$.
+This causes every addend in the summation (\ref{eq:explicit}) where $k > 0$, to evaluate to zero.
+Therefore, the original sum reduces to just the fist term where $k = 0$.
 
 \begin{equation}\label{eq:rho0}
 	y_{\textrm{nof}}(t) = y_{\textrm{in}}(t-\lfloor\frac{t}{T_N}\rfloor T_N)R_N^{\lfloor\frac{t}{T_N}\rfloor}
 \end{equation}
 
-Note that the argument of $y_{in}$ has the form of a sawtooth wave with a period of $T_N$. Therefore, $y_{\textrm{nof}}$ has a period of $T_N$ and each cycle undergoes the losses of a $T_N$ roundtrip ($R_N$).
+Note that the argument of $y_{in}$ has the form of a sawtooth wave with a period of $T_N$.
+Therefore, $y_{\textrm{nof}}$ has a period of $T_N$ and each cycle undergoes the losses of a $T_N$ roundtrip ($R_N$).
 Using the definition of $y_{\textrm{nof}}$ we can rewrite (\ref{eq:explicit}) as follows
 
 \begin{equation} \label{eq:y0rf}
@@ -425,9 +433,19 @@ Using the definition of $y_{\textrm{nof}}$ we can rewrite (\ref{eq:explicit}) as
 
 See Appendix \ref{appendix:math1} for a derivation.
 
-This formula takes a traveling wave of an open string as input ($y_{\textrm{nof}}$) and converts it to the traveling wave of an identical string with an additional touching finger. By treating an arbitrary signal as the traveling wave of an open string, the formula can be used to add the effect of the touching finger to synths or sounds of other instruments. The only limitation is that $y_{\textrm{nof}}$ needs to be periodic with a period of $T_N$.
+This formula takes a traveling wave of an open string as input ($y_{\textrm{nof}}$) and converts it to the traveling wave of an identical string with an additional touching finger.
+By treating an arbitrary signal as the traveling wave of an open string, the formula can be used to add the effect of the touching finger to synths or sounds of other instruments.
+The only limitation is that $y_{\textrm{nof}}$ needs to be periodic with a period of $T_N$.
 
-One term needing clarification is $R_F$. The losses of the finger loop ($R_F$) should be related to the losses of the open string ($R_N$) since both loops share the nut reflection and a part of string propagation. A suitable value for $R_F$ should thus be derived from $R_N$. This can be tricky if $y_{\textrm{nof}}$ comes from an external source (e.g. a recorded string) where $R_N$ is unknown. An approximation would be achievable comparing consecutive cycles of $y_{\textrm{nof}}$, however, the need for finding $R_N$ can be avoided altogether if $R_F = R_N$. This is a reasonable simplification since the two losses should be relatively close, especially when $T_F \approx T_N$, when the roundtrips are mostly the same. If the two losses are equal, the $n$-th cycle of $y_{\textrm{nof}}$ i.e. the cycle that has undergone $R_N^n$ losses, will be identical to cycles that have undergone $R_F^k$ and $R_N^m$ losses, where $k+m=n$. Equal loss cycles occur at different points in time, this means that achieving the right losses is a matter of shifting $y_{\textrm{nof}}$. Given that $R_F = R_N$, formula (\ref{eq:y0rf}) becomes
+One term needing clarification is $R_F$.
+The losses of the finger loop ($R_F$) should be related to the losses of the open string ($R_N$) since both loops share the nut reflection and a part of string propagation.
+A suitable value for $R_F$ should thus be derived from $R_N$.
+This can be tricky if $y_{\textrm{nof}}$ comes from an external source (e.g. a recorded string) where $R_N$ is unknown.
+An approximation would be achievable comparing consecutive cycles of $y_{\textrm{nof}}$, however, the need for finding $R_N$ can be avoided altogether if $R_F = R_N$.
+This is a reasonable simplification since the two losses should be relatively close, especially when $T_F \approx T_N$, when the roundtrips are mostly the same.
+If the two losses are equal, the $n$-th cycle of $y_{\textrm{nof}}$ i.e. the cycle that has undergone $R_N^n$ losses, will be identical to cycles that have undergone $R_F^k$ and $R_N^m$ losses, where $k+m=n$.
+Equal loss cycles occur at different points in time, this means that achieving the right losses is a matter of shifting $y_{\textrm{nof}}$.
+Given that $R_F = R_N$, formula (\ref{eq:y0rf}) becomes
 
 \begin{equation} \label{eq:y0}
 	y_{\textrm{out}}(t) = \sum_{k=0}^{\lfloor \frac{t}{T_F} \rfloor}\left(y_{\textrm{nof}}(t - kT_F + kT_N)\binom{m+k}{k} (1 - \rho)^{k} \rho^m\right)
