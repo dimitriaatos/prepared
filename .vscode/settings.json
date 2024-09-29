@@ -1,6 +1,4 @@
 {
-  "markdown-preview-enhanced.enableScriptExecution": true,
-  "markdown-preview-enhanced.usePandocParser": false,
   "cSpell.words": [
 		"D'Alambert's",
 		"ponticello",
@@ -9,20 +7,5 @@
 		"Toneholes",
 		"wavetable"
 	],
-  "files.exclude": {
-    "**/*.aux": true,
-    "**/*.bbl": true,
-    "**/*.blg": true,
-    "**/*.fdb_latexmk": true,
-    "**/*.fls": true,
-    "**/*.out": true,
-    "**/*.synctex.gz": true,
-    "**/*.bst": true,
-    "**/*.log": true,
-    "**/*.sty": true
-    // "**/*.cls": true,
-  },
-  "workbench.colorTheme": "Visual Studio Dark",
   "editor.wordWrap": "on",
-  "cmake.configureOnOpen": false
 }
