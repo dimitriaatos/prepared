@@ -1,8 +1,8 @@
 # Notes
 
 - [ ] how multiphonics differ on strings - mention wind instruments
-- [ ] longer abstract
-- [ ] no algebraic proof deriving this paper's model from previous research
+- [x] longer abstract
+- [ ] mention that there's no algebraic proof deriving this paper's model from previous research
 - [ ] "Physicality in sounds"
 - [ ] justify simplifications
 - [ ] a reference for "compared to a flute or a whistle"

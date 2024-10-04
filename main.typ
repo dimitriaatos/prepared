@@ -1,14 +1,18 @@
 #import "@preview/charged-ieee:0.1.2": ieee
 #import "@preview/unify:0.6.0": num, qty, numrange, qtyrange, unit
-#import "common/constants.typ": m
+#import "common/constants.typ": m, y
 #import "common/helpers.typ": appendix
+#import "figures/triangle.typ": triangle
 
 #ieee(
-  title: [Performing string multiphonics on any pitched sound],
+  title: [Performing plucked string multiphonics on any pitched sound],
   abstract: [
     Multiphonics and flageolet tones on string instruments are performed by lightly touching the vibrating string.
-		This paper presents a physical model isolating the effect of the finger
-		The model can be applied as an audio effect to sounds of open, untouched strings, but also to arbitrary pitched sounds.
+		This paper investigates the physical phenomena taking place when touching a string, in an attempt to abstract the effect of the touching finger from the string it is performed on.
+		This abstraction allows for "performing" string multiphonics and harmonics on arbitrary synthesized sounds.
+		A software implementation of the touched string abstracted model is presented and used in a small scale evaluation study.
+		Limitations of the model are identified and possible solutions discussed.
+		Beyond the case of the touching finger, a wider research objective is proposed, aimed at abstracted modelling of accoustic qualities and effects.
   ],
   authors: (
     (
@@ -26,18 +30,24 @@
 #show math.equation: set text(8.5pt)
 
 = Introduction
-Consider a musician playing a piece of music on an acoustic instrument and whishing to play the same piece on a synthesizer.
-While pitch and loudness are readily controllable in both domains, it's not equally trivial to do equivalent timbral effects on acoustic and synthesized sounds.
+_Consider a musician playing a piece of music on an acoustic instrument and wishing to play the same piece on a synthesizer.
+While pitch and loudness are readily controllable in both domains, it's not equally trivial to do equivalent timbral effects on acoustic and synthesized sounds._
 A skilled sound designer might be able to program a synthesizer to simulate timbral techniques of an acoustic instrument, but will inevitably reach the limits of simulation.
-The usual alternative to simulation is physical modelling synthesis, however, using previous research entails a challenge, as the task in question is not synthesis, but isolating an effect or technique and applying it to another arbitrary sound.
-This paper tackles this challenge for the case of the lightly touched string, proposing an explicit formula.
+The usual alternative to simulation is physical modelling, where, instead of simulating the sound itself, the physical phenomena leading to the sound are simulated.
+Physical modelling is often able to create high quality synthesized versions of acoustic sounds, including timbral techniques.
+While promising, consulting research in physical models only for specific effects entails challenges.
+
+The majority of physical modelling of acoustic instruments aims at synthesizing 
+This doesn't mean that parts of the model aren't decernable
+results might still be usable if the part in question is modelled as a separate filter violin body @holm_modeling_2000
+no part of the model is responsible for specific techniques, techniques arise when tweaking the control parameters in a certain way.
 
 Lightly touching a vibrating string is a practice associated with a number of string instrument playing techniques.
 Depending on the touching position and the touching agent, a different technique is performed.
 Flageolet tones (harmonics) are performed by lightly touching a string with a finger on specific fractions of its length.
 The produced sound has a pitch much higher than the original string and a different timbre, often compared to a flute or a whistle.
-Multiphonics is a set of techniques that make single pitch sound sources produce sounds with more than one perceivable pitch.
-On strings, multiphonics are performed by lightly touching the string at positions other than those producing harmonics.
+Multiphonics is a set of techniques that make single pitch sound	 sources produce sounds with more than one perceivable pitch.
+On strings, multiphonics are performed by lightly touching the string at positions other than those producing harmonics @torres_multiphonics_2012-1 @torres_multiphonics_2012-2.
 Prepared strings is another technique where instead of a finger, a variety of objects such as rubbers, bolts or crocodile clips may be attached to the string, the position of the object might be either that of an multiphonic or a harmonic.
 
 Applying acoustic effects to synths or arbitrary sounds can be attractive for creative purposes, acoustic techniques can bring physical qualities to synthesized sounds.
@@ -152,11 +162,11 @@ The argument of the summation in @eq-explicit can be split into four parts,
 Firstly, @eq-shifts loops the excitation signal by shifting it forward in time by an amount proportional to the number of $N$- and $F$-roundtrips performed.
 Variables $m$ and $k$ work as counters for the number of complete $N$ and $F$-roundtrips respectively.
 A depiction of the shifts can be seen in Figure @eq-shifts.
-The first @fig-shifts (1) plot starts with the initial excitation signal (in bold), followed by shifts of $N$-roundtrips, i.e. multiples of $T_N$.
+The first @fig-shifts (1) plot starts with the initial excitation signal (thicker stoke), followed by shifts of $N$-roundtrips, i.e. multiples of $T_N$.
 Since $T_F<T_F$, $F$-roundtrip shifts will fall on top of $N$-roundtrip shifts in the current depiction (dotted lines).
 In order to avoid a confusing illustration, shifts starting with a single $F$-roundtrip are moved to the above @fig-shifts (2), shifts starting with two $F$-roundtrips are moved to @fig-shifts (3) and so on.
 @fig-triangle is a concise form of figure @eq-shifts, where the initial excitation signal and each of it's shifts are enclosed in a box, forming a "brick wall triangle".
-This depiction is going to be used as a basis for showing following figures.
+This depiction is going to be used as a basis in following figures, to illustrate characteristics of each shift.
 
 #figure(
 	include "figures/shifts.typ",
@@ -164,7 +174,7 @@ This depiction is going to be used as a basis for showing following figures.
 )<fig-shifts>
 
 #figure(
-	include "figures/triangle.typ",
+	triangle(variant: "plot"),
 	caption: [The brick wall triangle, a compact version of @fig-shifts where each shift is enclosed in a box.],
 )<fig-triangle>
 
@@ -179,8 +189,9 @@ On the brick wall triangle, permutation coefficients can be obtained by counting
 Also, if the permutation coefficient of each shift is written in the corresponding box, the triangle becomes a slightly stretched version of Pascal's triangle turned on it's left side.
 
 #figure(
-	include "figures/triangle.typ",
+	triangle(variant: "permutations"),
 	caption: [The brick wall triangle with each box containing the number of permutations for the shift.],
+	placement: none,
 )<fig-perm>
 
 Each roundtrip involves a SJ coefficient as defined in @eq-rho.
@@ -192,42 +203,62 @@ The loss implementation might vary depending on the modelling approach, in this 
 = Multiphonics abstraction
 
 This section presents various modifications of @eq-explicit capable of receiving the traveling wave of an untouched string, or an arbitrary periodic signal as input.
-Firstly, we obtain the formula of the untouched string $(y_(#text([nof])))$ using @eq-explicit and setting $rho=1$
-This causes every addend in the summation @eq-explicit where $k > 0$, to evaluate to zero.
+Firstly, we obtain the formula of the untouched string (#y([nof])) using @eq-explicit and setting $rho=1$
+This causes every addend in the summation @eq-explicit where $k > 0$, evaluate to zero.
 Therefore, the original sum reduces to just the fist term where $k = 0$.
 
 $ y_(#text([nof]))(t) = y_(#text([in]))(t-floor(frac(t,T_N)) T_N)R_N^floor(frac(t,T_N)) $<eq-rho0>
 
-Note that the argument of $y_(#text([in]))$ has the form of a sawtooth wave with a period of $T_N$.
-Therefore, $y_(#text([nof]))$ has a period of $T_N$ and each cycle undergoes the losses of a $T_N$ roundtrip ($R_N$).
-Using the definition of $y_(#text([nof]))$ we can rewrite @eq-explicit as follows
+Note that the argument of #y([in]) has the form of a sawtooth wave with a period of $T_N$.
+Therefore, #y([nof]) has a period of $T_N$ and each cycle undergoes the losses of a $T_N$ roundtrip ($R_N$).
+Using the definition of #y([nof]) we can rewrite @eq-explicit as follows
 
 $ y_(#text([out]))(t)=sum_(k=0)^floor(frac(t, T_F))(y_(#text([nof]))(t - k T_F) binom(m+k,k) (1 - rho)^k rho^m R_F^k) $ <eq-y0rf>
 
-See Appendix @appendix-a for a derivation.
+See @appendix-a for a derivation.
 
-This formula takes a traveling wave of an open string as input ($y_(#text([nof]))$) and converts it to the traveling wave of an identical string with an additional touching finger.
+This formula takes a traveling wave of an open string as input (#y([nof])) and converts it to the traveling wave of an identical string with an additional touching finger.
 By treating an arbitrary signal as the traveling wave of an open string, the formula can be used to add the effect of the touching finger to synths or sounds of other instruments.
-The only limitation is that $y_(#text([nof]))$ needs to be periodic with a period of $T_N$.
+The only limitation is that #y([nof]) needs to be periodic with a period of $T_N$.
 
 One term needing clarification is $R_F$.
 The losses of the finger loop ($R_F$) should be related to the losses of the open string ($R_N$) since both loops share the nut reflection and a part of string propagation.
 A suitable value for $R_F$ should thus be derived from $R_N$.
-This can be tricky if $y_(#text([nof]))$ comes from an external source (e.g. a recorded string) where $R_N$ is unknown.
-An approximation would be achievable comparing consecutive cycles of $y_(#text([nof]))$, however, the need for finding $R_N$ can be avoided altogether if $R_F = R_N$.
+This can be tricky if #y([nof]) comes from an external source (e.g. a recorded string) where $R_N$ is unknown.
+An approximation would be achievable comparing consecutive cycles of #y([nof]), however, the need for finding $R_N$ can be avoided altogether if $R_F = R_N$.
 This is a reasonable simplification since the two losses should be relatively close, especially when $T_F approx T_N$, when the roundtrips are mostly the same.
-If the two losses are equal, the $n$-th cycle of $y_(#text([nof]))$ i.e. the cycle that has undergone $R_N^n$ losses, will be identical to cycles that have undergone $R_F^k$ and $R_N^m$ losses, where $k+m=n$.
-Equal loss cycles occur at different points in time, this means that achieving the right losses is a matter of shifting $y_(#text([nof]))$.
+If the two losses are equal, the $n$-th cycle of #y([nof]) i.e. the cycle that has undergone $R_N^n$ losses, will be identical to cycles that have undergone $R_F^k$ and $R_N^m$ losses, where $k+m=n$.
+Equal loss cycles occur at different points in time, this means that achieving the right losses is a matter of shifting #y([nof]).
 Given that $R_F = R_N$, formula @eq-y0rf becomes
 
 $ y_(#text([out]))(t)=sum_(k=0)^floor(frac(t,T_F))(y_(#text([nof]))(t - k T_F + k T_N)binom(m+k, k) (1 - rho)^k rho^m) $
 
-giving us the appropriate shifts (see appendix @appendix-b).
+giving us the appropriate shifts (see @appendix-b).
 
 #figure(
-	include "figures/triangle.typ",
+	triangle(variant: "losses"),
 	caption: [losses],
+	placement: none,
 )<fig-losses>
+
+= Software implementation
+
+An implementation of equation @eq-y0rf was developed in the form of a _Max for Live_ device (M4L) using the _gen\~_ environment in Cycling'74's _Max 8_.
+The implementation creates an instance of _mc.gen\~_ for each shift of #y([nof]) including corresponding delays and coefficients.
+The M4L was designed to receive both audio and MIDI note messages, the audio being used for #y([nof]) and the MIDI note determining $T_N$ (the wavelength of #y([nof])).
+The source code for the M4L device can be found in https://github.com/dimitriaatos/prepared.
+
+#figure(
+	image("figures/m4l.png", width: 50%),
+	caption: [The user interface of the _Max for Live_ device.],
+	placement: none,
+)<fig-m4l>
+
+The touching point $T_F$ and finger pressure $rho$ are set with a mappable on screen slider and dial, respectively.
+The M4L device is intended to be used with a monophonic synth, with MIDI routed both to the synth and the M4L and audio routed from the synth to the M4L.
+
+= Evaluation study
+
 
 = Discussion
 This section points the limitations of the model and proposes future development steps to overcome them.
@@ -247,7 +278,7 @@ A number of approaches can be taken for a real-time version, such as using the m
 #pagebreak()
 
 #show: appendix
-= Appendix: equation of $y_(#text([nof]))$ and $y_(#text([out]))$ <appendix-a>
+= Appendix: equation of #y([nof]) and #y([out])<appendix-a>
 #include "appendix-a.typ"
 
 

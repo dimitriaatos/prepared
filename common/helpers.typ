@@ -10,7 +10,7 @@
     paper: "a4",
     margin: (x: 41.5pt, top: 80.51pt, bottom: 89.51pt)
   )
-  set par(justify: true, first-line-indent: 0em, leading: 2em)
+  set par(first-line-indent: 0em, leading: 2em)
   show par: set block(spacing: 0.65em)
   body
 }
