@@ -3,9 +3,9 @@
 #import "@preview/fletcher:0.5.1" as fletcher: node as fletchernode, draw
 
 #let text = (
-	delay1: [$F/2$ delay],
-	delay2: [$(N-F)/2$ delay],
-	filter: [Reflection \ filter]
+  delay1: [$F/2$ delay],
+  delay2: [$(N-F)/2$ delay],
+  filter: [Reflection \ filter],
 )
 
 #waveguide(

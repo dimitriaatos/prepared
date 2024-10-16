@@ -15,7 +15,9 @@ $y_(#text([nof]))(t-k T_F) = y_(#text([in]))(t-k T_F-m T_N)R_N^m$.
 \
 In this form it is easy to recognize $y_(#text([nof]))$ inside
 \
-$y_(#text([out]))(t)=sum_(k=0)^(floor(frac(t,T_F)))(y_(#text([in]))(t - k T_F - m T_N)binom(m+k,k) (1 - rho)^k rho^m R_N^m R_F^k)$ //@eq-explicit
+$y_(#text([out]))(t)=sum_(k=0)^(floor(frac(t,T_F)))(
+    y_(#text([in]))(t - k T_F - m T_N)binom(m+k,k) (1 - rho)^k rho^m R_N^m R_F^k
+  )$ //@eq-explicit
 \
 and substituted with $y_(#text([nof]))(t-k T_F)$, resulting in
 \
