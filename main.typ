@@ -5,14 +5,16 @@
 #import "figures/triangle.typ": triangle
 
 #ieee(
-  title: [Performing plucked string multiphonics on any pitched sound],
+  title: [Performing string multiphonics on any pitched sound],
   abstract: [
     Multiphonics and flageolet tones on string instruments are performed by lightly touching the vibrating string.
-    This paper investigates the physical phenomena taking place when touching a string, in an attempt to abstract the effect of the touching finger from the string it is performed on.
-    This abstraction allows for "performing" string multiphonics and harmonics on arbitrary synthesized sounds.
-    A software implementation of the touched string abstracted model is presented and used in a small scale evaluation study.
-    Limitations of the model are identified and possible solutions discussed.
-    Beyond the case of the touching finger, a wider research objective is proposed, aimed at abstracted modelling of accoustic qualities and effects.
+    This paper investigates physical models of the lightly touched string and develops a model where the untouched string and the touching finger are split in separate parts.
+    This separation allows for replacing the untouched string model with an arbitrary sound and applying the effect of the finger to it.
+    In practice, this means that flageolet tones and string multiphonics can be applied to non-string sounds, like sounds of other instruments and synthesized electronic sounds.
+    The proposed model is developed in the form of a non-recursive, time-based formula.
+    A software implementation of the touching finger model is presented and used in a small scale evaluation study.
+    Limitations are identified and possible solutions discussed.
+    Beyond the case of the touching finger, a wider research objective is proposed, aimed at abstracted modelling of acoustic qualities and effects.
   ],
   authors: (
     (
@@ -30,17 +32,16 @@
   #show math.equation: set text(8.5pt)
 
   = Introduction
-  _Consider a musician playing a piece of music on an acoustic instrument and wishing to play the same piece on a synthesizer.
-While pitch and loudness are readily controllable in both domains, it's not equally trivial to do equivalent timbral effects on acoustic and synthesized sounds._
+  Consider a musician playing a piece of music on an acoustic instrument and wishing to play the same piece on a synthesizer.
+  While pitch and loudness are easily transferable to a synth, it's not equally trivial to transfer timbral effects from acoustic to synthesized sounds.
   A skilled sound designer might be able to program a synthesizer to simulate timbral techniques of an acoustic instrument, but will inevitably reach the limits of simulation.
   The usual alternative to simulation is physical modelling, where, instead of simulating the sound itself, the physical phenomena leading to the sound are simulated.
   Physical modelling is often able to create high quality synthesized versions of acoustic sounds, including timbral techniques.
-  While promising, consulting research in physical models only for specific effects entails challenges.
-
-  The majority of physical modelling of acoustic instruments aims at synthesizing
-  This doesn't mean that parts of the model aren't decernable
-  results might still be usable if the part in question is modelled as a separate filter violin body @holm_modeling_2000
-  no part of the model is responsible for specific techniques, techniques arise when tweaking the control parameters in a certain way.
+  Although this might look like a promissing approach, utilizing existing models for the task in question entails challenges.
+  In order to apply an acoustic effect to a synthesized sound, a model impleneting only the specific effect is required, i.e. a model that abstracts the acoustic effect from the rest of the instrument.
+  In many cases, this kind of abstracted model is not easily obtained, even when having a model of the instrument available.
+  This paper attempts to obtain such a model for the accoustic effects based on lightly touching a string.
+  // filter violin body @holm_modeling_2000
 
   Lightly touching a vibrating string is a practice associated with a number of string instrument playing techniques.
   Depending on the touching position and the touching agent, a different technique is performed.
@@ -50,8 +51,8 @@ While pitch and loudness are readily controllable in both domains, it's not equa
   On strings, multiphonics are performed by lightly touching the string at positions other than those producing harmonics @torres_multiphonics_2012-1 @torres_multiphonics_2012-2.
   Prepared strings is another technique where instead of a finger, a variety of objects such as rubbers, bolts or crocodile clips may be attached to the string, the position of the object might be either that of an multiphonic or a harmonic.
 
-  Applying acoustic effects to synths or arbitrary sounds can be attractive for creative purposes, acoustic techniques can bring physical qualities to synthesized sounds.
-  Incorporating physicality in sound synthesis serves more than just aesthetics, a well modelled acoustic technique may involve recognizable parameters that can be utilized for information encoding, sonification and interaction design.
+  // Applying acoustic effects to synths or arbitrary sounds can be attractive for creative purposes, acoustic techniques can bring physical qualities to synthesized sounds.
+  // Incorporating physicality in sound synthesis serves more than just aesthetics, a well modelled acoustic technique may involve recognizable parameters that can be utilized for information encoding, sonification and interaction design.
 
   = Background
   Integrating physical qualities into synthesized sounds has been investigated in various ways, not only by using physical models.
