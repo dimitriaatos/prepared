@@ -1,0 +1,6 @@
+# Query: \\. [A-Z]
+# Flags: CaseSensitive RegExp
+# Including: **/*.typ
+# ContextLines: 1
+
+No Results

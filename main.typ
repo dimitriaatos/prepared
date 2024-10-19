@@ -77,6 +77,7 @@
     include "figures/wg.typ",
     caption: [A digital waveguide model of a string with a pickup output.
       Where $N$ is the duration of a roundtrip.],
+    placement: none,
   )<fig-pickup>
 
 
@@ -105,6 +106,7 @@
   #figure(
     include "figures/wg-sj.typ",
     caption: [A digital waveguide model with a scattering junction. \ _Bridge-finger_ loop (red), _finger-nut_ loop (green) and _bridge-nut_ loop (blue)],
+    placement: none,
   )<fig-waveguide_sj>
 
   To reduce the computational complexity of the proposed model, the scattering of waves from the nut to the finger is disregarded.
@@ -115,6 +117,7 @@
   #figure(
     include "figures/wg-simple-sj.typ",
     caption: [A digital waveguide with a simplified scattering junction.],
+    placement: none,
   )<fig-waveguide_simple_sj>
 
   As previously mentioned, the SJ is the meeting point for three waveguides.
@@ -135,6 +138,7 @@
     [a],
     caption: [String loop with a scattering junction.
       $N$-roundtrip (blue), $F$-roundtrip (red)],
+    placement: none,
   )<fig-sdl_simple_sj>
 
   // similar to the approach taken in @guettler_bowed-string_2012.
@@ -173,11 +177,13 @@
   #figure(
     include "figures/shifts.typ",
     caption: [Shifts of the initial excitation signal (bold), split in separate plots according to the number of $F$-roundtrips.],
+    placement: none,
   )<fig-shifts>
 
   #figure(
     triangle(variant: "plot"),
     caption: [The brick wall triangle, a compact version of @fig-shifts where each shift is enclosed in a box.],
+    placement: none,
   )<fig-triangle>
 
   Combinations of roundtrips are handled by the shifts, however, permutations within each combination are not currently considered.
