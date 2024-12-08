@@ -20,7 +20,7 @@
     (
       name: "Dimitrios Aatos Ellinas",
       department: [Interactive Media Technology],
-      organization: [KTH Royal Insitute of Technology],
+      organization: [KTH Royal Institute of Technology],
       location: [Stockholm, Sweden],
       email: "ellinas@kth.se",
     ),
@@ -37,10 +37,10 @@
   A skilled sound designer might be able to program a synthesizer to simulate timbral techniques of an acoustic instrument, but will inevitably reach the limits of simulation.
   The usual alternative to simulation is physical modelling, where, instead of simulating the sound itself, the physical phenomena leading to the sound are simulated.
   Physical modelling is often able to create high quality synthesized versions of acoustic sounds, including timbral techniques.
-  Although this might look like a promissing approach, utilizing existing models for the task in question entails challenges.
-  In order to apply an acoustic effect to a synthesized sound, a model impleneting only the specific effect is required, i.e. a model that abstracts the acoustic effect from the rest of the instrument.
+  Although this might look like a promising approach, utilizing existing models for the task in question entails challenges.
+  In order to apply an acoustic effect to a synthesized sound, a model implementing only the specific effect is required, i.e. a model that abstracts the acoustic effect from the rest of the instrument.
   In many cases, this kind of abstracted model is not easily obtained, even when having a model of the instrument available.
-  This paper attempts to obtain such a model for the accoustic effects based on lightly touching a string.
+  This paper attempts to obtain such a model for the acoustic effects based on lightly touching a string.
   // filter violin body @holm_modeling_2000
 
   Lightly touching a vibrating string is a practice associated with a number of string instrument playing techniques.
