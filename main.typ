@@ -46,9 +46,10 @@
   Lightly touching a vibrating string is a practice associated with a number of string instrument playing techniques.
   Depending on the touching position and the touching agent, a different technique is performed.
   Flageolet tones (harmonics) are performed by lightly touching a string with a finger on specific fractions of its length.
-  The produced sound has a pitch much higher than the original string and a different timbre, often compared to a flute or a whistle.
-  Multiphonics is a set of techniques that make single pitch sound sources produce sounds with more than one perceivable pitch.
-  On strings, multiphonics are performed by lightly touching the string at positions other than those producing harmonics @torres_multiphonics_2012-1 @torres_multiphonics_2012-2.
+  The produced sound has a pitch much higher than the original string and a different timbre, comparable to a whistle @kamien_music_2008[p.~13].
+  Multiphonics is a technique where single pitch sound sources produce sounds with more than one perceivable pitch.
+  They are often performed on wind instruments and, although less popular, can also be performed on plucked strings @torres_multiphonics_2012-1, @torres_multiphonics_2012-2, @vesikkala_multiphonics_2016.
+  Plucked string multiphonics are achieved by lightly touching the string at positions other than those producing harmonics.
   Prepared strings is another technique where instead of a finger, a variety of objects such as rubbers, bolts or crocodile clips may be attached to the string, the position of the object might be either that of an multiphonic or a harmonic.
 
   // Applying acoustic effects to synths or arbitrary sounds can be attractive for creative purposes, acoustic techniques can bring physical qualities to synthesized sounds.
@@ -57,7 +58,7 @@
   = Background
   Integrating physical qualities into synthesized sounds has been investigated in various ways, not only by using physical models.
   Formant filters or models of the human vocal tract are typically applied to arbitrary synthesizers to produce robot voices.
-  The _talking bass_ (or _YaYa bass_) is a synth used in dubstep, that combines a low pass filtering and sample rate reduction to create vocal qualities @audio_digital_how_2014, @dorincourt_reason_2010.
+  The _talking bass_ (or _YaYa bass_) in dubstep #footnote([Dubstep is a genre of electronic dance music.]) is a similar case, that combines a low pass filtering and sample rate reduction to create vocal qualities. There are no academic publications on _YaYa bass_ but online tutorials reveal @audio_digital_how_2014, @dorincourt_reason_2010.
   Lastly, _linear arithmetic synthesis_ @russ_l_1987 is a sound synthesis technique where recorded attacks of acoustic instruments are placed on the onset of synthesized tones, creating hybrids that have both acoustic and synthesized qualities.
 
   The open and lightly touched string has been modelled and decomposed in the following papers.
@@ -112,7 +113,7 @@
   To reduce the computational complexity of the proposed model, the scattering of waves from the nut to the finger is disregarded.
   This means that no reflections or coefficient multiplications occur from _nut_ to _bridge_.
   This SJ will be referred to as the _single-sided_ SJ, a depiction can be seen in @fig-waveguide_simple_sj.
-  Although this might seem like a crude simplification, comparing audio outputs reveals that the only discernible effect of the _single-sided_ SJ is a "metallic" or "rough" quality, which is an acceptable compromise for the purpose of this paper.
+  Although this might seem like a crude simplification, comparing audio outputs reveals that the only discernible effect of the _single-sided_ SJ is a "metallic" or "rough" quality (evaluated in #ref(<evaluation>)), which is an acceptable compromise for the purpose of this paper.
 
   #figure(
     include "figures/wg-simple-sj.typ",
@@ -269,7 +270,7 @@
   The touching point $T_F$ and finger pressure $rho$ are set with a mappable on screen slider and dial, respectively.
   The M4L device is intended to be used with a monophonic synth, with MIDI routed both to the synth and the M4L and audio routed from the synth to the M4L.
 
-  = Evaluation study
+  = Evaluation study <evaluation>
 
 
   = Discussion

@@ -1,11 +1,12 @@
 {
-  "cSpell.words": [
+	"cSpell.words": [
 		"D'Alambert's",
+		"inharmonicities",
 		"ponticello",
 		"tasto",
 		"tonehole",
 		"Toneholes",
 		"wavetable"
 	],
-  "editor.wordWrap": "on",
+	"editor.wordWrap": "on",
 }
