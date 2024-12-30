@@ -37,26 +37,29 @@
   A skilled sound designer might be able to program a synthesizer to simulate timbral techniques of an acoustic instrument, but will inevitably reach the limits of simulation.
   The usual alternative to simulation is physical modelling, where, instead of simulating the sound itself, the physical phenomena leading to the sound are simulated.
   Physical modelling is often able to create high quality synthesized versions of acoustic sounds, including timbral techniques.
-  Although this might look like a promising approach, utilizing existing models for the task in question entails challenges.
-  In order to apply an acoustic effect to a synthesized sound, a model implementing only the specific effect is required, i.e. a model that abstracts the acoustic effect from the rest of the instrument.
-  In many cases, this kind of abstracted model is not easily obtained, even when having a model of the instrument available.
-  This paper attempts to obtain such a model for the acoustic effects based on lightly touching a string.
-  // filter violin body @holm_modeling_2000
+  The main obstacle for the task in question is that physical models are designed for synthesizing sounds that incorporate the desired timbral effects, rather than letting their user choose the sound to which the effect will be applied to.
+  This paper aims to overcome that obstacle for the acoustic effects based on lightly touching a string.
 
   Lightly touching a vibrating string is a practice associated with a number of string instrument playing techniques.
   Depending on the touching position and the touching agent, a different technique is performed.
   Flageolet tones (harmonics) are performed by lightly touching a string with a finger on specific fractions of its length.
   The produced sound has a pitch much higher than the original string and a different timbre, comparable to a whistle @kamien_music_2008[p.~13].
   Multiphonics is a technique where single pitch sound sources produce sounds with more than one perceivable pitch.
-  They are often performed on wind instruments and, although less popular, can also be performed on plucked strings @torres_multiphonics_2012-1, @torres_multiphonics_2012-2, @vesikkala_multiphonics_2016.
-  Plucked string multiphonics are achieved by lightly touching the string at positions other than those producing harmonics.
+  They are often performed on wind instruments and, although less popular, can also be performed on plucked strings @torres_multiphonics_2012-1, @torres_multiphonics_2012-2.
+  Plucked string multiphonics are achieved by lightly touching the string at positions other than those producing harmonics, their timbre has a bell like quality @torres_multiphonics_2012-1.
   Prepared strings is another technique where instead of a finger, a variety of objects such as rubbers, bolts or crocodile clips may be attached to the string, the position of the object might be either that of an multiphonic or a harmonic.
+
+  Modelling the lightly touched string techniques in a way that allows them to be applied to arbitrary sounds is viewed as part of a wider research objective with additional applications.
+
+  Extending
 
   // Applying acoustic effects to synths or arbitrary sounds can be attractive for creative purposes, acoustic techniques can bring physical qualities to synthesized sounds.
   // Incorporating physicality in sound synthesis serves more than just aesthetics, a well modelled acoustic technique may involve recognizable parameters that can be utilized for information encoding, sonification and interaction design.
 
   = Background
-  Integrating physical qualities into synthesized sounds has been investigated in various ways, not only by using physical models.
+  Numerous developments in the history of electronic music could be viewed as attempts to bridge electronic and acoustic sounds.
+  Common concepts in sound synthesis have been brought from the acoustic world, such as the ADSR envelope (attack, decay, sustain, release) and spatial audio effects like reverb and echo.
+  Although timbre specific effects have mainly been part of sound synthesis there are some cases where the timbral effects are independent from the sound source.
   Formant filters or models of the human vocal tract are typically applied to arbitrary synthesizers to produce robot voices.
   The _talking bass_ (or _YaYa bass_) in dubstep #footnote([Dubstep is a genre of electronic dance music.]) is a similar case, that combines a low pass filtering and sample rate reduction to create vocal qualities. There are no academic publications on _YaYa bass_ but online tutorials reveal @audio_digital_how_2014, @dorincourt_reason_2010.
   Lastly, _linear arithmetic synthesis_ @russ_l_1987 is a sound synthesis technique where recorded attacks of acoustic instruments are placed on the onset of synthesized tones, creating hybrids that have both acoustic and synthesized qualities.
@@ -65,6 +68,8 @@
   Matti Karjalainen et al. in @karjalainen_plucked-string_1998 decompose the model of the open string in modules for _string excitation_, the _string_ itself, _pickup mic_ and _bridge_.
   In @pakarinen_physical_2005, Jyri Pakarinen adapts these modules to include a touching finger.
   Guttler and Thelin in @guettler_bowed-string_2012 take a different approach, providing an analysis of a touched string's impulse response, explaining step-by-step how its waveform is constructed.
+
+  // filter violin body @holm_modeling_2000
 
   = The lightly touched string
   This paper relies on _digital waveguide_ (DWG) synthesis @smith_physical_1992, a _physical modelling_ technique that employs D'Alambert's principle to analyse a standing wave (e.g. a vibrating string) into the sum of two travelling waves propagating in opposite directions.
