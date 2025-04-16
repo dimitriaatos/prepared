@@ -9,4 +9,5 @@
 		"wavetable"
 	],
 	"editor.wordWrap": "on",
+	"github.copilot.editor.enableAutocompletions": false,
 }

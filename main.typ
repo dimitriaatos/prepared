@@ -37,37 +37,58 @@
   A skilled sound designer might be able to program a synthesizer to simulate timbral techniques of an acoustic instrument, but will inevitably reach the limits of simulation.
   The usual alternative to simulation is physical modelling, where, instead of simulating the sound itself, the physical phenomena leading to the sound are simulated.
   Physical modelling is often able to create high quality synthesized versions of acoustic sounds, including timbral techniques.
-  The main obstacle for the task in question is that physical models are designed for synthesizing sounds that incorporate the desired timbral effects, rather than letting their user choose the sound to which the effect will be applied to.
-  This paper aims to overcome that obstacle for the acoustic effects based on lightly touching a string.
+  The main obstacle for the task in question is that physical models are designed for synthesizing sounds that incorporate the desired timbral effect, rather than letting their user choose the sound to which the effect will be applied.
 
+  This paper focuses on the effects performed by lightly touching a vibrating string and proposes a model that allows these effects to be applied to arbitrary sounds.
   Lightly touching a vibrating string is a practice associated with a number of string instrument playing techniques.
   Depending on the touching position and the touching agent, a different technique is performed.
   Flageolet tones (harmonics) are performed by lightly touching a string with a finger on specific fractions of its length.
   The produced sound has a pitch much higher than the original string and a different timbre, comparable to a whistle @kamien_music_2008[p.~13].
   Multiphonics is a technique where single pitch sound sources produce sounds with more than one perceivable pitch.
   They are often performed on wind instruments and, although less popular, can also be performed on plucked strings @torres_multiphonics_2012-1, @torres_multiphonics_2012-2.
-  Plucked string multiphonics are achieved by lightly touching the string at positions other than those producing harmonics, their timbre has a bell like quality @torres_multiphonics_2012-1.
+  Plucked string multiphonics are achieved by lightly touching the string at positions other than those producing harmonics, their timbre has a bell-like or buzzing quality @torres_multiphonics_2012-1.
   Prepared strings is another technique where instead of a finger, a variety of objects such as rubbers, bolts or crocodile clips may be attached to the string, the position of the object might be either that of an multiphonic or a harmonic.
 
-  Modelling the lightly touched string techniques in a way that allows them to be applied to arbitrary sounds is viewed as part of a wider research objective with additional applications.
-
-  Extending
-
-  // Applying acoustic effects to synths or arbitrary sounds can be attractive for creative purposes, acoustic techniques can bring physical qualities to synthesized sounds.
-  // Incorporating physicality in sound synthesis serves more than just aesthetics, a well modelled acoustic technique may involve recognizable parameters that can be utilized for information encoding, sonification and interaction design.
+  Applying the effects of the lightly touched string to arbitrary sounds is viewed as part of a wider research objective.
+  This paper hopes to attract interest in research on decoupling acoustic effects and qualities from their original sources.
+	One obvious application of this research topic is its use as a creative tool, where novel combinations of acoustic features can be used for aesthetic purposes.
+	Decoupled timbral effects can also contributes to a deeper understanding of the perception of timbre, which is a notoriously complex field.
+	Perceptual experiments on sound could potentially take advantage of the more "sterile" isolated timbre that might yield more precise results, linking stimuli to perception.
+	Lastly, decoupled timbral effect should, in principle, retain some auditory cues that carry information about the object the sound was produced by and the action that triggered the sound.
+	Successful identification of the action or object might vary depending on a number of factors e.g. the chosen timbral effect or the chosen sound source the effect is applied to.
+	Regardless, correlations with an object or an action can make decoupled timbral effects a good candidate for information encoding, resulting potentially in novel flexible parameters for sonification strategies and new forms of intuitive sonic interaction design.
 
   = Background
-  Numerous developments in the history of electronic music could be viewed as attempts to bridge electronic and acoustic sounds.
-  Common concepts in sound synthesis have been brought from the acoustic world, such as the ADSR envelope (attack, decay, sustain, release) and spatial audio effects like reverb and echo.
-  Although timbre specific effects have mainly been part of sound synthesis there are some cases where the timbral effects are independent from the sound source.
-  Formant filters or models of the human vocal tract are typically applied to arbitrary synthesizers to produce robot voices.
-  The _talking bass_ (or _YaYa bass_) in dubstep #footnote([Dubstep is a genre of electronic dance music.]) is a similar case, that combines a low pass filtering and sample rate reduction to create vocal qualities. There are no academic publications on _YaYa bass_ but online tutorials reveal @audio_digital_how_2014, @dorincourt_reason_2010.
-  Lastly, _linear arithmetic synthesis_ @russ_l_1987 is a sound synthesis technique where recorded attacks of acoustic instruments are placed on the onset of synthesized tones, creating hybrids that have both acoustic and synthesized qualities.
+  Numerous developments in the history of electronic music could be viewed as attempts to replicate acoustic audio features.
+  Common concepts in sound synthesis such as the ADSR envelope (attack, decay, sustain, release) and spatial audio effects like reverb and echo, come from the acoustic world.
+  Although timbre specific effects have mainly been part of sound synthesis, there are some cases where they have been modelled independently from the associated sound source.
 
-  The open and lightly touched string has been modelled and decomposed in the following papers.
-  Matti Karjalainen et al. in @karjalainen_plucked-string_1998 decompose the model of the open string in modules for _string excitation_, the _string_ itself, _pickup mic_ and _bridge_.
+  == Vowels on any sound
+  In speech synthesis, modelling of the human vocal tract has historically preceded the modelling of the vocal folds.
+  Early speech synthesis such as VODER @dudley_synthetic_1939 as well as later text-to-speech technology like the DECtalk @hallahan_dectalk_1995 have relied on models of the vocal tract and used arbitrary pitched sounds in place of the vocal folds.
+  Although speech is a special case of sound, the vocal tract is essentially a timbral effect.
+  Uses of the vocal tract's effect in non-speech contexts include the _talkbox_, a guitar pedal that directs sound through a tube, in the performer's mouth.
+  Many commercial software and hardware products designed for musicians have mimicked the _talkbox_ by implementing formant filters, a common simulation of the vocal tract.
+  Formant filters have also been used in sound design for electric vehicles @chang_study_2015.
+
+  == Synths with acoustic attacks
+  _Linear arithmetic synthesis_ @russ_l_1987 is a sound synthesis technique where recorded attacks of acoustic instruments are placed on the onset of synthesized tones.
+  While this does not defer technically from sound collage, the perceptual importance of the attack transients @thayer_effect_1974 makes the resulting sound resemble a hybrid between the two rather than a simple succession.
+
+	== Flexible timbral changes with differential DSP and artificial intelligence
+
+	Using artificial intelligence techniques to abstract timbral effects and qualities of sounds has been attempted in recent years.
+	In @roche_make_2021 a variational autoencoder (a specific kind of neural network) is used alter the timbre of sound in a number of perceptual dimensions such as _metallic_, _warm_, _breathy_ etc.
+	Differential digital signal processing (DDSP) has also been utilized in combination with neural networks to treat timbre in an abstracted way. (TODO: https://jordieshier.com/projects/nime2024/)
+	DDSP is an approach to handle timbre as a delta between two signals, in @shier_real-time_2024 DDSP is combined with algorithms that compute two quantifiable features of timbre, noisiness and brightness.
+
+  == String model decomposition
+  An important step in achieving the abstraction of the touching finger effect is decomposition of the string's physical model, isolating parts like the plucking and pickup position.
+  This has been pursued for various reasons other than abstracting acoustic effects.
+  Matti Karjalainen et al. in @karjalainen_plucked-string_1998 decompose the model of the open string in modules for _string excitation_, the _string_ itself, _pickup mic_ and _bridge_, to achieve computational efficiency.
   In @pakarinen_physical_2005, Jyri Pakarinen adapts these modules to include a touching finger.
-  Guttler and Thelin in @guettler_bowed-string_2012 take a different approach, providing an analysis of a touched string's impulse response, explaining step-by-step how its waveform is constructed.
+  Another work demystifying the mechanism producing multiphonics is by Guttler and Thelin.
+  They provide an analysis of the touched string's impulse response in @guettler_bowed-string_2012, providing a step-by-step explanation for the construction of its waveform.
 
   // filter violin body @holm_modeling_2000
 
@@ -138,7 +159,9 @@
   @fig-sdl_simple_sj depicts an _string loop_ model that includes the touching finger using a _single-sided_ SJ, it consists of two coupled loops and their corresponding coefficients.
   By detaching the finger ($rho = 1$), it's easy to distinguish what parts are relevant to the finger (red) and to the string (blue).
   This depiction, as most DWG models, shows a recursive process, where the effect of the string and the finger is applied to previous results.
-  In order to isolate the overall effect of a finger to a string, an explicit formula is proposed, where string looping, losses and finger coefficients are applied to the initial excitation signal.
+  This formulation is inconvenient for isolating the parts relative to the finger, an explicit formula is thus proposed.
+  This formula is derived by following the steps of the waveguide model, but an algebraic derivation is yet to be provided.
+  // In the explicit formulation, string looping, losses and finger coefficients are applied to the initial excitation signal, rather than previous values.
 
   #figure(
     [a],
@@ -171,6 +194,8 @@
   - permutations $ binom(m+k,k) $ <eq-perm>
   - coefficients $ (1 - rho)^k rho^m $<eq-coef>
   - and losses $ R_N^m R_F^k $<eq-loss>.
+
+  == Shifts
   Firstly, @eq-shifts loops the excitation signal by shifting it forward in time by an amount proportional to the number of $N$- and $F$-roundtrips performed.
   Variables $m$ and $k$ work as counters for the number of complete $N$ and $F$-roundtrips respectively.
   A depiction of the shifts can be seen in Figure @eq-shifts.
@@ -192,6 +217,7 @@
     placement: none,
   )<fig-triangle>
 
+  == Permutations
   Combinations of roundtrips are handled by the shifts, however, permutations within each combination are not currently considered.
   Let's consider a case where $k = 2$ and $m = 1$.
   In this case, three permutations of roundtrips are performed concurrently, namely $F F N$, $F N F$, and $N F F$.
@@ -208,18 +234,20 @@
     placement: none,
   )<fig-perm>
 
+  == Coefficient
   Each roundtrip involves a SJ coefficient as defined in @eq-rho.
   The cumulative effect of the coefficients, for a given $k$ and $m$ can be computed as demonstrated in @eq-coef.
 
+  == Losses
   Lastly, @eq-loss represents the roundtrip losses for any given $k$ and $m$.
   The loss implementation might vary depending on the modelling approach, in this case we choose a plain loss coefficient which can be potentially replaced by a more elaborate loss model.
 
   = Multiphonics abstraction
 
-  This section presents various modifications of @eq-explicit capable of receiving the traveling wave of an untouched string, or an arbitrary periodic signal as input.
+  This section presents various modifications of equation @eq-explicit that  are capable of receiving the traveling wave of an untouched string, or an arbitrary periodic signal as input.
   Firstly, we obtain the formula of the untouched string (#y([nof])) using @eq-explicit and setting $rho=1$
   This causes every addend in the summation @eq-explicit where $k > 0$, evaluate to zero.
-  Therefore, the original sum reduces to just the fist term where $k = 0$.
+  Therefore, the original sum reduces to just the first term where $k = 0$.
 
   $ y_(#text([nof]))(t) = y_(#text([in]))(t-floor(frac(t,T_N)) T_N)R_N^floor(frac(t,T_N)) $<eq-rho0>
 
@@ -261,8 +289,9 @@
 
   = Software implementation
 
-  An implementation of equation @eq-y0rf was developed in the form of a _Max for Live_ device (M4L) using the _gen\~_ environment in Cycling'74's _Max 8_.
-  The implementation creates an instance of _mc.gen\~_ for each shift of #y([nof]) including corresponding delays and coefficients.
+  An implementation of equation @eq-y0rf (with a small variation) was developed in the form of a _Max for Live_ device (M4L) using the _gen\~_ environment in Cycling'74's _Max 8_.
+	The point where the software implementation differs from @eq-y0rf is in the timing of the shifts, instead of shifting future signal to the present, the most recent (closest to the future) signal is preferred, this is done to allow the software work in real-time audio.
+  An instance of _mc.gen\~_ is created for each shift of #y([nof]) including corresponding delays and coefficients.
   The M4L was designed to receive both audio and MIDI note messages, the audio being used for #y([nof]) and the MIDI note determining $T_N$ (the wavelength of #y([nof])).
   The source code for the M4L device can be found in https://github.com/dimitriaatos/prepared.
 
@@ -276,6 +305,10 @@
   The M4L device is intended to be used with a monophonic synth, with MIDI routed both to the synth and the M4L and audio routed from the synth to the M4L.
 
   = Evaluation study <evaluation>
+
+evaluating harmonics and multiphonics on sine, pitched percussion, string, action and object
+evaluating simplifications: harmonics and multiphonics
+issues of the real time M4L, free form
 
 
   = Discussion

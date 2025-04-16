@@ -25,7 +25,11 @@ $y_(#text([out]))(t)=sum_(k=0)^floor(frac(t, T_F))(
 $sum_(k=0)^floor(frac(t, T_F))(
     y_(#text([nol]))(t - k T_F)binom(m+k, k)(1 - rho)^k rho^m R_N^floor(frac(t - k T_F + k T_N, T_N))
   )=$
+
+#v(2em)	
+We can add $k T_N$ to the argument of $y_(#text([nol]))$ since it has a period of $T_N$ and $k in ZZ$
 #v(2em)
+
 $sum_(k=0)^floor(frac(t, T_F))(
     y_(#text([nol]))(t - k T_F + k T_N)binom(m+k, k)(1 - rho)^k rho^m R_N^floor(frac(t - k T_F + k T_N, T_N))
   )=$
