@@ -1,6 +1,7 @@
 {
 	"cSpell.words": [
 		"D'Alambert's",
+		"DDSP",
 		"inharmonicities",
 		"ponticello",
 		"tasto",
@@ -9,5 +10,5 @@
 		"wavetable"
 	],
 	"editor.wordWrap": "on",
-	"github.copilot.editor.enableAutocompletions": false,
+	"github.copilot.editor.enableAutocompletions": false
 }

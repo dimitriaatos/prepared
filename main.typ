@@ -51,12 +51,12 @@
 
   Applying the effects of the lightly touched string to arbitrary sounds is viewed as part of a wider research objective.
   This paper hopes to attract interest in research on decoupling acoustic effects and qualities from their original sources.
-	One obvious application of this research topic is its use as a creative tool, where novel combinations of acoustic features can be used for aesthetic purposes.
-	Decoupled timbral effects can also contributes to a deeper understanding of the perception of timbre, which is a notoriously complex field.
-	Perceptual experiments on sound could potentially take advantage of the more "sterile" isolated timbre that might yield more precise results, linking stimuli to perception.
-	Lastly, decoupled timbral effect should, in principle, retain some auditory cues that carry information about the object the sound was produced by and the action that triggered the sound.
-	Successful identification of the action or object might vary depending on a number of factors e.g. the chosen timbral effect or the chosen sound source the effect is applied to.
-	Regardless, correlations with an object or an action can make decoupled timbral effects a good candidate for information encoding, resulting potentially in novel flexible parameters for sonification strategies and new forms of intuitive sonic interaction design.
+  One obvious application of this research topic is its use as a creative tool, where novel combinations of acoustic features can be used for aesthetic purposes.
+  Decoupled timbral effects can also contributes to a deeper understanding of the perception of timbre, which is a notoriously complex field.
+  Perceptual experiments on sound could potentially take advantage of the more "sterile" isolated timbre that might yield more precise results, linking stimuli to perception.
+  Lastly, decoupled timbral effect should, in principle, retain some auditory cues that carry information about the object the sound was produced by and the action that triggered the sound.
+  Successful identification of the action or object might vary depending on a number of factors e.g. the chosen timbral effect or the chosen sound source the effect is applied to.
+  Regardless, correlations with an object or an action can make decoupled timbral effects a good candidate for information encoding, resulting potentially in novel flexible parameters for sonification strategies and new forms of intuitive sonic interaction design.
 
   = Background
   Numerous developments in the history of electronic music could be viewed as attempts to replicate acoustic audio features.
@@ -75,12 +75,15 @@
   _Linear arithmetic synthesis_ @russ_l_1987 is a sound synthesis technique where recorded attacks of acoustic instruments are placed on the onset of synthesized tones.
   While this does not defer technically from sound collage, the perceptual importance of the attack transients @thayer_effect_1974 makes the resulting sound resemble a hybrid between the two rather than a simple succession.
 
-	== Flexible timbral changes with differential DSP and artificial intelligence
+  == Timbre transfer using neural networks
 
-	Using artificial intelligence techniques to abstract timbral effects and qualities of sounds has been attempted in recent years.
-	In @roche_make_2021 a variational autoencoder (a specific kind of neural network) is used alter the timbre of sound in a number of perceptual dimensions such as _metallic_, _warm_, _breathy_ etc.
-	Differential digital signal processing (DDSP) has also been utilized in combination with neural networks to treat timbre in an abstracted way. (TODO: https://jordieshier.com/projects/nime2024/)
-	DDSP is an approach to handle timbre as a delta between two signals, in @shier_real-time_2024 DDSP is combined with algorithms that compute two quantifiable features of timbre, noisiness and brightness.
+  Using artificial intelligence techniques to abstract timbral effects and qualities of sounds has been attempted in recent years.
+  In @roche_make_2021 a variational autoencoder (a specific kind of neural network) is used alter the timbre of sound in a number of perceptual dimensions such as _metallic_, _warm_, _breathy_ etc.
+  This approach uses perceptually labeled sounds for learning and is thus extensible to new perceptual dimensions.
+
+  Differential digital signal processing (DDSP) is a technique used in combination with neural networks to map timbral changes on a source sound to analogous timbral changes on a target sound.
+  This has be done for inherent timbral envelopes of the instrument @engel_ddsp_2020 and also for timbal playing techniques @shier_real-time_2024.
+  The downside of DDSP is that it works only with quantifiable timbral features like brightness and noisiness.
 
   == String model decomposition
   An important step in achieving the abstraction of the touching finger effect is decomposition of the string's physical model, isolating parts like the plucking and pickup position.
@@ -244,7 +247,7 @@
 
   = Multiphonics abstraction
 
-  This section presents various modifications of equation @eq-explicit that  are capable of receiving the traveling wave of an untouched string, or an arbitrary periodic signal as input.
+  This section presents various modifications of equation @eq-explicit that are capable of receiving the traveling wave of an untouched string, or an arbitrary periodic signal as input.
   Firstly, we obtain the formula of the untouched string (#y([nof])) using @eq-explicit and setting $rho=1$
   This causes every addend in the summation @eq-explicit where $k > 0$, evaluate to zero.
   Therefore, the original sum reduces to just the first term where $k = 0$.
@@ -290,7 +293,7 @@
   = Software implementation
 
   An implementation of equation @eq-y0rf (with a small variation) was developed in the form of a _Max for Live_ device (M4L) using the _gen\~_ environment in Cycling'74's _Max 8_.
-	The point where the software implementation differs from @eq-y0rf is in the timing of the shifts, instead of shifting future signal to the present, the most recent (closest to the future) signal is preferred, this is done to allow the software work in real-time audio.
+  The point where the software implementation differs from @eq-y0rf is in the timing of the shifts, instead of shifting future signal to the present, the most recent (closest to the future) signal is preferred, this is done to allow the software work in real-time audio.
   An instance of _mc.gen\~_ is created for each shift of #y([nof]) including corresponding delays and coefficients.
   The M4L was designed to receive both audio and MIDI note messages, the audio being used for #y([nof]) and the MIDI note determining $T_N$ (the wavelength of #y([nof])).
   The source code for the M4L device can be found in https://github.com/dimitriaatos/prepared.
@@ -305,11 +308,42 @@
   The M4L device is intended to be used with a monophonic synth, with MIDI routed both to the synth and the M4L and audio routed from the synth to the M4L.
 
   = Evaluation study <evaluation>
+  A small scale perceptual study, involving 10 trained musicians was conducted for evaluating the results and intermediate decisions of the paper.
+  The study consisted of several parts each with a different goal.
 
-evaluating harmonics and multiphonics on sine, pitched percussion, string, action and object
-evaluating simplifications: harmonics and multiphonics
-issues of the real time M4L, free form
+  == Touched string effect on arbitrary sounds
+  This part of the study employed the Action-Object Paradigm, which posits that everyday sounds contain auditory cues that convey information about both the action that produced the sound and the object involved in that action.
+  The primary aim was to investigate whether participants could accurately identify both the action and the object associated with a series of sounds where multiphonics and harmonics where applied.
 
+  To mitigate potential carryover effects, the sounds were organized along a gradient from less "string-like" to more "string-like".
+  This ordering strategy aimed to reduce perceptual bias that might arise from prior exposure to string characteristics.
+
+  The sounds was structured in two groups:
+
+  === String effects on non-string acoustic instruments
+  These sounds where recorded tones performed on non-string acoustic instruments that where processed to include string harmonics and multiphonics.
+  This condition tested whether the inferred object and action from the source instrument would conflict with those implied by the string effects.
+
+  === String effects on simple synthesized waveforms
+  This condition introduced string effects to neutral, synthetic sounds.
+  It served as a perceptual midpoint, where neither the object nor the action was clearly defined prior to the string-like alteration.
+
+  == Modelled vs. acoustic
+  This part of the study aimed to qualitatively evaluate the proposed model by asking participants to compare it to equivalent effects performed physically on a string.
+
+  Participants were presented with two sets of stimuli:
+  1. Recordings of harmonics and multiphonics performed on string instruments by a musician, and
+  2. Modeled versions of the same effects, generated by applying the proposed formula to recordings of open strings.
+
+  Participants were asked to comment on perceived similarity, difference and realism.
+
+  == Single sided scattering junction waveguide
+  The next part of the study evaluated the impact of simplifying the touched string DWG model by replacing the original configuration with a single-sided SJ. Participants were presented with pairs of stimuli, one generated using the full model and the other using its simplified counterpart. They were asked to comment on perceived differences between the two.
+
+  == Use of the software
+  In the final part of the study, participants were given access to the software implementation, allowing them to interact with it directly without any guidelines.
+  This exploratory session aimed to gather qualitative feedback on the model's behavior in practice.
+  Participants were encouraged to manipulate parameters freely and to identify potential issues, limitations, or unexpected behaviors.
 
   = Discussion
   This section points the limitations of the model and proposes future development steps to overcome them.
