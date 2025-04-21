@@ -142,7 +142,7 @@
   To reduce the computational complexity of the proposed model, the scattering of waves from the nut to the finger is disregarded.
   This means that no reflections or coefficient multiplications occur from _nut_ to _bridge_.
   This SJ will be referred to as the _single-sided_ SJ, a depiction can be seen in @fig-waveguide_simple_sj.
-  Although this might seem like a crude simplification, comparing audio outputs reveals that the only discernible effect of the _single-sided_ SJ is a "metallic" or "rough" quality (evaluated in #ref(<evaluation>)), which is an acceptable compromise for the purpose of this paper.
+  Although this might seem like a crude simplification, comparing audio outputs reveals that the only discernible effects of the _single-sided_ SJ are a rough quality and a slightly longer decay time (evaluated in #ref(<evaluation>)), which is an acceptable compromise for the purpose of this paper.
 
   #figure(
     include "figures/wg-simple-sj.typ",
@@ -167,7 +167,7 @@
   // In the explicit formulation, string looping, losses and finger coefficients are applied to the initial excitation signal, rather than previous values.
 
   #figure(
-    [a],
+    image("figures/sdl-js.png"),
     caption: [String loop with a scattering junction.
       $N$-roundtrip (blue), $F$-roundtrip (red)],
     placement: none,
@@ -209,16 +209,17 @@
   This depiction is going to be used as a basis in following figures, to illustrate characteristics of each shift.
 
   #figure(
-    include "figures/shifts.typ",
-    caption: [Shifts of the initial excitation signal (bold), split in separate plots according to the number of $F$-roundtrips.],
-    placement: none,
-  )<fig-shifts>
-
-  #figure(
     triangle(variant: "plot"),
     caption: [The brick wall triangle, a compact version of @fig-shifts where each shift is enclosed in a box.],
     placement: none,
   )<fig-triangle>
+
+  #figure(
+    // include "figures/shifts.typ",
+    image("figures/shifts.png"),
+    caption: [Shifts of the initial excitation signal (bold), split in separate plots according to the number of $F$-roundtrips.],
+    placement: none,
+  )<fig-shifts>
 
   == Permutations
   Combinations of roundtrips are handled by the shifts, however, permutations within each combination are not currently considered.
@@ -252,7 +253,9 @@
   This causes every addend in the summation @eq-explicit where $k > 0$, evaluate to zero.
   Therefore, the original sum reduces to just the first term where $k = 0$.
 
-  $ y_(#text([nof]))(t) = y_(#text([in]))(t-floor(frac(t,T_N)) T_N)R_N^floor(frac(t,T_N)) $<eq-rho0>
+  $
+    y_(#text([nof]))(t) = y_(#text([in]))(t-floor(frac(t,T_N)) T_N)R_N^floor(frac(t,T_N))
+  $<eq-rho0>
 
   Note that the argument of #y([in]) has the form of a sawtooth wave with a period of $T_N$.
   Therefore, #y([nof]) has a period of $T_N$ and each cycle undergoes the losses of a $T_N$ roundtrip ($R_N$).
@@ -296,7 +299,8 @@
   The point where the software implementation differs from @eq-y0rf is in the timing of the shifts, instead of shifting future signal to the present, the most recent (closest to the future) signal is preferred, this is done to allow the software work in real-time audio.
   An instance of _mc.gen\~_ is created for each shift of #y([nof]) including corresponding delays and coefficients.
   The M4L was designed to receive both audio and MIDI note messages, the audio being used for #y([nof]) and the MIDI note determining $T_N$ (the wavelength of #y([nof])).
-  The source code for the M4L device can be found in https://github.com/dimitriaatos/prepared.
+  A second utility M4L was also provided for routing MIDI to the main M4L, simplifying the required configuration.
+  The source code for the M4L device can be found in https://github.com/dimitriaatos/prepared .
 
   #figure(
     image("figures/m4l.png", width: 50%),
@@ -308,57 +312,92 @@
   The M4L device is intended to be used with a monophonic synth, with MIDI routed both to the synth and the M4L and audio routed from the synth to the M4L.
 
   = Evaluation study <evaluation>
-  A small scale perceptual study, involving 10 trained musicians was conducted for evaluating the results and intermediate decisions of the paper.
-  The study consisted of several parts each with a different goal.
+  A small scale perceptual study, involving 8 trained musicians was conducted for evaluating the results and intermediate decisions of the paper.
+  The study consisted of several perceptual experiments each with a different goal.
 
   == Touched string effect on arbitrary sounds
-  This part of the study employed the Action-Object Paradigm, which posits that everyday sounds contain auditory cues that convey information about both the action that produced the sound and the object involved in that action.
+  This part of the study employed the Action-Object paradigm @conan_intuitive_2014, which posits that everyday sounds contain auditory cues that convey information about both the action that produced the sound and the object involved in that action.
   The primary aim was to investigate whether participants could accurately identify both the action and the object associated with a series of sounds where multiphonics and harmonics where applied.
+  Participants where asked to describe the action and the object they perceived to be the source of the sound.
 
-  To mitigate potential carryover effects, the sounds were organized along a gradient from less "string-like" to more "string-like".
+  To mitigate potential carryover effects, the parts of the study were organized along a gradient from less "string-like" to more "string-like".
   This ordering strategy aimed to reduce perceptual bias that might arise from prior exposure to string characteristics.
+  The sorting of sounds within each part was randomized for each participant, participants where able to repeat each sound as many times as the wished.
+  All stimuli were generated using a normalized finger pressure ($rho$) of $0.5$, a value at which the effect of the touching finger, is most prominent.
+  Finger position varied between stimuli, with values ranging from $0$ to $1$, where $0$ corresponds to the bridge and $1$ to the nut.
 
-  The sounds was structured in two groups:
+  The sounds were split in two groups:
 
   === String effects on non-string acoustic instruments
-  These sounds where recorded tones performed on non-string acoustic instruments that where processed to include string harmonics and multiphonics.
-  This condition tested whether the inferred object and action from the source instrument would conflict with those implied by the string effects.
+  Participants were presented with four harmonics and four multiphonics applied to accordion and timpani sounds.
+  This group of sounds tested whether the inferred object and action from the source instrument would conflict with those implied by the string effects.
+  For both instruments, the following finger position values were used,
+  $1/5$, $1/4$, $1/2$ and $1/8$ for harmonics and
+  $0.302$, $0.144$, $0.361$ and $0.0644$ for multiphonics.
 
   === String effects on simple synthesized waveforms
-  This condition introduced string effects to neutral, synthetic sounds.
-  It served as a perceptual midpoint, where neither the object nor the action was clearly defined prior to the string-like alteration.
-
-  == Modelled vs. acoustic
-  This part of the study aimed to qualitatively evaluate the proposed model by asking participants to compare it to equivalent effects performed physically on a string.
-
-  Participants were presented with two sets of stimuli:
-  1. Recordings of harmonics and multiphonics performed on string instruments by a musician, and
-  2. Modeled versions of the same effects, generated by applying the proposed formula to recordings of open strings.
-
-  Participants were asked to comment on perceived similarity, difference and realism.
+  This part introduced string effects to synthetic sounds.
+  It served as a perceptual midpoint between acoustic non-string sounds and string sounds, where the original sound had no acoustic source.
+  A sawtooth and a triangular waveform where used, all other parameters, such as finger position and the number of sounds, were kept consistent with the previous part.
 
   == Single sided scattering junction waveguide
-  The next part of the study evaluated the impact of simplifying the touched string DWG model by replacing the original configuration with a single-sided SJ. Participants were presented with pairs of stimuli, one generated using the full model and the other using its simplified counterpart. They were asked to comment on perceived differences between the two.
-
+  The next part of the study evaluated the impact of simplifying the touched string DWG model by replacing the original configuration with a single-sided SJ.
+  Participants were presented with 5 pairs of stimuli, each pair consisting of one sound generated using the full model and the other using a simplified model.
+  Participants were asked to quantify their perception of difference in a 5-point scale, with $1$ indicating no difference and $5$ indicating extreme difference.
+  Participants were also asked to provide a brief description explaining how they perceived the sounds to differ.
+  The touching points used where $0.56$, $0.83$, $0.875$, $0.8$ and $0.922$.
+  // 1 = No difference, 7 = Extremely different
   == Use of the software
-  In the final part of the study, participants were given access to the software implementation, allowing them to interact with it directly without any guidelines.
+  In the final part of the study, 3 participants were given access to the software implementation, allowing them to interact with it directly.
   This exploratory session aimed to gather qualitative feedback on the model's behavior in practice.
   Participants were encouraged to manipulate parameters freely and to identify potential issues, limitations, or unexpected behaviors.
 
+  = Results
+  All participants recognized the accordion and timpani as the sound source objects, however answers about the action performed on the sound source varied.
+
+  // Perceived the multiphonics and harmonics as the result of a mute on the membrane.
+  TODO
+
+  The single-sided SJ DWG was distinguished from the full string model, 75% of the participants giving it a score of $2$, right above $1$ which represented no difference, and 25% giving it a score of 3.
+  All participants noted that the single-sided SJ sounds had a longer decay time or a longer envelope, and 5 out of 8 pointed out that the full model had a slightly smoother quality.
+
+  Participants who used the software implementation found it to be useful as a creative tool, particularly for transforming and exploring familiar sounds in new ways.
+  However, several limitations were noted.
+  The model did not perform well with all types of input sounds, for instance, long sustained sounds were always shortened, and for some kinds of sounds, varying the finger position yielded minimal variation, particularly with percussive sounds like mallets and simple waveforms such as square waves.
+  Additionally, setting the finger pressure to zero (fully pressed) resulted in distorting artifacts, which participants perceived as a fault.
+  An unintended use of the software was also explored, using it with chords and non-pitched sounds, this kind of use had also a positive response in regards to its creative potential.
+
   = Discussion
-  This section points the limitations of the model and proposes future development steps to overcome them.
-  The model is not computationally sustainable for long durations due to the increasing number of concurrent shifts.
+  This section discusses the limitations of the model and proposes future developments to overcome them.
+
+  The limited duration that users of the software noted is caused by an inefficiency of equation @eq-y0rf, the number of concurrent signal shifts increase linearly with time making the model computationally unsustainable.
   An input signal with a frequency of $440 unit("hertz")$ ($T_N approx 2.27 unit("ms")$) and a touching finger at the middle of the string ($T_F approx 1.14 unit("ms")$) will reach $440$ concurrent shifts in half a second.
   This number will increase linearly by $880$ shifts per second.
   Since the losses and coefficients lower the amplitude of the signal on each cycle, resources could be freed after the amplitude decreases below a threshold, and repurposed for new shifts.
 
   When the finger fully presses a physical string it shortens its active length, producing a higher pitch.
-  The model in this case should act as a pitch shifting algorithm, which it does, but in a very basic way, producing poor results.
-  The model could be improved by adopting elements of pitch shifting algorithms.
+  The model in this case should in theory act as a pitch shifting algorithm, which it does, but also produces the artifacts reported by users of the software.
+  Potential improvements could be achieved by adopting elements of pitch shifting algorithms.
 
-  The shifts of the input signal are positive, this means that future signal is shifted to the current time.
-  This requires having future values of the input signal available beforehand, which can be done with a pre-recorded input signal, but makes real-time implementations impossible.
-  A number of approaches can be taken for a real-time version, such as using the most recent past signal instead of a future signal, or projecting the signal losses into the future and constructing a future signal approximation.
+  The lack of sound variation reported on mallet and square wave sounds is possibly caused by the incomplete series of harmonics on these specific sounds.
+  The touching finger effect on the output should at least lack the harmonics that are not present in the input signal.
+
+  The single-sided SJ was shown to be a reasonable simplification with a discernible but minimal effect.
+  The temporal and timbral changes caused could be minimized with small tweaks on the parameters of the model to adjust the decay of the output, and possibly filtering for bringing back the smoother quality of the full model.
+
+  The software implementation used a slightly altered version of the shifts in equation @eq-y0rf, to offer users real-time processing.
+  This was required due to the shifts being positive, which means that future signal is shifted to the current time.
+  This requires future values of the input signal to be available beforehand, which can be done with a pre-recorded input signal, but makes real-time implementations impossible.
+  The approach taken in the software, while somewhat effective, is a computational trick trying to minimize loss, alternative approaches with a better justification should be explored.
+
+  = Conclusion
+  A combinatorics based physical model of the lightly touched string was presented.
+  The part of the model representing the open string was isolated to allow using arbitrary pitched sounds in its place, arriving at an audio effect capable of applying the effects of the touched string, namely flageolet tones and string multiphonics, to arbitrary sounds.
+  An evaluation study, involving trained musicians was conducted.
+  The results suggest that while the model effectively conveys key perceptual cues of touched string interactions, its success varies depending on the source material.
+  Participants found the model compelling on single-pitched, multi-pitched and non-pitch sounds, highlighting its potential as a creative tool.
+  However, limitations were also identified, the model limited the duration of sustained sounds, finger position variation sometimes produced minimal audible change, and edge cases such as a finger position of zero yielded artifacts interpreted as undesirable distortion.
+  Overall, the study highlights the expressive potential and the areas for improvement of the model, as well as its ability to retain key perceptual characteristics of touched string interactions, laying a foundation for future development.
 ]
 #pagebreak()
 
