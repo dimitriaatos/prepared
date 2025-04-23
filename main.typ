@@ -8,13 +8,14 @@
   title: [Performing string multiphonics on any pitched sound],
   abstract: [
     Multiphonics and flageolet tones on string instruments are performed by lightly touching the vibrating string.
-    This paper investigates physical models of the lightly touched string and develops a model where the untouched string and the touching finger are split in separate parts.
-    This separation allows for replacing the untouched string model with an arbitrary sound and applying the effect of the finger to it.
-    In practice, this means that flageolet tones and string multiphonics can be applied to non-string sounds, like sounds of other instruments and synthesized electronic sounds.
+    The lightly touched string can be conceptualized as the interaction between two entities, the untouched string and the touching finger.
+    This paper proposes a model that reflects this conceptualization, providing separate parts for each interacting entity.
+    This separation allows for replacing the part of the untouched string with an arbitrary sound.
+    In practice, this means that multiphonics and flageolet tones can be applied to non-string sounds, like sounds of other instruments and synthesized electronic sounds.
     The proposed model is developed in the form of a non-recursive, time-based formula.
     A software implementation of the touching finger model is presented and used in a small scale evaluation study.
     Limitations are identified and possible solutions discussed.
-    Beyond the case of the touching finger, a wider research objective is proposed, aimed at abstracted modelling of acoustic qualities and effects.
+    Beyond the case of the lightly touched string, a wider research objective is put forward, aimed at developing models that allow for similar separation of other acoustic effects and qualities from their original sound source.
   ],
   authors: (
     (
@@ -40,9 +41,9 @@
   The main obstacle for the task in question is that physical models are designed for synthesizing sounds that incorporate the desired timbral effect, rather than letting their user choose the sound to which the effect will be applied.
 
   This paper focuses on the effects performed by lightly touching a vibrating string and proposes a model that allows these effects to be applied to arbitrary sounds.
-  Lightly touching a vibrating string is a practice associated with a number of string instrument playing techniques.
+  Lightly touching a vibrating string is a practice associated with a number of timbral string instrument playing techniques.
   Depending on the touching position and the touching agent, a different technique is performed.
-  Flageolet tones (harmonics) are performed by lightly touching a string with a finger on specific fractions of its length.
+  Flageolet tones (or harmonics) are performed by lightly touching a string with a finger on specific fractions of its length.
   The produced sound has a pitch much higher than the original string and a different timbre, comparable to a whistle @kamien_music_2008[p.~13].
   Multiphonics is a technique where single pitch sound sources produce sounds with more than one perceivable pitch.
   They are often performed on wind instruments and, although less popular, can also be performed on plucked strings @torres_multiphonics_2012-1, @torres_multiphonics_2012-2.
@@ -313,10 +314,11 @@
 
   = Evaluation study <evaluation>
   A small scale perceptual study, involving 8 trained musicians was conducted for evaluating the results and intermediate decisions of the paper.
+  The musicians had experience with several instruments, including the guitar and other stringed instruments.
   The study consisted of several perceptual experiments each with a different goal.
 
   == Touched string effect on arbitrary sounds
-  This part of the study employed the Action-Object paradigm @conan_intuitive_2014, which posits that everyday sounds contain auditory cues that convey information about both the action that produced the sound and the object involved in that action.
+  This part of the study employed the action/object paradigm @conan_intuitive_2014, which posits that everyday sounds contain auditory cues that convey information about both the action that produced the sound and the object involved in that action.
   The primary aim was to investigate whether participants could accurately identify both the action and the object associated with a series of sounds where multiphonics and harmonics where applied.
   Participants where asked to describe the action and the object they perceived to be the source of the sound.
 
@@ -353,15 +355,22 @@
   Participants were encouraged to manipulate parameters freely and to identify potential issues, limitations, or unexpected behaviors.
 
   = Results
-  All participants recognized the accordion and timpani as the sound source objects, however answers about the action performed on the sound source varied.
-
-  // Perceived the multiphonics and harmonics as the result of a mute on the membrane.
-  TODO
+  All participants successfully identified the general sound source category for each of the presented stimuli.
+  The accordion was identified as either an accordion or a melodica, the timpani was recognized as a struck membranophone, and the sawtooth and triangular waveforms were identified as synthesized sounds.
+  This suggests that the added effect didn't obscure any of the auditory cues of the original sounds.
+  On the non-string acoustic sounds, the applied harmonics and multiphonics where attributed to some kind of resonating mute operated by hand.
+  While this doesn't link directly to strings, it is not entirely irrelevant, as the lightly touching finger is also a muting agent of the string.
+  While for the simple waveform stimuli the touching finger effect was perceived as filtering.
+  Three out of eight participants remarked that these sounds exhibited a quality reminiscent of plucking a string.
+  Only two participants made a corelation with a lightly touched string.
 
   The single-sided SJ DWG was distinguished from the full string model, 75% of the participants giving it a score of $2$, right above $1$ which represented no difference, and 25% giving it a score of 3.
-  All participants noted that the single-sided SJ sounds had a longer decay time or a longer envelope, and 5 out of 8 pointed out that the full model had a slightly smoother quality.
+  Descriptions of their difference varied, but pointed to the same direction.
+  Tones generated with the single-sided SJ where characterized as less damped, having a richer attack or a longer decay.
 
-  Participants who used the software implementation found it to be useful as a creative tool, particularly for transforming and exploring familiar sounds in new ways.
+  Participants who used the software implementation found it to be useful as a creative tool.
+  In particular, participants made comparisons with resonant filters, which they had used previously for boosting harmonics.
+  They noted that a key advantage of the software was its ability to enhance harmonics without muffling the attack of the input sound, even enhanced the attack's character in some cases.
   However, several limitations were noted.
   The model did not perform well with all types of input sounds, for instance, long sustained sounds were always shortened, and for some kinds of sounds, varying the finger position yielded minimal variation, particularly with percussive sounds like mallets and simple waveforms such as square waves.
   Additionally, setting the finger pressure to zero (fully pressed) resulted in distorting artifacts, which participants perceived as a fault.
@@ -369,6 +378,9 @@
 
   = Discussion
   This section discusses the limitations of the model and proposes future developments to overcome them.
+
+  While the experiments showed a low corelation to the lightly touched string, the general descriptions of the added effect pointed to a direction that might require more examination.
+  Further studies could be conducted, identifying whether the operation of the resonating/muting agent is perceived as having similar dimensions of control as the touched string.
 
   The limited duration that users of the software noted is caused by an inefficiency of equation @eq-y0rf, the number of concurrent signal shifts increase linearly with time making the model computationally unsustainable.
   An input signal with a frequency of $440 unit("hertz")$ ($T_N approx 2.27 unit("ms")$) and a touching finger at the middle of the string ($T_F approx 1.14 unit("ms")$) will reach $440$ concurrent shifts in half a second.
@@ -391,13 +403,13 @@
   The approach taken in the software, while somewhat effective, is a computational trick trying to minimize loss, alternative approaches with a better justification should be explored.
 
   = Conclusion
-  A combinatorics based physical model of the lightly touched string was presented.
+  A physical model of the lightly touched string was presented.
   The part of the model representing the open string was isolated to allow using arbitrary pitched sounds in its place, arriving at an audio effect capable of applying the effects of the touched string, namely flageolet tones and string multiphonics, to arbitrary sounds.
-  An evaluation study, involving trained musicians was conducted.
-  The results suggest that while the model effectively conveys key perceptual cues of touched string interactions, its success varies depending on the source material.
+  An evaluation study, involving trained musicians, was conducted.
+  The results suggest that the perceptual cues linking the model directly to a string are only weakly discernible, but they are still perceived as an acoustic muting and resonating agent.
   Participants found the model compelling on single-pitched, multi-pitched and non-pitch sounds, highlighting its potential as a creative tool.
   However, limitations were also identified, the model limited the duration of sustained sounds, finger position variation sometimes produced minimal audible change, and edge cases such as a finger position of zero yielded artifacts interpreted as undesirable distortion.
-  Overall, the study highlights the expressive potential and the areas for improvement of the model, as well as its ability to retain key perceptual characteristics of touched string interactions, laying a foundation for future development.
+  Overall, the study highlights the expressive potential and the areas for improvement of the model, laying a foundation for future development.
 ]
 #pagebreak()
 
