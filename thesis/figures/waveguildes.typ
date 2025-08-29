@@ -1,4 +1,4 @@
-#import "@preview/fletcher:0.5.1" as fletcher: diagram, node as _node, edge, shapes
+#import "@preview/fletcher:0.5.8" as fletcher: diagram, node as _node, edge, shapes
 
 #let arrow(rev: auto, ..args) = if rev == true {
   edge(marks: ("<|-"), ..args)

@@ -1,5 +1,5 @@
-#import "@preview/charged-ieee:0.1.2": ieee
-#import "@preview/unify:0.6.0": num, qty, numrange, qtyrange, unit
+#import "@preview/charged-ieee:0.1.4": ieee
+#import "@preview/unify:0.7.1": num, qty, numrange, qtyrange, unit
 #import "common/constants.typ": m, y
 #import "common/helpers.typ": appendix
 #import "figures/triangle.typ": triangle

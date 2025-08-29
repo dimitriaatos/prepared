@@ -1,4 +1,5 @@
-#import "@preview/cetz:0.2.2": canvas, plot, draw, decorations
+#import "@preview/cetz:0.4.1": canvas, draw, decorations
+#import "@preview/cetz-plot:0.1.2": plot
 
 // params
 #let tf = 0.6

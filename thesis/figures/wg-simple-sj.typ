@@ -1,6 +1,6 @@
 #import "waveguildes.typ": waveguide, node, arrow, add, dot, mul
 #import "../common/constants.typ": spacing
-#import "@preview/fletcher:0.5.1" as fletcher: node as fletchernode, draw
+#import "@preview/fletcher:0.5.8" as fletcher: node as fletchernode, draw
 
 #let text = (
   delay1: [$F/2$ delay],
