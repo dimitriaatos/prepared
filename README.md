@@ -2,6 +2,8 @@
 
 *Prepared* is a *Max for Live* (*M4L*) device developed as part of my master's thesis at KTH Royal Institute of Technology.
 
+The compiled PDF file can be found in the [Releases](https://github.com/dimitriaatos/prepared/releases) section.
+
 ## Abstract
 
 Multiphonics and flageolet tones on string instruments are performed by lightly touching the vibrating string.
