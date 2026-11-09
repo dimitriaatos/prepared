@@ -1,5 +1,11 @@
 # Prepared
 
+## Prerequisites
+
+- Max/MSP
+- typst
+- just
+
 *Prepared* is a *Max for Live* (*M4L*) device developed as part of my master's thesis at KTH Royal Institute of Technology.
 
 The compiled PDF file can be found in the [Releases](https://github.com/dimitriaatos/prepared/releases) section.

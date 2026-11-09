@@ -16,6 +16,8 @@
     A software implementation of the touching finger model is presented and used in a small scale evaluation study.
     Limitations are identified and possible solutions discussed.
     Beyond the case of the lightly touched string, a wider research objective is put forward, aimed at developing models that allow for similar separation of other acoustic effects and qualities from their original sound source.
+    \ \
+    #include "swedish-abstract.typ"
   ],
   authors: (
     (
