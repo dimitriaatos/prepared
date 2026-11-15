@@ -420,6 +420,8 @@
 = Appendix: equation of #y([nof]) and #y([out])<appendix-a>
 #include "appendix-a.typ"
 
-
 = Appendix: eliminating losses <appendix-b>
 #include "appendix-b.typ"
+
+= Appendix: String loop transfer function, including both the finger and the nut loop <appendix-c>
+#include "appendix-c.typ"
